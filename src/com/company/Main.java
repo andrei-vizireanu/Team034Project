@@ -41,6 +41,7 @@ public class Main {
         }//end try
         System.out.println("Goodbye, Andrei!");
         System.out.println("Hi, Ramona");
+        System.out.println("Hi, Lujain");
 
     }
 }
