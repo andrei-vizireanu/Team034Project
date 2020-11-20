@@ -39,9 +39,7 @@ public class Main {
                 se.printStackTrace();
             }//end finally try
         }//end try
-        System.out.println("Goodbye, Andrei!");
-        System.out.println("Hi, Ramona");
-        System.out.println("Hi, Lujain");
+        System.out.println("This is a good test!");
 
     }
 }
