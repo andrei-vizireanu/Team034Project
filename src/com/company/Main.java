@@ -39,7 +39,8 @@ public class Main {
                 se.printStackTrace();
             }//end finally try
         }//end try
-        System.out.println("This is a good test!");
+
+        MyFrame frame = new MyFrame("Login Page");
 
     }
 }
