@@ -1,6 +1,8 @@
 package com.company;
+import java.awt.*;
 import java.sql.*;
 import java.util.*;
+import javax.swing.*;
 
 public class Main {
 
@@ -39,7 +41,10 @@ public class Main {
                 se.printStackTrace();
             }//end finally try
         }//end try
-        System.out.println("This is a good test!");
+
+
+        MyFrame frame = new MyFrame("Login Page");
 
     }
+
 }
