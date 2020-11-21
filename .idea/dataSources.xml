@@ -1,11 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
+<<<<<<< HEAD
     <data-source source="LOCAL" name="team034@stusql.dcs.shef.ac.uk" uuid="ce985616-74c9-4d26-b79b-fc44958deea8">
+=======
+    <data-source source="LOCAL" name="MariaDB - team034@stusql.dcs.shef.ac.uk" uuid="4054963c-bed0-4314-a2fa-b46935cd1ac9">
+      <driver-ref>mariadb</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.mariadb.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://stusql.dcs.shef.ac.uk/team034</jdbc-url>
+    </data-source>
+    <data-source source="LOCAL" name="team034@stusql.dcs.shef.ac.uk" uuid="d5664d44-0a4f-40c9-92b4-4d4fc76a0a45">
+>>>>>>> ce109a13f4313788ece0d915bc50f7d3fd2ba810
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
       <jdbc-url>jdbc:mysql://stusql.dcs.shef.ac.uk/team034</jdbc-url>
+<<<<<<< HEAD
+=======
+      <jdbc-additional-properties>
+        <property name="APPROVED_DRIVER" value="mysql.8" />
+      </jdbc-additional-properties>
+>>>>>>> ce109a13f4313788ece0d915bc50f7d3fd2ba810
     </data-source>
   </component>
 </project>
