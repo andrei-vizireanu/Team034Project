@@ -40,7 +40,7 @@ public class Main {
             }//end finally try
         }//end try
 
-        MyFrame frame = new MyFrame("Login Page");
+        MyFrame frame = new MyFrame("Login Pages");
 
     }
 }

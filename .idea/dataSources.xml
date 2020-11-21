@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
+    <data-source source="LOCAL" name="MariaDB - team034@stusql.dcs.shef.ac.uk" uuid="4054963c-bed0-4314-a2fa-b46935cd1ac9">
+      <driver-ref>mariadb</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.mariadb.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://stusql.dcs.shef.ac.uk/team034</jdbc-url>
+    </data-source>
+    <data-source source="LOCAL" name="team034@stusql.dcs.shef.ac.uk" uuid="d5664d44-0a4f-40c9-92b4-4d4fc76a0a45">
+      <driver-ref>mysql.8</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://stusql.dcs.shef.ac.uk/team034</jdbc-url>
+      <jdbc-additional-properties>
+        <property name="APPROVED_DRIVER" value="mysql.8" />
+      </jdbc-additional-properties>
+    </data-source>
+  </component>
+</project>
