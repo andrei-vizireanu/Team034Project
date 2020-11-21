@@ -1,0 +1,51 @@
+Index: .idea/libraries/mysql_connector_java_5_1_49_bin.xml
+===================================================================
+--- .idea/libraries/mysql_connector_java_5_1_49_bin.xml	(revision 9b1afd625cf338783e8438446b93168b08ebeb28)
++++ .idea/libraries/mysql_connector_java_5_1_49_bin.xml	(revision 9b1afd625cf338783e8438446b93168b08ebeb28)
+@@ -1,9 +0,0 @@
+-<component name="libraryTable">
+-  <library name="mysql-connector-java-5.1.49-bin">
+-    <CLASSES>
+-      <root url="jar://$PROJECT_DIR$/../../../../../mysql-connector-java-5.1.49/mysql-connector-java-5.1.49-bin.jar!/" />
+-    </CLASSES>
+-    <JAVADOC />
+-    <SOURCES />
+-  </library>
+-</component>
+\ No newline at end of file
+Index: TeamProject.iml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<module type=\"JAVA_MODULE\" version=\"4\">\n  <component name=\"NewModuleRootManager\" inherit-compiler-output=\"true\">\n    <exclude-output />\n    <content url=\"file://$MODULE_DIR$\">\n      <sourceFolder url=\"file://$MODULE_DIR$/src\" isTestSource=\"false\" />\n    </content>\n    <orderEntry type=\"inheritedJdk\" />\n    <orderEntry type=\"sourceFolder\" forTests=\"false\" />\n    <orderEntry type=\"library\" name=\"mysql-connector-java-5.1.49-bin\" level=\"project\" />\n  </component>\n</module>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- TeamProject.iml	(revision 9b1afd625cf338783e8438446b93168b08ebeb28)
++++ TeamProject.iml	(date 1605791381506)
+@@ -7,6 +7,6 @@
+     </content>
+     <orderEntry type="inheritedJdk" />
+     <orderEntry type="sourceFolder" forTests="false" />
+-    <orderEntry type="library" name="mysql-connector-java-5.1.49-bin" level="project" />
++    <orderEntry type="library" name="mysql-connector-java-5.1.49-bin1" level="project" />
+   </component>
+ </module>
+\ No newline at end of file
+Index: .idea/libraries/mysql_connector_java_5_1_49_bin1.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/libraries/mysql_connector_java_5_1_49_bin1.xml	(date 1605791381518)
++++ .idea/libraries/mysql_connector_java_5_1_49_bin1.xml	(date 1605791381518)
+@@ -0,0 +1,9 @@
++<component name="libraryTable">
++  <library name="mysql-connector-java-5.1.49-bin1">
++    <CLASSES>
++      <root url="jar://$USER_HOME$/Downloads/mysql-connector-java-5.1.49/mysql-connector-java-5.1.49-bin.jar!/" />
++    </CLASSES>
++    <JAVADOC />
++    <SOURCES />
++  </library>
++</component>
+\ No newline at end of file
