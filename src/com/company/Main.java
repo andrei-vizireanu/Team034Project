@@ -39,9 +39,8 @@ public class Main {
                 se.printStackTrace();
             }//end finally try
         }//end try
-        System.out.println("Goodbye, Andrei!");
-        System.out.println("Hi, Ramona");
-        System.out.println("Hi, Lujain");
+
+        MyFrame frame = new MyFrame("Login Page");
 
     }
 }
