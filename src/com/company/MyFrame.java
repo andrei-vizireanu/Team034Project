@@ -1,84 +1,107 @@
 package com.company;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.font.FontRenderContext;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Rectangle2D;
+import java.awt.image.ImageObserver;
+import java.text.AttributedCharacterIterator;
 
 public class MyFrame extends JFrame {
 
     // Needed for serialisation WHAT THIS MEANS?
     private static final long serialVersionUID = 1L;
 
+    // declaring the variables
+    private static JFrame frame;
+    private static JPanel topPanel;
+    private static JPanel centerPanel;
+    private static JLabel titleLabel;
+    private static JLabel userLabel;
+    private static JLabel passwordLabel;
+    private static JTextField userField;
+    private static JPasswordField passwordField;
+    private static JButton login;
+    private static Container mainContainer;
+    private static GridBagConstraints gbc;
+    private final int width = 500;
+    private final int height = 500;
+
     // Constructor with frame title
     public MyFrame(String title) throws HeadlessException {
 
-        //creating instances for Frame and Panel
-        final JFrame frame = new JFrame(title);
+        //initializing the variables
+        frame = new JFrame(title);
+        topPanel = new JPanel(new GridBagLayout());
+        centerPanel = new JPanel(new GridBagLayout());
+        gbc = new GridBagConstraints();
+        mainContainer = this.getContentPane();
+        titleLabel = new JLabel("Present Your Details");
+        userLabel = new JLabel("Username:");
+        passwordLabel = new JLabel("Password:");
+        userField = new JTextField(20);
+        passwordField = new JPasswordField(20);
+        login = new JButton("Login");
 
-        final JPanel panel = new JPanel(new GridBagLayout());
-
-        final int width = 500;
-        final int height = 500;
-
-        //setting the layout of the page
-        GridBagConstraints gbc = new GridBagConstraints();
+        //initializing the indexes for rows and columns of the GridBag Constraint
         gbc.gridx = 0;
         gbc.gridy = 0;
 
-        JPanel panel2 = new JPanel();
-        panel2.setLayout(new BorderLayout());
+        //setting the layout of the main Container and adding to it the top and center Panels in the specified positions
+        mainContainer.setLayout(new BorderLayout());
+        mainContainer.add(centerPanel, BorderLayout.CENTER);
+        mainContainer.add(topPanel, BorderLayout.NORTH);
 
-        //initiating the labels and fields
-        //final JLabel textLabel = new JLabel("Present Your Details");
+        //setting the borders for top and center Panels
+        topPanel.setBorder(new EmptyBorder(100, 0, 0, 0));
+        centerPanel.setBorder(new EmptyBorder(0, 0, 150, 0));
 
-        final JLabel userLabel = new JLabel("Username:");
-        final JLabel passwordLabel = new JLabel("Password:");
+        //setting the font for title Label, then added to the top Panel
+        titleLabel.setFont (titleLabel.getFont ().deriveFont (30.0f));
+        topPanel.add(titleLabel);
 
-        final JTextField userField = new JTextField(20);
-        final JPasswordField passwordField = new JPasswordField(20);
-        //, new ImageIcon("images.jpg")
-        JButton login = new JButton("Login");
-        login.setIcon(new ImageIcon("images.jpg"));
-
-        //center the window
-        centreWindow(frame, width, height);
-
-        //adding the labels and the fields on the panel
-        gbc.fill = GridBagConstraints.NORTH;
-
+        //adding the labels and the fields in the center Panel
+        //changing the coordinates accordingly to the desired position
         gbc.gridy++;
-        gbc.fill = GridBagConstraints.NONE;
-        panel.add(userLabel, gbc);
+        centerPanel.add(userLabel, gbc);
         gbc.gridy++;
-        panel.add(passwordLabel, gbc);
+        centerPanel.add(passwordLabel, gbc);
         gbc.gridx++;
-
         gbc.gridy = 1;
-        panel.add(userField, gbc);
+        centerPanel.add(userField, gbc);
         gbc.gridy++;
-        panel.add(passwordField, gbc);
+        centerPanel.add(passwordField, gbc);
         gbc.gridy ++;
         gbc.gridx = 1;
 
         //adding the button under the fields
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        panel.add(login,gbc);
+        centerPanel.add(login,gbc);
 
-        login.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent ae) {
-                System.out.println("Login clicked");
-                frame.dispose();
-                LoggedIn loggedIn = new LoggedIn("Logged In");
-                //loggedIn.setVisible(true);
-            }
+        //action listener for clicking the "Login" button
+        login.addActionListener(ae -> {
+
+            System.out.println("Login clicked");
+            frame.dispose();
+            LoggedIn loggedIn = new LoggedIn("Logged In");
+
         });
 
-        //adding the panel to the frame
-        frame.getContentPane().add(panel);
+        //center the window
+        centreWindow(frame, width, height);
 
-        //setting the width and the height
+        //adding the main container to the frame
+        frame.getContentPane().add(mainContainer);
+
+        //setting the width and the height of the frame
         frame.setSize(width,height);
+
+        //don't allow the frame to be resized
+        frame.setResizable(false);
 
         //making the frame visible
         frame.setVisible(true);

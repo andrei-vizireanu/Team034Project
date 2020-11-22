@@ -5,13 +5,6 @@ public class Main {
 
     public static void main(String[] args) {
 
-//        System.out.println("\nDrivers loaded as properties:");
-//        System.out.println(System.getProperty("jdbc.drivers"));
-//        System.out.println("\nDrivers loaded by DriverManager:");
-//        Enumeration<Driver> list = DriverManager.getDrivers();
-//        while (list.hasMoreElements())
-//            System.out.println(list.nextElement());
-
         //connect to database
         connectionToDatabase();
 
@@ -27,6 +20,7 @@ public class Main {
         Statement stmt = null;
 
         try {
+            //making the connection to the database
             con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team034", "team034", "4228b661");
         }
         catch (Exception ex) {
