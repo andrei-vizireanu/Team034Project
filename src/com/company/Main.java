@@ -2,6 +2,9 @@ package com.company;
 import java.sql.*;
 
 public class Main {
+    private static Connection con = null;
+    private static Statement stmt = null;
+    private static Statement stmt2 = null;
 
     public static void main(String[] args) {
 
@@ -16,12 +19,14 @@ public class Main {
     private static void connectionToDatabase(){
 
         // creating the Connection and Statement objects
-        Connection con = null;
-        Statement stmt = null;
+
 
         try {
             //making the connection to the database
             con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team034", "team034", "4228b661");
+            Statement stmt = con.createStatement();
+            stmt2 = stmt;
+
         }
         catch (Exception ex) {
             ex.printStackTrace();
@@ -44,6 +49,14 @@ public class Main {
             }
 
         }
+
+
+
+    }
+
+    public static Statement getConnection(){
+        System.out.println(stmt2);
+        return stmt2;
 
     }
 
