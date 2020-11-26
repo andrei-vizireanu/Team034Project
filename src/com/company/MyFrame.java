@@ -9,6 +9,10 @@ import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.ImageObserver;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.AttributedCharacterIterator;
 
 public class MyFrame extends JFrame {
@@ -30,6 +34,7 @@ public class MyFrame extends JFrame {
     private static GridBagConstraints gbc;
     private final int width = 500;
     private final int height = 500;
+    private static Statement stmt = null;
 
     // Constructor with frame title
     public MyFrame(String title) throws HeadlessException {
@@ -84,6 +89,28 @@ public class MyFrame extends JFrame {
 
         //action listener for clicking the "Login" button
         login.addActionListener(ae -> {
+
+
+//            try {
+//                System.out.println(stmt);
+//                stmt = Main.getConnection();
+//
+//                String sql = ("SELECT * FROM User;");
+//                ResultSet rs = stmt.executeQuery(sql);
+//                while(rs.next()) {
+//                    int id = rs.getInt("UserID");
+//                    String str1 = rs.getString("UserName");
+//
+//                    System.out.println(id + " " + str1);
+//                }
+//
+//                System.out.println(rs.toString());
+//
+//            } catch (SQLException throwables) {
+//                throwables.printStackTrace();
+//            }
+
+
 
             System.out.println("Login clicked");
             frame.dispose();
