@@ -114,7 +114,6 @@ public class MyFrame extends JFrame {
 
             System.out.println("Login clicked");
             frame.dispose();
-            LoggedIn loggedIn = new LoggedIn("Logged In");
 
         });
 
@@ -123,7 +122,6 @@ public class MyFrame extends JFrame {
 
         //adding the main container to the frame
         frame.getContentPane().add(mainContainer);
-
         //setting the width and the height of the frame
         frame.setSize(width,height);
 
