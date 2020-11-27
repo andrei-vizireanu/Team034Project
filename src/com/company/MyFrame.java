@@ -96,6 +96,7 @@ public class MyFrame extends JFrame {
                     //check the role in order to open the correct window after login
                     if(role.equals("Student")){
                         //open the Student class
+                        Student student = new Student("Student");
                     }
                     else if(role.equals("Teacher")){
                         //open the Teacher class
