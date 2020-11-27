@@ -3,17 +3,7 @@ package com.company;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.font.FontRenderContext;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Rectangle2D;
-import java.awt.image.ImageObserver;
-import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.text.AttributedCharacterIterator;
 
 public class MyFrame extends JFrame {
 
@@ -160,6 +150,9 @@ public class MyFrame extends JFrame {
 
         //making the frame visible
         frame.setVisible(true);
+
+        //close the entire java process by clicking on the "close" button of the window
+        frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
     }
 
