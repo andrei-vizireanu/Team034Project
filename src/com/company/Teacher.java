@@ -15,15 +15,13 @@ public class Teacher extends JFrame {
         //initializing the variables
         frame = new JFrame(title);
 
-        //center the window
+        //centering the window
         MyFrame.centreWindow(frame, width, height);
 
-        //adding the main container to the frame
-        //frame.getContentPane().add(mainContainer);
         //setting the width and the height of the frame
         frame.setSize(width, height);
 
-        //don't allow the frame to be resized
+        //the frame is not allowed to be resizable
         frame.setResizable(false);
 
         //making the frame visible
