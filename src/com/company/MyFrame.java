@@ -32,9 +32,9 @@ public class MyFrame extends JFrame {
     private static JButton login;
     private static Container mainContainer;
     private static GridBagConstraints gbc;
+    private Database database;
     private final int width = 500;
     private final int height = 500;
-    private static Statement stmt = null;
 
     // Constructor with frame title
     public MyFrame(String title) throws HeadlessException {
@@ -51,6 +51,7 @@ public class MyFrame extends JFrame {
         userField = new JTextField(20);
         passwordField = new JPasswordField(20);
         login = new JButton("Login");
+        database = new Database();
 
         //initializing the indexes for rows and columns of the GridBag Constraint
         gbc.gridx = 0;
@@ -90,30 +91,59 @@ public class MyFrame extends JFrame {
         //action listener for clicking the "Login" button
         login.addActionListener(ae -> {
 
+            try {
 
-//            try {
-//                System.out.println(stmt);
-//                stmt = Main.getConnection();
-//
-//                String sql = ("SELECT * FROM User;");
-//                ResultSet rs = stmt.executeQuery(sql);
-//                while(rs.next()) {
-//                    int id = rs.getInt("UserID");
-//                    String str1 = rs.getString("UserName");
-//
-//                    System.out.println(id + " " + str1);
-//                }
-//
-//                System.out.println(rs.toString());
-//
-//            } catch (SQLException throwables) {
-//                throwables.printStackTrace();
-//            }
+                //taking the data from the username and password fields
+                String username = userField.getText();
+                String password = passwordField.getText();
+
+                //checking the credentials for the data typed in and the role for that user
+                boolean credentials = database.checkCredentials(username, password);
+                String role = database.getRole(username, password);
+
+                if(credentials){
+
+                    //check the role in order to open the correct window after login
+                    if(role.equals("Student")){
+                        //open the Student class
+                    }
+                    else if(role.equals("Teacher")){
+                        //open the Teacher class
+                    }
+                    else if(role.equals("Administrator")){
+                        //open the Administrator class
+                        Administrator admin = new Administrator("Admin");
+                    }
+                    else if(role.equals("Registrar")){
+                        //open the Registrar class
+                    }
+                    else {
+                        System.out.println("Error");
+                    }
+
+                    //close the current window if credentials are right
+                    frame.dispose();
+
+                    //close the connection of the database - FOR THE MOMENT, MAYBE IT NEEDS TO BE CLOSED LATER, BUT WE'LL SEE
+                    database.close();
+                }
+                else {
+
+                    //if credentials are wrong delete the info from the fields and pop up an alert window
+                    userField.setText("");
+                    passwordField.setText("");
+                    //custom title, error icon
+                    JOptionPane.showMessageDialog(frame,
+                            "Your username or password are wrong!",
+                            "Wrong Credentials",
+                            JOptionPane.ERROR_MESSAGE);
+
+                }
 
 
-
-            System.out.println("Login clicked");
-            frame.dispose();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
 
         });
 
@@ -130,12 +160,6 @@ public class MyFrame extends JFrame {
 
         //making the frame visible
         frame.setVisible(true);
-
-    }
-
-
-    public static void main(String[] args) {
-        // launching code goes in here
 
     }
 
