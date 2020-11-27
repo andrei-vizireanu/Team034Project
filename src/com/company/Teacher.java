@@ -3,8 +3,6 @@ package com.company;
 import javax.swing.*;
 
 public class Teacher extends JFrame {
-
-    // Needed for serialisation WHAT THIS MEANS?
     private static final long serialVersionUID = 1L;
 
     // declaring the variables
