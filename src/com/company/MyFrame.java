@@ -88,8 +88,8 @@ public class MyFrame extends JFrame {
                 String password = passwordField.getText();
 
                 //checking the credentials for the data typed in and the role for that user
-                boolean credentials = database.checkCredentials(username, password);
-                String role = database.getRole(username, password);
+                boolean credentials = database.checkCredentials(Main.statement, username, password);
+                String role = database.getRole(Main.statement, username, password);
 
                 if(credentials){
 
@@ -116,7 +116,7 @@ public class MyFrame extends JFrame {
                     frame.dispose();
 
                     //close the connection of the database - FOR THE MOMENT, MAYBE IT NEEDS TO BE CLOSED LATER, BUT WE'LL SEE
-                    database.close();
+                    //database.close();
                 }
                 else {
 
