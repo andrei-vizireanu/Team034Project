@@ -52,5 +52,6 @@ public class Grades {
 
         frame.setVisible(true);
 
+        System.out.println("Test");
     }
 }
