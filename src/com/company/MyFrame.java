@@ -100,6 +100,7 @@ public class MyFrame extends JFrame {
                     }
                     else if(role.equals("Teacher")){
                         //open the Teacher class
+                        Teacher teacher = new Teacher("Teacher");
                     }
                     else if(role.equals("Administrator")){
                         //open the Administrator class
