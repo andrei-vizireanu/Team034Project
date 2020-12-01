@@ -58,7 +58,8 @@ public class Database {
         rs.beforeFirst();
         while(rs.next()) {
 
-            String user = rs.getString("UserName");
+            String id = rs.getString("UserID");
+            String user = rs.getString("Username");
             String pass = rs.getString("Password");
             String title = rs.getString("Title");
             String forename = rs.getString("Forename");
@@ -66,11 +67,40 @@ public class Database {
             String email = rs.getString("Email");
             String role = rs.getString("Role");
 
-            data[i] = new String[]{user, pass, title, forename, surname, email, role};
+            data[i] = new String[]{id, user, pass, title, forename, surname, email, role};
             i++;
         }
 
         return data;
+
+    }
+
+    //updating the user with the new info
+    public void updateUser(Connection connection, String username, String password, String title,
+            String forename, String surname, String email, String role, String id) throws SQLException {
+
+        String sql = "UPDATE User SET Username = ?, " +
+                "Password = ?, " +
+                "Title = ?, " +
+                "Forename = ?, " +
+                "Surname = ?, " +
+                "Email = ?, " +
+                "Role = ? " + "WHERE UserID = ?";
+
+        PreparedStatement pstmt = connection.prepareStatement(sql);
+
+        // set the corresponding param
+        pstmt.setString(1, username);
+        pstmt.setString(2, password);
+        pstmt.setString(3, title);
+        pstmt.setString(4, forename);
+        pstmt.setString(5, surname);
+        pstmt.setString(6, email);
+        pstmt.setString(7, role);
+        pstmt.setString(8, id);
+
+        // update
+        pstmt.executeUpdate();
 
     }
 
@@ -84,7 +114,6 @@ public class Database {
             pstmt.setInt(1, userID);
             // execute the delete statement
             pstmt.executeUpdate();
-
 
     }
 
