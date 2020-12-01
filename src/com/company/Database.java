@@ -58,7 +58,8 @@ public class Database {
         rs.beforeFirst();
         while(rs.next()) {
 
-            String user = rs.getString("UserName");
+            String id = rs.getString("UserID");
+            String user = rs.getString("Username");
             String pass = rs.getString("Password");
             String title = rs.getString("Title");
             String forename = rs.getString("Forename");
@@ -66,7 +67,7 @@ public class Database {
             String email = rs.getString("Email");
             String role = rs.getString("Role");
 
-            data[i] = new String[]{user, pass, title, forename, surname, email, role};
+            data[i] = new String[]{id, user, pass, title, forename, surname, email, role};
             i++;
         }
 
@@ -74,30 +75,34 @@ public class Database {
 
     }
 
-    //get student info
-    public String[][] getStudentInfo(Statement statement) throws SQLException {
+    //updating the user with the new info
+    public void updateUser(Connection connection, String username, String password, String title,
+            String forename, String surname, String email, String role, String id) throws SQLException {
 
-        String sql = ("SELECT * FROM Student;");
-        ResultSet rs = statement.executeQuery(sql);
-        rs.last();
-        String[][] data = new String[rs.getRow()][];
-        int i = 0;
+        String sql = "UPDATE User SET Username = ?, " +
+                "Password = ?, " +
+                "Title = ?, " +
+                "Forename = ?, " +
+                "Surname = ?, " +
+                "Email = ?, " +
+                "Role = ? " + "WHERE UserID = ?";
 
-        rs.beforeFirst();
-        while(rs.next()) {
+        PreparedStatement pstmt = connection.prepareStatement(sql);
 
-            String regNo = rs.getString("RegNo");
-            String periodOfStudy = rs.getString("PeriodOfStudy");
-            String levelOfStudy = rs.getString("LevelOfStudy");
-            String entry = rs.getString("Entry");
+        // set the corresponding param
+        pstmt.setString(1, username);
+        pstmt.setString(2, password);
+        pstmt.setString(3, title);
+        pstmt.setString(4, forename);
+        pstmt.setString(5, surname);
+        pstmt.setString(6, email);
+        pstmt.setString(7, role);
+        pstmt.setString(8, id);
 
-            data[i] = new String[]{regNo, periodOfStudy, levelOfStudy, entry};
-            i++;
-        }
+        // update
+        pstmt.executeUpdate();
 
-        return data;
     }
-
 
     //deleting a user by its ID
     public void delete(Connection connection, int userID) throws SQLException {
@@ -109,7 +114,6 @@ public class Database {
             pstmt.setInt(1, userID);
             // execute the delete statement
             pstmt.executeUpdate();
-
 
     }
 
