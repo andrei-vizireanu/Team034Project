@@ -170,7 +170,7 @@ public class Database {
                         String surname, String email, String role) throws SQLException {
 
         // the mysql insert statement
-        String query = " insert into users (Username, Password, Title, Forename, Surname, Email, Role)"
+        String query = " insert into User (Username, Password, Title, Forename, Surname, Email, Role)"
                 + " values (?, ?, ?, ?, ?, ?, ?)";
 
         // create the mysql insert preparedstatement
@@ -189,13 +189,13 @@ public class Database {
     }
 
     //deleting a user by its ID
-    public void delete(Connection connection, int userID) throws SQLException {
+    public void deleteUser(Connection connection, String userID) throws SQLException {
         String sql = "DELETE FROM User WHERE UserID = ?";
 
         PreparedStatement pstmt = connection.prepareStatement(sql);
 
             // set the corresponding param
-            pstmt.setInt(1, userID);
+            pstmt.setInt(1, Integer.parseInt(userID));
             // execute the delete statement
             pstmt.executeUpdate();
 
