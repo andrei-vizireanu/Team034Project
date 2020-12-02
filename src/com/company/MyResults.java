@@ -1,6 +1,8 @@
 package com.company;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 import java.awt.*;
 import java.sql.SQLException;
 
@@ -23,5 +25,12 @@ public class MyResults {
         mainContainer = new Container();
         viewResults = new JButton("View Results");
         database = new Database();
+
+        //column names
+        String[] columnNames = {"Module Code", "Grade", "Pass", "Resit"};
+        String[][] rows = database.getStudentInfo(Main.statement);
+
+        TableModel tableModel = new DefaultTableModel(rows, columnNames);
+        table = new JTable(tableModel);
     }
 }
