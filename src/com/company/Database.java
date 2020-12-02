@@ -104,6 +104,31 @@ public class Database {
 
     }
 
+    public String[][] getStudentInfo(Statement statement) throws SQLException {
+
+        String sql = ("SELECT * FROM Grading;");
+        ResultSet rs = statement.executeQuery(sql);
+        rs.last();
+        String[][] data = new String[rs.getRow()][];
+        int i = 0;
+
+        rs.beforeFirst();
+        while(rs.next()) {
+
+            String moduleCode = rs.getString("ModuleCode");
+            String teacher = rs.getString("Teacher");
+            String grade = rs.getString("Grade");
+            String regNo = rs.getString("RegNo");
+            String pass = String.valueOf(rs.getInt("pass"));
+            String resit = String.valueOf(rs.getDouble("resit"));
+
+            data[i] = new String[]{moduleCode, teacher, grade, regNo, pass, resit};
+            i++;
+        }
+
+        return data;
+    }
+
     //deleting a user by its ID
     public void delete(Connection connection, int userID) throws SQLException {
         String sql = "DELETE FROM User WHERE UserID = ?";

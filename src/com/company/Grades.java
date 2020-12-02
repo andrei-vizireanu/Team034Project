@@ -31,8 +31,8 @@ public class Grades {
         database = new Database();
 
         //column names
-        String[] columnNames = {"Registration Number", "Period of study", "Level of study",
-                    "Entry"};
+        String[] columnNames = {"Module Code", "Teacher", "Grade", "Registration Number",
+                            "Pass", "Resit"};
         String[][] rows = database.getStudentInfo(Main.statement);
 
         TableModel tableModel = new DefaultTableModel(rows, columnNames);
