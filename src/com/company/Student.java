@@ -39,7 +39,7 @@ public class Student extends JFrame {
         results.addActionListener(ae -> {
 
             try {
-                AdminUserAccounts users = new AdminUserAccounts("User Accounts Workbench");
+                Results result = new Results("My Results");
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
