@@ -1,0 +1,22 @@
+Index: .idea/libraries/mysql_connector_java_5_1_49_bin1.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><component name=\"libraryTable\">\r\n  <library name=\"mysql-connector-java-5.1.49-bin1\">\r\n    <CLASSES>\r\n      <root url=\"jar://$PROJECT_DIR$/../mysql-connector-java-5.1.49/mysql-connector-java-5.1.49-bin.jar!/\" />\r\n    </CLASSES>\r\n    <JAVADOC />\r\n    <SOURCES />\r\n  </library>\r\n</component>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/libraries/mysql_connector_java_5_1_49_bin1.xml	(revision 7aaac983833be5b26443598380e18e81e9e18e24)
++++ .idea/libraries/mysql_connector_java_5_1_49_bin1.xml	(date 1606478542884)
+@@ -2,6 +2,7 @@
+   <library name="mysql-connector-java-5.1.49-bin1">
+     <CLASSES>
+       <root url="jar://$PROJECT_DIR$/../mysql-connector-java-5.1.49/mysql-connector-java-5.1.49-bin.jar!/" />
++      <root url="jar://$PROJECT_DIR$/../Desktop/UNIVERSITY OF SHEFFIELD/YEAR2/COM2008 - SYSTEMS DESIGN AND SECURITY/mysql-connector-java-5.1.49/mysql-connector-java-5.1.49-bin.jar!/" />
+     </CLASSES>
+     <JAVADOC />
+     <SOURCES />
+diff --git .idea/shelf/Uncommitted_changes_before_Update_at_27_11_2020__11_14__Default_Changelist_.xml .idea/shelf/Uncommitted_changes_before_Update_at_27_11_2020__11_14__Default_Changelist_.xml
+diff --git .idea/shelf/Uncommitted_changes_before_Update_at_26_11_2020__18_26__Default_Changelist_.xml .idea/shelf/Uncommitted_changes_before_Update_at_26_11_2020__18_26__Default_Changelist_.xml
+diff --git .idea/shelf/Uncommitted_changes_before_Update_at_26_11_2020__19_55__Default_Changelist_.xml .idea/shelf/Uncommitted_changes_before_Update_at_26_11_2020__19_55__Default_Changelist_.xml
+diff --git .idea/shelf/Uncommitted_changes_before_Merge_at_26_11_2020__18_04__Default_Changelist_.xml .idea/shelf/Uncommitted_changes_before_Merge_at_26_11_2020__18_04__Default_Changelist_.xml
+diff --git .idea/shelf/Uncommitted_changes_before_Update_at_26_11_2020__18_04__Default_Changelist_.xml .idea/shelf/Uncommitted_changes_before_Update_at_26_11_2020__18_04__Default_Changelist_.xml
