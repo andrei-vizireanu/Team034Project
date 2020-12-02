@@ -45,6 +45,7 @@ public class Database {
 
     }
 
+
     //getting the info for all of the users
     public String[][] getInfoUser(Statement statement) throws SQLException {
 
@@ -129,6 +130,7 @@ public class Database {
         return data;
     }
 
+
     public void UpdateStudent(Connection connection, String grade, String regNo) throws SQLException {
 
         String sql = "UPDATE Student SET Grade = ?, " + "WHERE RegNo = ?";
@@ -141,6 +143,49 @@ public class Database {
 
         // update
         pstmt.executeUpdate();
+
+    }
+
+    public String getID(Statement statement, String username, String password) throws SQLException {
+
+        String sql = ("SELECT * FROM User;");
+        ResultSet rs = statement.executeQuery(sql);
+
+        while(rs.next()) {
+
+            String id = rs.getString("UserID");
+            String user = rs.getString("UserName");
+            String pass = rs.getString("Password");
+
+            if(username.equals(user) && password.equals(pass))
+                return id;
+
+        }
+
+        return null;
+
+    }
+
+    public void addUser(Connection connection, String username, String password, String title, String forename,
+                        String surname, String email, String role) throws SQLException {
+
+        // the mysql insert statement
+        String query = " insert into users (Username, Password, Title, Forename, Surname, Email, Role)"
+                + " values (?, ?, ?, ?, ?, ?, ?)";
+
+        // create the mysql insert preparedstatement
+        PreparedStatement preparedStmt = connection.prepareStatement(query);
+        preparedStmt.setString(1, username);
+        preparedStmt.setString(2, password);
+        preparedStmt.setString(3, title);
+        preparedStmt.setString(4, forename);
+        preparedStmt.setString(5, surname);
+        preparedStmt.setString(6, email);
+        preparedStmt.setString(7, role);
+
+        // execute the preparedstatement
+        preparedStmt.execute();
+
     }
 
     //deleting a user by its ID

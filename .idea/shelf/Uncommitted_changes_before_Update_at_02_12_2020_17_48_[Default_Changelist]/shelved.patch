@@ -1,0 +1,84 @@
+Index: src/com/company/Grades.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.company;\r\n\r\nimport javax.swing.*;\r\nimport javax.swing.border.Border;\r\nimport javax.swing.border.EmptyBorder;\r\nimport javax.swing.table.DefaultTableModel;\r\nimport javax.swing.table.TableModel;\r\nimport javax.xml.crypto.Data;\r\nimport java.awt.*;\r\nimport java.sql.SQLException;\r\n\r\npublic class Grades {\r\n\r\n    //declaring the variables\r\n\r\n    private JFrame frame;\r\n    private JPanel panel;\r\n    private Container mainContainer;\r\n    private JTable table;\r\n    private JButton addGradeBtn;\r\n    private Database database;\r\n    private final int width = 800;\r\n    private final int height = 600;\r\n\r\n    public Grades(String title) throws SQLException {\r\n\r\n        //initializing variables\r\n        frame = new JFrame(title);\r\n        panel = new JPanel();\r\n        mainContainer = new Container();\r\n        addGradeBtn = new JButton(\"Add Grade\");\r\n        database = new Database();\r\n\r\n        //column names\r\n        String[] columnNames = {\"Module Code\", \"Teacher\", \"Grade\", \"Registration Number\",\r\n                            \"Pass\", \"Resit\"};\r\n        String[][] rows = database.getStudentInfo(Main.statement);\r\n\r\n        TableModel tableModel = new DefaultTableModel(rows, columnNames);\r\n        table = new JTable(tableModel);\r\n\r\n        addGradeBtn.addActionListener(ae -> {\r\n\r\n            if(table.getSelectedRowCount() == 1) {\r\n\r\n                Container addGradeContainer = new Container();\r\n                JFrame dialogFrame = new JFrame();\r\n                JPanel infoPanel = new JPanel();\r\n                JPanel buttonsPanel = new JPanel();\r\n                JDialog editDialog = new JDialog(dialogFrame, \"Add Grade\");\r\n                JButton addGradeBtn2 = new JButton(\"Add\");\r\n                JButton editGradeBtn = new JButton(\"Edit\");\r\n                JButton cancelBtn = new JButton(\"Cancel\");\r\n                EmptyBorder borderLabels = new EmptyBorder(15, 0, 0, 0);\r\n                JScrollPane dialogScroll = new JScrollPane(infoPanel);\r\n\r\n                addGradeContainer.setLayout(new BorderLayout());\r\n                infoPanel.setLayout(new GridLayout(14, 2, 10, 10));\r\n\r\n\r\n                String moduleCode = (String) table.getValueAt(table.getSelectedRow(), 0);\r\n                String teacherName = (String) table.getValueAt(table.getSelectedRow(), 1);\r\n                String grade = (String) table.getValueAt(table.getSelectedRow(), 2);\r\n                String regNo = (String) table.getValueAt(table.getSelectedRow(), 3);\r\n                String pass = (String) table.getValueAt(table.getSelectedRow(), 4);\r\n                String resit = (String) table.getValueAt(table.getSelectedRow(), 5);\r\n\r\n                JLabel gradeLbl = new JLabel(\"Grade\");\r\n                gradeLbl.setForeground(Color.BLUE);\r\n                gradeLbl.setBorder(borderLabels);\r\n\r\n                JTextField gradeTxtField = new JTextField(grade);\r\n\r\n                addGradeBtn2.addActionListener(e -> {\r\n\r\n                    if(!gradeTxtField.getText().equals(grade)) {\r\n                        try {\r\n                            database.UpdateStudent(Main.connection, gradeTxtField.getText(),\r\n                                    regNo);\r\n                        } catch (SQLException throwables) {\r\n                            throwables.printStackTrace();\r\n                        }\r\n\r\n                        table.setValueAt(gradeTxtField.getText(), table.getSelectedRow(), 2);\r\n\r\n                        editDialog.dispose();\r\n\r\n                        JOptionPane.showMessageDialog(editDialog,\r\n                                \"You updated the grade for Student registered with \" +\r\n                                        regNo, \"Successfully Updated\", JOptionPane.INFORMATION_MESSAGE);\r\n                    }\r\n                    else {\r\n                        JOptionPane.showMessageDialog(editDialog,\r\n                                \"You didn't add or update a grade\",\r\n                                \"Nothing Changed\", JOptionPane.ERROR_MESSAGE);\r\n                    }\r\n\r\n                });\r\n\r\n                cancelBtn.addActionListener(e -> {\r\n                    editDialog.dispose();\r\n                });\r\n\r\n                infoPanel.add(gradeLbl);\r\n                infoPanel.add(gradeTxtField);\r\n\r\n                buttonsPanel.add(addGradeBtn2);\r\n                buttonsPanel.add(cancelBtn);\r\n\r\n                addGradeContainer.add(dialogScroll, BorderLayout.NORTH);\r\n                addGradeContainer.add(buttonsPanel, BorderLayout.CENTER);\r\n\r\n                MyFrame.centreWindow(editDialog, 500, 700);\r\n\r\n                editDialog.getContentPane().add(addGradeContainer);\r\n\r\n                editDialog.setSize(500, 700);\r\n\r\n                editDialog.setResizable(false);\r\n\r\n                editDialog.setVisible(true);\r\n\r\n            }\r\n            else\r\n            {\r\n                if (table.getRowCount() == 0) {\r\n                    JOptionPane.showMessageDialog(frame,\r\n                            \"The table is empty\",\r\n                            \"Empty Table\",\r\n                            JOptionPane.ERROR_MESSAGE);\r\n                }\r\n                else\r\n                {\r\n                    JOptionPane.showMessageDialog(frame,\r\n                            \"You need to select the item first\",\r\n                            \"Select an item\",\r\n                            JOptionPane.ERROR_MESSAGE);\r\n                }\r\n            }\r\n        });\r\n\r\n        JScrollPane scrollPane = new JScrollPane(table);\r\n\r\n        mainContainer.setLayout(new BorderLayout());\r\n\r\n        mainContainer.add(scrollPane, BorderLayout.NORTH);\r\n        mainContainer.add(addGradeBtn, BorderLayout.CENTER);\r\n\r\n        MyFrame.centreWindow(frame, width, height);\r\n\r\n        frame.getContentPane().add(mainContainer);\r\n\r\n        frame.setSize(width, height);\r\n\r\n        frame.setVisible(true);\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/com/company/Grades.java	(revision a0d4d56b53e93c13148d396980affa02fc24dc95)
++++ src/com/company/Grades.java	(date 1606930309180)
+@@ -62,8 +62,8 @@
+                 String teacherName = (String) table.getValueAt(table.getSelectedRow(), 1);
+                 String grade = (String) table.getValueAt(table.getSelectedRow(), 2);
+                 String regNo = (String) table.getValueAt(table.getSelectedRow(), 3);
+-                String pass = (String) table.getValueAt(table.getSelectedRow(), 4);
+-                String resit = (String) table.getValueAt(table.getSelectedRow(), 5);
++                int pass = (int) table.getValueAt(table.getSelectedRow(), 4);
++                double resit = (double) table.getValueAt(table.getSelectedRow(), 5);
+ 
+                 JLabel gradeLbl = new JLabel("Grade");
+                 gradeLbl.setForeground(Color.BLUE);
+@@ -76,7 +76,7 @@
+                     if(!gradeTxtField.getText().equals(grade)) {
+                         try {
+                             database.UpdateStudent(Main.connection, gradeTxtField.getText(),
+-                                    regNo);
++                                    regNo, pass, resit);
+                         } catch (SQLException throwables) {
+                             throwables.printStackTrace();
+                         }
+Index: src/com/company/Database.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.company;\r\n\r\nimport java.sql.*;\r\n\r\npublic class Database {\r\n\r\n    //checking the credentials by username and password\r\n    public boolean checkCredentials(Statement statement, String username, String password) throws SQLException {\r\n\r\n        String sql = (\"SELECT * FROM User;\");\r\n        ResultSet rs = statement.executeQuery(sql);\r\n\r\n        while(rs.next()) {\r\n\r\n            String user = rs.getString(\"UserName\");\r\n            String pass = rs.getString(\"Password\");\r\n\r\n            if(username.equals(user) && password.equals(pass))\r\n                return true;\r\n\r\n        }\r\n\r\n        return false;\r\n\r\n    }\r\n\r\n    //getting the role of a user by username and password\r\n    public String getRole(Statement statement, String username, String password) throws SQLException {\r\n\r\n        String sql = (\"SELECT * FROM User;\");\r\n        ResultSet rs = statement.executeQuery(sql);\r\n\r\n        while(rs.next()) {\r\n\r\n            String user = rs.getString(\"UserName\");\r\n            String pass = rs.getString(\"Password\");\r\n            String role = rs.getString(\"Role\");\r\n\r\n            if(username.equals(user) && password.equals(pass))\r\n                return role;\r\n\r\n        }\r\n\r\n        return null;\r\n\r\n    }\r\n\r\n    //getting the info for all of the users\r\n    public String[][] getInfoUser(Statement statement) throws SQLException {\r\n\r\n        String sql = (\"SELECT * FROM User;\");\r\n        ResultSet rs = statement.executeQuery(sql);\r\n        rs.last();\r\n        String[][] data = new String[rs.getRow()][];\r\n        int i = 0;\r\n        //int j = 0;\r\n\r\n        rs.beforeFirst();\r\n        while(rs.next()) {\r\n\r\n            String id = rs.getString(\"UserID\");\r\n            String user = rs.getString(\"Username\");\r\n            String pass = rs.getString(\"Password\");\r\n            String title = rs.getString(\"Title\");\r\n            String forename = rs.getString(\"Forename\");\r\n            String surname = rs.getString(\"Surname\");\r\n            String email = rs.getString(\"Email\");\r\n            String role = rs.getString(\"Role\");\r\n\r\n            data[i] = new String[]{id, user, pass, title, forename, surname, email, role};\r\n            i++;\r\n        }\r\n\r\n        return data;\r\n\r\n    }\r\n\r\n    //updating the user with the new info\r\n    public void updateUser(Connection connection, String username, String password, String title,\r\n            String forename, String surname, String email, String role, String id) throws SQLException {\r\n\r\n        String sql = \"UPDATE User SET Username = ?, \" +\r\n                \"Password = ?, \" +\r\n                \"Title = ?, \" +\r\n                \"Forename = ?, \" +\r\n                \"Surname = ?, \" +\r\n                \"Email = ?, \" +\r\n                \"Role = ? \" + \"WHERE UserID = ?\";\r\n\r\n        PreparedStatement pstmt = connection.prepareStatement(sql);\r\n\r\n        // set the corresponding param\r\n        pstmt.setString(1, username);\r\n        pstmt.setString(2, password);\r\n        pstmt.setString(3, title);\r\n        pstmt.setString(4, forename);\r\n        pstmt.setString(5, surname);\r\n        pstmt.setString(6, email);\r\n        pstmt.setString(7, role);\r\n        pstmt.setString(8, id);\r\n\r\n        // update\r\n        pstmt.executeUpdate();\r\n\r\n    }\r\n\r\n    public String[][] getStudentInfo(Statement statement) throws SQLException {\r\n\r\n        String sql = (\"SELECT * FROM Grading;\");\r\n        ResultSet rs = statement.executeQuery(sql);\r\n        rs.last();\r\n        String[][] data = new String[rs.getRow()][];\r\n        int i = 0;\r\n\r\n        rs.beforeFirst();\r\n        while(rs.next()) {\r\n\r\n            String moduleCode = rs.getString(\"ModuleCode\");\r\n            String teacher = rs.getString(\"Teacher\");\r\n            String grade = rs.getString(\"Grade\");\r\n            String regNo = rs.getString(\"RegNo\");\r\n            String pass = String.valueOf(rs.getInt(\"pass\"));\r\n            String resit = String.valueOf(rs.getDouble(\"resit\"));\r\n\r\n            data[i] = new String[]{moduleCode, teacher, grade, regNo, pass, resit};\r\n            i++;\r\n        }\r\n\r\n        return data;\r\n    }\r\n\r\n    public void UpdateStudent(Connection connection, String grade, String regNo) throws SQLException {\r\n\r\n        String sql = \"UPDATE Student SET Grade = ?, \" + \"WHERE RegNo = ?\";\r\n\r\n        PreparedStatement pstmt = connection.prepareStatement(sql);\r\n\r\n        // set the corresponding param\r\n        pstmt.setString(1, grade);\r\n        pstmt.setString(2, regNo);\r\n\r\n        // update\r\n        pstmt.executeUpdate();\r\n    }\r\n\r\n    //deleting a user by its ID\r\n    public void delete(Connection connection, int userID) throws SQLException {\r\n        String sql = \"DELETE FROM User WHERE UserID = ?\";\r\n\r\n        PreparedStatement pstmt = connection.prepareStatement(sql);\r\n\r\n            // set the corresponding param\r\n            pstmt.setInt(1, userID);\r\n            // execute the delete statement\r\n            pstmt.executeUpdate();\r\n\r\n    }\r\n\r\n    //closing the connection to the database\r\n    public void close(Statement statement, Connection connection) {\r\n        try {\r\n            if (statement != null) {\r\n                statement.close();\r\n            }\r\n\r\n            if (connection != null) {\r\n                connection.close();\r\n            }\r\n        } catch (SQLException se) {\r\n            se.printStackTrace();\r\n        }\r\n    }\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/com/company/Database.java	(revision a0d4d56b53e93c13148d396980affa02fc24dc95)
++++ src/com/company/Database.java	(date 1606930309170)
+@@ -129,15 +129,23 @@
+         return data;
+     }
+ 
+-    public void UpdateStudent(Connection connection, String grade, String regNo) throws SQLException {
++    public void UpdateStudent(Connection connection, String grade, String regNo,
++                              int pass, double resit) throws SQLException {
+ 
+-        String sql = "UPDATE Student SET Grade = ?, " + "WHERE RegNo = ?";
++        String sql = "UPDATE Student SET Grade = ?, " +
++                "Pass = ?, " +
++                "Resit = ? " + "WHERE RegNo = ?";
+ 
+         PreparedStatement pstmt = connection.prepareStatement(sql);
+ 
+         // set the corresponding param
+         pstmt.setString(1, grade);
+         pstmt.setString(2, regNo);
++        int gradeInt = Integer.parseInt(grade);
++
++        if (gradeInt >= 70) {
++            pstmt.setInt(3, 1);
++        }
+ 
+         // update
+         pstmt.executeUpdate();
+Index: src/com/company/Main.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.company;\r\n\r\nimport java.sql.Connection;\r\nimport java.sql.DriverManager;\r\nimport java.sql.Statement;\r\n\r\npublic class Main {\r\n\r\n    public static Connection connection = null;\r\n    public static Statement statement = null;\r\n\r\n    public static void main(String[] args) {\r\n\r\n        //open the Window\r\n        MyFrame frame = new MyFrame(\"Login Page\");\r\n        //Administrator frame = new Administrator(\"Admin\");\r\n\r\n        //connecting to the database\r\n        try {\r\n            //making the connection to the database\r\n            connection = DriverManager.getConnection(\"jdbc:mysql://stusql.dcs.shef.ac.uk/team034\", \"team034\", \"4228b661\");\r\n            statement = connection.createStatement();\r\n\r\n        }\r\n        catch (Exception ex) {\r\n            ex.printStackTrace();\r\n        }\r\n\r\n    }\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/com/company/Main.java	(revision a0d4d56b53e93c13148d396980affa02fc24dc95)
++++ src/com/company/Main.java	(date 1606929764905)
+@@ -12,8 +12,9 @@
+     public static void main(String[] args) {
+ 
+         //open the Window
+-        MyFrame frame = new MyFrame("Login Page");
++        //MyFrame frame = new MyFrame("Login Page");
+         //Administrator frame = new Administrator("Admin");
++        Teacher frame = new Teacher("Teacher");
+ 
+         //connecting to the database
+         try {

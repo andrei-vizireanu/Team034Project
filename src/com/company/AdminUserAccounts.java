@@ -236,6 +236,181 @@ public class AdminUserAccounts {
 
         });
 
+        //action when clicking the delete button
+        add.addActionListener(ae -> {
+
+            //declaring and initiating the objects
+            Container editContainer = new Container();
+            JFrame dialogFrame = new JFrame();
+            JPanel infoPanel = new JPanel();
+            JPanel buttonsPanel = new JPanel();
+            JDialog addDialog = new JDialog(dialogFrame, "Add Dialog");
+            JButton add = new JButton("Add");
+            JButton cancel = new JButton("Cancel");
+            EmptyBorder borderLabels = new EmptyBorder(15, 0, 0, 0);
+            JScrollPane dialogScroll = new JScrollPane(infoPanel);
+
+            //setting the layouts of the container and infoPanel
+            editContainer.setLayout(new BorderLayout());
+            infoPanel.setLayout(new GridLayout(14, 2, 10, 10));
+
+            //getting each value from the row selected
+//            String id = String.valueOf(table.getValueAt(table.getSelectedRow(), 0));
+//            String username = String.valueOf(table.getValueAt(table.getSelectedRow(), 1));
+//            String password = String.valueOf(table.getValueAt(table.getSelectedRow(), 2).toString());
+//            String userTitle = String.valueOf(table.getValueAt(table.getSelectedRow(), 3).toString());
+//            String forename = String.valueOf(table.getValueAt(table.getSelectedRow(), 4).toString());
+//            String surname = String.valueOf(table.getValueAt(table.getSelectedRow(), 5).toString());
+//            String email = String.valueOf(table.getValueAt(table.getSelectedRow(), 6).toString());
+//            String role = String.valueOf(table.getValueAt(table.getSelectedRow(), 7).toString());
+
+            //creating the labels objects and setting their text colors and borders
+            JLabel usernameLabel = new JLabel("Username");
+            usernameLabel.setForeground(Color.BLUE);
+            usernameLabel.setBorder(borderLabels);
+            JLabel passwordLabel = new JLabel("Password");
+            passwordLabel.setForeground(Color.BLUE);
+            passwordLabel.setBorder(borderLabels);
+            JLabel titleLabel = new JLabel("Title");
+            titleLabel.setForeground(Color.BLUE);
+            titleLabel.setBorder(borderLabels);
+            JLabel forenameLabel = new JLabel("Forename");
+            forenameLabel.setForeground(Color.BLUE);
+            forenameLabel.setBorder(borderLabels);
+            JLabel surnameLabel = new JLabel("Surname");
+            surnameLabel.setForeground(Color.BLUE);
+            surnameLabel.setBorder(borderLabels);
+            JLabel emailLabel = new JLabel("Email");
+            emailLabel.setForeground(Color.BLUE);
+            emailLabel.setBorder(borderLabels);
+            JLabel roleLabel = new JLabel("Role");
+            roleLabel.setForeground(Color.BLUE);
+            roleLabel.setBorder(borderLabels);
+
+            //creating the fields for each value
+            JTextField usernameFiled = new JTextField();
+            JTextField passwordField = new JTextField();
+            JTextField userTitleField = new JTextField();
+            JTextField forenameField = new JTextField();
+            JTextField surnameField = new JTextField();
+            JTextField emailField = new JTextField();
+
+            //creating an array for the combo box
+            String[] roles = {"", "Student", "Teacher", "Registrar", "Administrator"};
+
+            //creating the combo box and checking which item (role) should be selected for the selected User
+            JComboBox rolesCombo = new JComboBox(roles);
+            rolesCombo.setSelectedIndex(0);
+
+            //action when edit is clicked
+            add.addActionListener(e -> {
+
+                //checking if you updated the user with new information
+                if(!usernameFiled.getText().contains(" ") && !usernameFiled.getText().equals("") &&
+                        !passwordField.getText().contains(" ") && !passwordField.getText().equals("") &&
+                        !userTitleField.getText().contains(" ") && !userTitleField.getText().equals("") &&
+                        !forenameField.getText().contains(" ") && !forenameField.getText().equals("") &&
+                        !surnameField.getText().contains(" ") && !surnameField.getText().equals("") &&
+                        !emailField.getText().contains(" ") && !emailField.getText().equals("") &&
+                        rolesCombo.getSelectedIndex() != 0){
+
+                    //updating the selected user's information
+                    try {
+                        database.addUser(Main.connection,usernameFiled.getText(), passwordField.getText(),
+                                userTitleField.getText(), forenameField.getText(), surnameField.getText(),
+                                emailField.getText(), String.valueOf(rolesCombo.getSelectedItem()));
+                    } catch (SQLException throwables) {
+                        throwables.printStackTrace();
+                    }
+
+                    try {
+                        ((DefaultTableModel) tableModel).addRow(new Object[]{database.getID(Main.statement,
+                                usernameFiled.getText(), passwordField.getText()), usernameFiled.getText(),
+                                passwordField.getText(), forenameField.getText(), surnameField.getText(),
+                                emailField.getText(), rolesCombo.getSelectedItem().toString()});
+                    } catch (SQLException throwables) {
+                        throwables.printStackTrace();
+                    }
+
+                    //((DefaultTableModel) tableModel).insertRow();
+
+                    //refreshing the table with the new values
+//                    table.setValueAt(usernameFiled.getText(), table.getSelectedRow(), 1);
+//                    table.setValueAt(passwordField.getText(), table.getSelectedRow(), 2);
+//                    table.setValueAt(userTitleField.getText(), table.getSelectedRow(), 3);
+//                    table.setValueAt(forenameField.getText(), table.getSelectedRow(), 4);
+//                    table.setValueAt(surnameField.getText(), table.getSelectedRow(), 5);
+//                    table.setValueAt(emailField.getText(), table.getSelectedRow(), 6);
+//                    table.setValueAt(String.valueOf(rolesCombo.getSelectedItem()), table.getSelectedRow(), 7);
+
+                    //closing the windows after this is proceed
+                    addDialog.dispose();
+
+                    //information message
+                    JOptionPane.showMessageDialog(addDialog,
+                            "You updated the following User Account ID: ",
+                            "Successfully Updated",
+                            JOptionPane.INFORMATION_MESSAGE);
+
+                }
+                //if the information is not changed but you still clicked on edit
+                else{
+                    //error message
+                    JOptionPane.showMessageDialog(addDialog,
+                            "Nothing will be updated because you didn't change anything",
+                            "Nothing Changed",
+                            JOptionPane.ERROR_MESSAGE);
+                }
+
+            });
+
+            //close the actual window when pressing on the cancel button
+            cancel.addActionListener(e -> {
+                addDialog.dispose();
+            });
+
+
+            //adding the labels and fields to the information panel
+            infoPanel.add(usernameLabel);
+            infoPanel.add(usernameFiled);
+            infoPanel.add(passwordLabel);
+            infoPanel.add(passwordField);
+            infoPanel.add(titleLabel);
+            infoPanel.add(userTitleField);
+            infoPanel.add(forenameLabel);
+            infoPanel.add(forenameField);
+            infoPanel.add(surnameLabel);
+            infoPanel.add(surnameField);
+            infoPanel.add(emailLabel);
+            infoPanel.add(emailField);
+            infoPanel.add(roleLabel);
+            infoPanel.add(rolesCombo);
+
+            //adding the buttons to the buttons panel
+            buttonsPanel.add(add);
+            buttonsPanel.add(cancel);
+
+            //setting panel's layout
+            editContainer.add(dialogScroll, BorderLayout.NORTH);
+            editContainer.add(buttonsPanel, BorderLayout.CENTER);
+
+            //centre the edit Window
+            MyFrame.centreWindow(addDialog, 500, 700);
+
+            //adding the edit container to the edit dialog
+            addDialog.getContentPane().add(editContainer);
+
+            //setting the size of the edit dialog
+            addDialog.setSize(500, 700);
+
+            //don't allow the frame to be resized
+            addDialog.setResizable(false);
+
+            //setting the visibility of dialog
+            addDialog.setVisible(true);
+
+        });
+
         //TO DO
         //action when clicking the delete button
         delete.addActionListener(ae -> {

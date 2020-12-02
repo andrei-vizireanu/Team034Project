@@ -1,0 +1,40 @@
+Index: src/com/company/AdminUserAccounts.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.company;\r\n\r\nimport com.sun.tools.javac.util.Name;\r\n\r\nimport javax.swing.*;\r\nimport javax.swing.table.DefaultTableModel;\r\nimport javax.swing.table.TableModel;\r\nimport java.awt.*;\r\nimport java.sql.SQLException;\r\n\r\npublic class AdminUserAccounts {\r\n\r\n    // declaring the variables\r\n    private JFrame frame;\r\n    private JPanel panel;\r\n    private Container mainContainer;\r\n    private JTable table;\r\n    private JButton delete;\r\n    private Database database;\r\n    private final int width = 800;\r\n    private final int height = 600;\r\n\r\n    public AdminUserAccounts(String title) throws SQLException {\r\n\r\n        //initializing the variables\r\n        frame = new JFrame(title);\r\n        panel = new JPanel();\r\n        mainContainer = new Container();\r\n        delete = new JButton(\"Delete\");\r\n        database = new Database();\r\n\r\n        // Column Names\r\n        String[] columnNames = { \"Username\", \"Password\", \"Title\", \"Forename\", \"Surname\", \"Email\", \"Role\"};\r\n        String[][] rows = database.getInfoUser(Main.statement);\r\n\r\n        TableModel tableModel = new DefaultTableModel(rows, columnNames);\r\n        table = new JTable(tableModel);\r\n\r\n        JScrollPane scrollpane = new JScrollPane(table);\r\n\r\n        delete.addActionListener(ae -> {\r\n\r\n            System.out.println(table.getModel());\r\n\r\n            if(table.getSelectedRowCount() == 1){\r\n                ((DefaultTableModel) tableModel).removeRow(table.getSelectedRow());\r\n            }\r\n            else{\r\n                if(table.getRowCount() == 0){\r\n                    //custom title, error icon\r\n                    JOptionPane.showMessageDialog(frame,\r\n                            \"The table is empty so you cannot delete anything!\",\r\n                            \"Empty Table\",\r\n                            JOptionPane.ERROR_MESSAGE);\r\n                }\r\n                else{\r\n                    JOptionPane.showMessageDialog(frame,\r\n                            \"You need to select the item first in order to delete it!\",\r\n                            \"Select an item\",\r\n                            JOptionPane.ERROR_MESSAGE);\r\n                }\r\n            }\r\n\r\n        });\r\n\r\n\r\n\r\n\r\n        mainContainer.setLayout(new BorderLayout());\r\n\r\n        //panel.setLayout(new GridLayout(2, 2, 10, 10));\r\n\r\n        mainContainer.add(scrollpane, BorderLayout.NORTH);\r\n        mainContainer.add(delete, BorderLayout.SOUTH);\r\n\r\n        //center the window\r\n        MyFrame.centreWindow(frame, width, height);\r\n\r\n        //adding the main container to the frame\r\n        //frame.getContentPane().add(buttonPanel);\r\n\r\n        frame.getContentPane().add(mainContainer);\r\n\r\n        //setting the width and the height of the frame\r\n        frame.setSize(width,height);\r\n\r\n        //don't allow the frame to be resized\r\n        //frame.setResizable(false);\r\n\r\n        //making the frame visible\r\n        frame.setVisible(true);\r\n\r\n    }\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/com/company/AdminUserAccounts.java	(revision 32324a69c8d85f0033c90167edf05633c5d1ce3a)
++++ src/com/company/AdminUserAccounts.java	(date 1606839163185)
+@@ -1,6 +1,6 @@
+ package com.company;
+ 
+-import com.sun.tools.javac.util.Name;
++//import com.sun.tools.javac.util.Name;
+ 
+ import javax.swing.*;
+ import javax.swing.table.DefaultTableModel;
+Index: .idea/libraries/mysql_connector_java_5_1_49_bin1.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><component name=\"libraryTable\">\r\n  <library name=\"mysql-connector-java-5.1.49-bin1\">\r\n    <CLASSES>\r\n      <root url=\"jar://$PROJECT_DIR$/../mysql-connector-java-5.1.49/mysql-connector-java-5.1.49-bin.jar!/\" />\r\n    </CLASSES>\r\n    <JAVADOC />\r\n    <SOURCES />\r\n  </library>\r\n</component>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/libraries/mysql_connector_java_5_1_49_bin1.xml	(revision 32324a69c8d85f0033c90167edf05633c5d1ce3a)
++++ .idea/libraries/mysql_connector_java_5_1_49_bin1.xml	(date 1606838953537)
+@@ -1,7 +1,7 @@
+ <component name="libraryTable">
+   <library name="mysql-connector-java-5.1.49-bin1">
+     <CLASSES>
+-      <root url="jar://$PROJECT_DIR$/../mysql-connector-java-5.1.49/mysql-connector-java-5.1.49-bin.jar!/" />
++      <root url="jar://$PROJECT_DIR$/../Desktop/UNIVERSITY OF SHEFFIELD/YEAR2/COM2008 - SYSTEMS DESIGN AND SECURITY/mysql-connector-java-5.1.49/mysql-connector-java-5.1.49-bin.jar!/" />
+     </CLASSES>
+     <JAVADOC />
+     <SOURCES />
+diff --git .idea/shelf/Uncommitted_changes_before_Merge_at_26_11_2020__18_04__Default_Changelist_.xml .idea/shelf/Uncommitted_changes_before_Merge_at_26_11_2020__18_04__Default_Changelist_.xml
+diff --git .idea/shelf/Uncommitted_changes_before_Update_at_26_11_2020__18_04__Default_Changelist_.xml .idea/shelf/Uncommitted_changes_before_Update_at_26_11_2020__18_04__Default_Changelist_.xml
+diff --git .idea/shelf/Uncommitted_changes_before_Update_at_27_11_2020__11_14__Default_Changelist_.xml .idea/shelf/Uncommitted_changes_before_Update_at_27_11_2020__11_14__Default_Changelist_.xml
+diff --git .idea/shelf/Uncommitted_changes_before_Update_at_26_11_2020__18_26__Default_Changelist_.xml .idea/shelf/Uncommitted_changes_before_Update_at_26_11_2020__18_26__Default_Changelist_.xml
+diff --git .idea/shelf/Uncommitted_changes_before_Update_at_26_11_2020__19_55__Default_Changelist_.xml .idea/shelf/Uncommitted_changes_before_Update_at_26_11_2020__19_55__Default_Changelist_.xml
