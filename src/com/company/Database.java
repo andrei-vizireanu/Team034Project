@@ -45,20 +45,6 @@ public class Database {
 
     }
 
-    public void UpdateStudent(Connection connection, String grade, String regNo) throws SQLException {
-
-        String sql = "UPDATE Student SET Grade = ?, " + "WHERE RegNo = ?";
-
-        PreparedStatement pstmt = connection.prepareStatement(sql);
-
-        // set the corresponding param
-        pstmt.setString(1, grade);
-        pstmt.setString(2, regNo);
-
-        // update
-        pstmt.executeUpdate();
-
-    }
 
     //getting the info for all of the users
     public String[][] getInfoUser(Statement statement) throws SQLException {
@@ -142,6 +128,22 @@ public class Database {
         }
 
         return data;
+    }
+
+
+    public void UpdateStudent(Connection connection, String grade, String regNo) throws SQLException {
+
+        String sql = "UPDATE Student SET Grade = ?, " + "WHERE RegNo = ?";
+
+        PreparedStatement pstmt = connection.prepareStatement(sql);
+
+        // set the corresponding param
+        pstmt.setString(1, grade);
+        pstmt.setString(2, regNo);
+
+        // update
+        pstmt.executeUpdate();
+
     }
 
     public String getID(Statement statement, String username, String password) throws SQLException {
