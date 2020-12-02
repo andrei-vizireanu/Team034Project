@@ -9,7 +9,7 @@ public class Teacher extends JFrame {
     private static final long serialVersionUID = 1L;
 
     // declaring the variables
-    private static JFrame frame;
+    private JFrame frame;
     private final int width = 800;
     private final int height = 600;
     private Container mainContainer;

@@ -129,6 +129,20 @@ public class Database {
         return data;
     }
 
+    public void UpdateStudent(Connection connection, String grade, String regNo) throws SQLException {
+
+        String sql = "UPDATE Student SET Grade = ?, " + "WHERE RegNo = ?";
+
+        PreparedStatement pstmt = connection.prepareStatement(sql);
+
+        // set the corresponding param
+        pstmt.setString(1, grade);
+        pstmt.setString(2, regNo);
+
+        // update
+        pstmt.executeUpdate();
+    }
+
     //deleting a user by its ID
     public void delete(Connection connection, int userID) throws SQLException {
         String sql = "DELETE FROM User WHERE UserID = ?";
