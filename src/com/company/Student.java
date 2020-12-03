@@ -36,17 +36,17 @@ public class Student extends JFrame {
         buttonPanel.add(results);
 
         //action listener for clicking the "Login" button
-        results.addActionListener(ae -> {
-
-            try {
-                StudentFeatures result = new StudentFeatures("My Results");
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
-            //JTableButtonTest table = new JTableButtonTest();
-            frame.dispose();
-
-        });
+//        results.addActionListener(ae -> {
+//
+//            try {
+//                StudentFeatures result = new StudentFeatures("My Results");
+//            } catch (SQLException throwables) {
+//                throwables.printStackTrace();
+//            }
+//            //JTableButtonTest table = new JTableButtonTest();
+//            frame.dispose();
+//
+//        });
 
 
         //initializing the variables
