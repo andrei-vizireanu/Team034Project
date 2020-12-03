@@ -20,6 +20,7 @@ public class AdminUniDepartments {
     private JButton edit;
     private JButton add;
     private JButton delete;
+    private JButton goBack;
     private Database database;
     private final int width = 800;
     private final int height = 600;
@@ -35,6 +36,7 @@ public class AdminUniDepartments {
         edit = new JButton("Edit the departments' information");
         add = new JButton("Add a new department");
         delete = new JButton("Delete the department");
+        goBack = new JButton("<- Go Back");
         database = new Database();
 
         //headers for the table
@@ -328,17 +330,27 @@ public class AdminUniDepartments {
 
         });
 
+        //action when clicking the go back button
+        goBack.addActionListener(ae -> {
+
+            //going back to the previous page
+            Administrator admin = new Administrator("Admin");
+            frame.dispose();
+
+        });
+
         table.setDefaultEditor(Object.class, null);
 
         //creating the scroll pane in order to have a scrollable table
         JScrollPane scrollPane = new JScrollPane(table);
 
         //setting the layout and borders for the buttons panel
-        buttonsPanel.setLayout(new GridLayout(3, 2, 10, 10));
-        buttonsPanel.setBorder(new EmptyBorder(10, 200, 10, 200));
+        buttonsPanel.setLayout(new GridLayout(4, 2, 10, 10));
+        buttonsPanel.setBorder(new EmptyBorder(5, 200, 5, 200));
         buttonsPanel.add(edit);
         buttonsPanel.add(add);
         buttonsPanel.add(delete);
+        buttonsPanel.add(goBack);
 
         //setting the layout for the main container
         mainContainer.setLayout(new BorderLayout());

@@ -14,10 +14,12 @@ public class Administrator extends JFrame {
     private JFrame frame;
     private Container mainContainer;
     private JPanel buttonPanel;
+    private JPanel logOutPanel;
     private Button accounts;
     private Button departments;
     private Button modules;
     private Button degreeCourses;
+    private Button logOut;
     private final int width = 800;
     private final int height = 600;
 
@@ -27,10 +29,15 @@ public class Administrator extends JFrame {
         frame = new JFrame(title);
         mainContainer = new Container();
         buttonPanel = new JPanel();
+        logOutPanel = new JPanel();
         accounts = new Button("User Accounts");
         departments = new Button("University Departments");
         modules = new Button("Modules");
         degreeCourses = new Button("Degree Courses");
+        logOut = new Button("<- LOG OUT");
+        FlowLayout experimentLayout = new FlowLayout();
+        logOutPanel.setLayout(experimentLayout);
+        logOutPanel.add(logOut);
 
         accounts.setPreferredSize(new Dimension(100, 50));
         departments.setPreferredSize(new Dimension(100, 50));
@@ -44,6 +51,17 @@ public class Administrator extends JFrame {
         buttonPanel.add(departments);
         buttonPanel.add(modules);
         buttonPanel.add(degreeCourses);
+
+        //action listener for clicking the "University Departments" button
+        logOut.addActionListener(ae -> {
+
+            //log out and open the login page again
+            MyFrame departments = new MyFrame("Login Page");
+
+            //close the window
+            frame.dispose();
+
+        });
 
         //action listener for clicking the "User Accounts" button
         accounts.addActionListener(ae -> {
@@ -71,15 +89,29 @@ public class Administrator extends JFrame {
 
         });
 
+        //action listener for clicking the "Modules" button
+        modules.addActionListener(ae -> {
 
-        //mainContainer.add(buttonPanel, BorderLayout.CENTER);
+            try {
+                AdminModules departments = new AdminModules("Modules Workbench");
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+            //JTableButtonTest table = new JTableButtonTest();
+            frame.dispose();
 
+        });
 
         //center the window
         MyFrame.centreWindow(frame, width, height);
 
+        //adding the panels to the main Container
+        mainContainer.add(logOutPanel, BorderLayout.NORTH);
+        mainContainer.add(buttonPanel, BorderLayout.CENTER);
+
         //adding the main container to the frame
-        frame.getContentPane().add(buttonPanel);
+        frame.getContentPane().add(mainContainer);
+
         //setting the width and the height of the frame
         frame.setSize(width,height);
 

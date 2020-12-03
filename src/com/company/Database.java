@@ -101,6 +101,71 @@ public class Database {
 
     }
 
+    //getting the info for all of the modules
+    public String[][] getInfoModule(Connection connection, Statement statement) throws SQLException {
+
+        String sql = ("SELECT * FROM Module;");
+        ResultSet rs = statement.executeQuery(sql);
+        rs.last();
+        String[][] data = new String[rs.getRow()][];
+        int i = 0;
+
+        rs.beforeFirst();
+        while(rs.next()) {
+
+            String id = rs.getString("ModuleID");
+            String moduleCode = rs.getString("ModuleCode");
+            String moduleName = rs.getString("ModuleName");
+            String level = rs.getString("Level");
+            String core = rs.getString("Core");
+            String credit = rs.getString("Credit");
+            String degreeID = rs.getString("DegreeID");
+
+            if(!degreeID.equals("0")){
+
+
+                Statement statement2 = connection.createStatement();
+                String degreeName = getDegreeName(statement2, degreeID);
+
+                data[i] = new String[]{id, moduleCode, moduleName, level, core, credit, degreeName};
+                i++;
+
+                if (statement2 != null) {
+                    statement2.close();
+                }
+
+            }
+            else{
+                data[i] = new String[]{id, moduleCode, moduleName, level, core, credit, "-"};
+                i++;
+            }
+
+
+        }
+
+        return data;
+
+    }
+
+    public String getDegreeName(Statement statement, String degreeID) throws SQLException {
+
+        String sql2 = "SELECT * FROM Degree WHERE DegreeID = " + degreeID;
+        ResultSet rs = statement.executeQuery(sql2);
+
+        while(rs.next()) {
+            String degreeName = rs.getString("DegreeName");
+            String degreeID2 = rs.getString("DegreeID");
+
+            if(degreeID2.equals(degreeID)){
+                System.out.println(degreeName);
+                return degreeName;
+            }
+
+        }
+        return null;
+
+    }
+
     //updating the user with the new info
     public void updateUser(Connection connection, String username, String password, String title,
             String forename, String surname, String email, String role, String id) throws SQLException {
