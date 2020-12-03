@@ -56,6 +56,17 @@ public class Teacher extends JFrame {
             frame.dispose();
         });
 
+        weightedMeanGradeBtn.addActionListener(e -> {
+            try {
+                WeightedMeanGrade meanGrade = new WeightedMeanGrade("Student's" +
+                        "weighted mean grade");
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+
+            frame.dispose();
+        });
+
 
         //centering the window
         MyFrame.centreWindow(frame, width, height);
