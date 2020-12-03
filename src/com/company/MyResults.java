@@ -50,15 +50,15 @@ public class MyResults {
 
 
                 String moduleCode = (String) table.getValueAt(table.getSelectedRow(), 0);
-                double grade = Double.parseDouble((String)table.getValueAt(table.getSelectedRow(), 2));
-                int pass = Integer.parseInt((String)table.getValueAt(table.getSelectedRow(), 4));
-                double resit = Double.parseDouble((String)table.getValueAt(table.getSelectedRow(), 5));
+                double grade = Double.parseDouble((String) table.getValueAt(table.getSelectedRow(), 2));
+                int pass = Integer.parseInt((String) table.getValueAt(table.getSelectedRow(), 4));
+                double resit = Double.parseDouble((String) table.getValueAt(table.getSelectedRow(), 5));
 
                 JLabel resultsFS = new JLabel("Results");
                 resultsFS.setForeground(Color.BLUE);
                 resultsFS.setBorder(borderLabels);
 
-                viewResults2.addActionListener(e -> {
+                /*viewResults2.addActionListener(e -> {
 
                     if(!) && teacherNameTxtField.getText().equals(teacherName)) {
                         try {
@@ -72,6 +72,9 @@ public class MyResults {
 
                         editDialog.dispose();
             }
+        });*/
+            }
+
         });
     }
 }

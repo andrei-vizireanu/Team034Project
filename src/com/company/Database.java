@@ -11,12 +11,12 @@ public class Database {
         String sql = ("SELECT * FROM User;");
         ResultSet rs = statement.executeQuery(sql);
 
-        while(rs.next()) {
+        while (rs.next()) {
 
             String user = rs.getString("UserName");
             String pass = rs.getString("Password");
 
-            if(username.equals(user) && password.equals(pass))
+            if (username.equals(user) && password.equals(pass))
                 return true;
 
         }
@@ -31,13 +31,13 @@ public class Database {
         String sql = ("SELECT * FROM User;");
         ResultSet rs = statement.executeQuery(sql);
 
-        while(rs.next()) {
+        while (rs.next()) {
 
             String user = rs.getString("UserName");
             String pass = rs.getString("Password");
             String role = rs.getString("Role");
 
-            if(username.equals(user) && password.equals(pass))
+            if (username.equals(user) && password.equals(pass))
                 return role;
 
         }
@@ -58,7 +58,7 @@ public class Database {
         //int j = 0;
 
         rs.beforeFirst();
-        while(rs.next()) {
+        while (rs.next()) {
 
             String id = rs.getString("UserID");
             String user = rs.getString("Username");
@@ -87,7 +87,7 @@ public class Database {
         int i = 0;
 
         rs.beforeFirst();
-        while(rs.next()) {
+        while (rs.next()) {
 
             String id = rs.getString("DepartmentID");
             String depCode = rs.getString("DepartmentCode");
@@ -111,7 +111,7 @@ public class Database {
         int i = 0;
 
         rs.beforeFirst();
-        while(rs.next()) {
+        while (rs.next()) {
 
             String id = rs.getString("ModuleID");
             String moduleCode = rs.getString("ModuleCode");
@@ -121,7 +121,7 @@ public class Database {
             String credit = rs.getString("Credit");
             String degreeID = rs.getString("DegreeID");
 
-            if(!degreeID.equals("0")){
+            if (!degreeID.equals("0")) {
 
 
                 Statement statement2 = connection.createStatement();
@@ -134,8 +134,7 @@ public class Database {
                     statement2.close();
                 }
 
-            }
-            else{
+            } else {
                 data[i] = new String[]{id, moduleCode, moduleName, level, core, credit, "-"};
                 i++;
             }
@@ -152,11 +151,11 @@ public class Database {
         String sql2 = "SELECT * FROM Degree WHERE DegreeID = " + degreeID;
         ResultSet rs = statement.executeQuery(sql2);
 
-        while(rs.next()) {
+        while (rs.next()) {
             String degreeName = rs.getString("DegreeName");
             String degreeID2 = rs.getString("DegreeID");
 
-            if(degreeID2.equals(degreeID)){
+            if (degreeID2.equals(degreeID)) {
                 System.out.println(degreeName);
                 return degreeName;
             }
@@ -168,7 +167,7 @@ public class Database {
 
     //updating the user with the new info
     public void updateUser(Connection connection, String username, String password, String title,
-            String forename, String surname, String email, String role, String id) throws SQLException {
+                           String forename, String surname, String email, String role, String id) throws SQLException {
 
         String sql = "UPDATE User SET Username = ?, " +
                 "Password = ?, " +
@@ -198,7 +197,7 @@ public class Database {
     //updating the department with the new info
     public void updateDepartment(Connection connection, String depCode, String depName, String id) {
 
-        try{
+        try {
             String sql = "UPDATE Department SET DepartmentCode = ?, " +
                     "DepartmentName = ? " + "WHERE DepartmentID = " + id;
 
@@ -211,7 +210,7 @@ public class Database {
 
             // update
             pstmt.executeUpdate();
-        }catch (SQLException e){
+        } catch (SQLException e) {
             System.out.println(e);
         }
 
@@ -227,7 +226,7 @@ public class Database {
         int i = 0;
 
         rs.beforeFirst();
-        while(rs.next()) {
+        while (rs.next()) {
 
             String gradingID = rs.getString("GradingID");
             String moduleCode = rs.getString("ModuleCode");
@@ -259,19 +258,46 @@ public class Database {
         // set the corresponding param
         pstmt.setDouble(1, grade);
 
-        if (grade>=70) {
+        if (grade >= 70) {
             pstmt.setBoolean(2, true);
-            //pstmt.setDouble(3, 0.0);
-        }
-        else {
+        } else {
             pstmt.setBoolean(2, false);
-            //pstmt.setDouble(3, resit);
         }
         pstmt.setString(3, regNo);
 
         // update
         pstmt.executeUpdate();
 
+    }
+
+
+    public double CalculateGrade(Statement statement, String regNo,
+                                    String moduleCode) throws SQLException {
+
+        String sql = ("SELECT grade FROM Grading WHERE (RegNo = " + regNo +
+                ") AND (ModuleCode = " + moduleCode + ");");
+        ResultSet rs = statement.executeQuery(sql);
+        rs.last();
+        double[] data = new double[rs.getRow()];
+        int i = 0;
+
+        rs.beforeFirst();
+        while (rs.next()) {
+
+            double grade = rs.getDouble("Grade");
+
+            data[i] = grade;
+            i++;
+        }
+
+        double sum = 0;
+        int numberOfGrades = 0;
+        for (i=0; i<data.length; i++) {
+            sum = sum + data[i];
+            numberOfGrades++;
+        }
+
+        return sum/numberOfGrades;
     }
 
     //getting the user id
