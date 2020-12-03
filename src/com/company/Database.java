@@ -354,8 +354,7 @@ public class Database {
     public double CalculateGrade(Statement statement, String regNo,
                                  String moduleCode) throws SQLException {
 
-        String sql = ("SELECT grade FROM Grading WHERE (RegNo = " + regNo +
-                ") AND (ModuleCode = " + moduleCode + ");");
+        String sql = ("SELECT * FROM Grading;");
         ResultSet rs = statement.executeQuery(sql);
         rs.last();
         double[] data = new double[rs.getRow()];
@@ -364,9 +363,12 @@ public class Database {
         rs.beforeFirst();
         while (rs.next()) {
 
-            double grade = rs.getDouble("Grade");
+            String regNumber = rs.getString("RegNo");
+            String modCode = rs.getString("ModuleCode");
+            double grade = rs.getDouble("grade");
 
-            data[i] = grade;
+            if (regNumber.equals(regNo) && modCode.equals(moduleCode))
+                data[i] = grade;
             i++;
         }
 

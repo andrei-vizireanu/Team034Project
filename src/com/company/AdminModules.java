@@ -1,6 +1,7 @@
 package com.company;
 
-import com.mysql.jdbc.StringUtils;
+
+import com.sun.xml.internal.ws.util.StringUtils;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -303,7 +304,8 @@ public class AdminModules {
                         !modNameField.getText().equals("") &&
                         !levelField.getText().contains(" ") && !levelField.getText().equals("") &&
                         !creditField.getText().contains(" ") && !creditField.getText().equals("") &&
-                        StringUtils.isStrictlyNumeric(levelField.getText())){
+                        checkString(levelField.getText())){
+                    
 
                     String id = null;
 
@@ -490,6 +492,16 @@ public class AdminModules {
 
         //making the frame visible
         frame.setVisible(true);
+
+    }
+
+
+    public boolean checkString(String word){
+
+        if(word.matches("[0-9]+")){
+            return true;
+        }
+        else return false;
 
     }
 
