@@ -351,6 +351,35 @@ public class Database {
 
     }
 
+    public double CalculateGrade(Statement statement, String regNo,
+                                 String moduleCode) throws SQLException {
+
+        String sql = ("SELECT grade FROM Grading WHERE (RegNo = " + regNo +
+                ") AND (ModuleCode = " + moduleCode + ");");
+        ResultSet rs = statement.executeQuery(sql);
+        rs.last();
+        double[] data = new double[rs.getRow()];
+        int i = 0;
+
+        rs.beforeFirst();
+        while (rs.next()) {
+
+            double grade = rs.getDouble("Grade");
+
+            data[i] = grade;
+            i++;
+        }
+
+        double sum = 0;
+        int numberOfGrades = 0;
+        for (i=0; i<data.length; i++) {
+            sum = sum + data[i];
+            numberOfGrades++;
+        }
+
+        return sum/numberOfGrades;
+    }
+
     //getting the user id
     public String getUserID(Statement statement, String username, String password) throws SQLException {
 
