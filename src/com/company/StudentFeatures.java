@@ -7,7 +7,7 @@ import javax.swing.table.TableModel;
 import java.awt.*;
 import java.sql.SQLException;
 
-public class MyResults {
+class MyResults {
 
     private JFrame frame;
     private JPanel panel;

@@ -181,6 +181,39 @@ public class Database {
 
     }
 
+    //getting the info for all of the degree courses
+    public String[][] getInfoDegree(Statement statement) throws SQLException {
+
+        String sql = ("SELECT * FROM Degree;");
+
+        try{
+            ResultSet rs = statement.executeQuery(sql);
+            rs.last();
+            String[][] data = new String[rs.getRow()][];
+            int i = 0;
+
+            rs.beforeFirst();
+            while(rs.next()) {
+
+                String id = rs.getString("DegreeID");
+                String degCode = rs.getString("DegreeCode");
+                String degName = rs.getString("DegreeName");
+                String degPartner = rs.getString("Partner");
+                String degLead = rs.getString("Lead");
+
+                data[i] = new String[]{id, degCode, degName, degPartner, degLead};
+                i++;
+
+                return data;
+            }
+        }catch (SQLException e){
+            System.out.println("getInfoDegree method from Database" + e);
+        }
+
+        return null;
+
+    }
+
     public String getDegreeNameByID(Statement statement, String degreeID) throws SQLException {
 
         String sql2 = "SELECT * FROM Degree WHERE DegreeID = " + degreeID;
@@ -245,9 +278,8 @@ public class Database {
             // update
             pstmt.executeUpdate();
         }catch (SQLException e){
-            System.out.println(e);
+            System.out.println("updateDepartment method from Database class " + e);
         }
-
 
     }
 
