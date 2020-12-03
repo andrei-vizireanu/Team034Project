@@ -164,14 +164,17 @@ public class Database {
         rs.beforeFirst();
         while(rs.next()) {
 
+            String gradingID = rs.getString("GradingID");
             String moduleCode = rs.getString("ModuleCode");
+            String username = rs.getString("Username");
             String teacher = rs.getString("Teacher");
             String grade = rs.getString("Grade");
             String regNo = rs.getString("RegNo");
             String pass = String.valueOf(rs.getInt("pass"));
-            String resit = String.valueOf(rs.getDouble("resit"));
+            String moduleID = rs.getString("ModuleID");
 
-            data[i] = new String[]{moduleCode, teacher, grade, regNo, pass, resit};
+            data[i] = new String[]{gradingID, moduleCode, username, teacher, grade,
+                    regNo, pass, moduleID};
             i++;
         }
 
@@ -182,8 +185,8 @@ public class Database {
     public void UpdateStudent(Connection connection, double grade,
                               boolean pass, String regNo) throws SQLException {
 
-        String sql = "UPDATE Student SET Grade = ?, " +
-                "Pass = ? " +
+        String sql = "UPDATE Grading SET grade = ?, " +
+                "pass = ? " +
                 "WHERE RegNo = ?";
 
         PreparedStatement pstmt = connection.prepareStatement(sql);
@@ -199,7 +202,7 @@ public class Database {
             pstmt.setBoolean(2, false);
             //pstmt.setDouble(3, resit);
         }
-        //pstmt.setString(4, regNo);
+        pstmt.setString(3, regNo);
 
         // update
         pstmt.executeUpdate();

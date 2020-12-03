@@ -32,8 +32,8 @@ public class Grades {
         database = new Database();
 
         //column names
-        String[] columnNames = {"Module Code", "Teacher", "Grade", "Registration Number",
-                            "Pass", "Resit"};
+        String[] columnNames = {"Grading ID", "Module Code", "Username", "Teacher name",
+                "Grade", "Registration Number", "Pass", "Module ID"};
         String[][] rows = database.getStudentInfo(Main.statement);
 
         TableModel tableModel = new DefaultTableModel(rows, columnNames);
@@ -58,49 +58,53 @@ public class Grades {
                 infoPanel.setLayout(new GridLayout(14, 2, 10, 10));
 
 
-                String moduleCode = (String) table.getValueAt(table.getSelectedRow(), 0);
-                String teacherName = (String) table.getValueAt(table.getSelectedRow(), 1);
-                double grade = Double.parseDouble((String)table.getValueAt(table.getSelectedRow(), 2));
-                String regNo = (String) table.getValueAt(table.getSelectedRow(), 3);
-                boolean pass = Boolean.parseBoolean((String)table.getValueAt(table.getSelectedRow(), 4));
-                double resit = Double.parseDouble((String)table.getValueAt(table.getSelectedRow(), 5));
+                String gradingID = (String) table.getValueAt(table.getSelectedRow(), 0);
+                String moduleCode = (String) table.getValueAt(table.getSelectedRow(), 1);
+                String username = (String) table.getValueAt(table.getSelectedRow(), 2);
+                String teacherName = (String) table.getValueAt(table.getSelectedRow(), 3);
+                double grade = Double.parseDouble((String)table.getValueAt(table.getSelectedRow(), 4));
+                String regNo = (String) table.getValueAt(table.getSelectedRow(), 5);
+                boolean pass = Boolean.parseBoolean((String)table.getValueAt(table.getSelectedRow(), 6));
+                String moduleID = (String)table.getValueAt(table.getSelectedRow(), 7);
 
                 JLabel gradeLbl = new JLabel("Grade");
                 gradeLbl.setForeground(Color.BLUE);
                 gradeLbl.setBorder(borderLabels);
 
-                JTextField teacherNameTxtField = new JTextField(teacherName);
+                JTextField usernameTxtField = new JTextField(username);
                 JTextField gradeTxtField = new JTextField((int) grade);
 
                 addGradeBtn2.addActionListener(e -> {
 
-                    if(!(Double.parseDouble(gradeTxtField.getText()) == grade) && teacherNameTxtField.getText().equals(teacherName)) {
-                        try {
-                            database.UpdateStudent(Main.connection, Double.parseDouble(gradeTxtField.getText()),
-                                    pass, regNo);
-                        } catch (SQLException throwables) {
-                            throwables.printStackTrace();
+                    if (usernameTxtField.getText().equals(username))
+
+                        if(!(Double.parseDouble(gradeTxtField.getText()) == grade)) {
+                            try {
+                                database.UpdateStudent(Main.connection, Double.parseDouble(gradeTxtField.getText()),
+                                        pass, regNo);
+                            } catch (SQLException throwables) {
+                                throwables.printStackTrace();
+                            }
+
+                            table.setValueAt(gradeTxtField.getText(), table.getSelectedRow(), 2);
+
+                            editDialog.dispose();
+
+                            JOptionPane.showMessageDialog(editDialog,
+                                    "You updated the grade for Student registered with " +
+                                            regNo, "Successfully Updated", JOptionPane.INFORMATION_MESSAGE);
+                        }
+                        else {
+                            JOptionPane.showMessageDialog(editDialog,
+                                    "You didn't add or update a grade",
+                                    "Nothing Changed", JOptionPane.ERROR_MESSAGE);
                         }
 
-                        table.setValueAt(gradeTxtField.getText(), table.getSelectedRow(), 2);
+                    });
 
+                    cancelBtn.addActionListener(e -> {
                         editDialog.dispose();
-
-                        JOptionPane.showMessageDialog(editDialog,
-                                "You updated the grade for Student registered with " +
-                                        regNo, "Successfully Updated", JOptionPane.INFORMATION_MESSAGE);
-                    }
-                    else {
-                        JOptionPane.showMessageDialog(editDialog,
-                                "You didn't add or update a grade",
-                                "Nothing Changed", JOptionPane.ERROR_MESSAGE);
-                    }
-
-                });
-
-                cancelBtn.addActionListener(e -> {
-                    editDialog.dispose();
-                });
+                    });
 
                 infoPanel.add(gradeLbl);
                 infoPanel.add(gradeTxtField);
