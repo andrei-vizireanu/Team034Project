@@ -60,23 +60,24 @@ public class Grades {
 
                 String moduleCode = (String) table.getValueAt(table.getSelectedRow(), 0);
                 String teacherName = (String) table.getValueAt(table.getSelectedRow(), 1);
-                String grade = (String) table.getValueAt(table.getSelectedRow(), 2);
+                double grade = Double.parseDouble((String)table.getValueAt(table.getSelectedRow(), 2));
                 String regNo = (String) table.getValueAt(table.getSelectedRow(), 3);
-                String pass = (String) table.getValueAt(table.getSelectedRow(), 4);
-                String resit = (String) table.getValueAt(table.getSelectedRow(), 5);
+                int pass = Integer.parseInt((String)table.getValueAt(table.getSelectedRow(), 4));
+                double resit = Double.parseDouble((String)table.getValueAt(table.getSelectedRow(), 5));
 
                 JLabel gradeLbl = new JLabel("Grade");
                 gradeLbl.setForeground(Color.BLUE);
                 gradeLbl.setBorder(borderLabels);
 
-                JTextField gradeTxtField = new JTextField(grade);
+                JTextField teacherNameTxtField = new JTextField(teacherName);
+                JTextField gradeTxtField = new JTextField((int) grade);
 
                 addGradeBtn2.addActionListener(e -> {
 
-                    if(!gradeTxtField.getText().equals(grade)) {
+                    if(!(Double.parseDouble(gradeTxtField.getText()) == grade) && teacherNameTxtField.getText().equals(teacherName)) {
                         try {
-                            database.UpdateStudent(Main.connection, gradeTxtField.getText(),
-                                    regNo);
+                            database.UpdateStudent(Main.connection, Double.parseDouble(gradeTxtField.getText()),
+                                    pass, resit, regNo);
                         } catch (SQLException throwables) {
                             throwables.printStackTrace();
                         }

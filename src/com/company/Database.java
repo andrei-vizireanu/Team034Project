@@ -131,15 +131,28 @@ public class Database {
     }
 
 
-    public void UpdateStudent(Connection connection, String grade, String regNo) throws SQLException {
+    public void UpdateStudent(Connection connection, double grade,
+                              int pass, double resit, String regNo) throws SQLException {
 
-        String sql = "UPDATE Student SET Grade = ?, " + "WHERE RegNo = ?";
+        String sql = "UPDATE Student SET Grade = ?, " +
+                "Pass = ?, " +
+                "Resit = ?, " +
+                "WHERE RegNo = ?";
 
         PreparedStatement pstmt = connection.prepareStatement(sql);
 
         // set the corresponding param
-        pstmt.setString(1, grade);
-        pstmt.setString(2, regNo);
+        pstmt.setDouble(1, grade);
+
+        if (grade>=70) {
+            pstmt.setInt(2, 1);
+            pstmt.setDouble(3, 0);
+        }
+        else {
+            pstmt.setInt(2, 0);
+            pstmt.setDouble(3, resit);
+        }
+        pstmt.setString(4, regNo);
 
         // update
         pstmt.executeUpdate();
@@ -170,7 +183,7 @@ public class Database {
                         String surname, String email, String role) throws SQLException {
 
         // the mysql insert statement
-        String query = " insert into users (Username, Password, Title, Forename, Surname, Email, Role)"
+        String query = " insert into User (Username, Password, Title, Forename, Surname, Email, Role)"
                 + " values (?, ?, ?, ?, ?, ?, ?)";
 
         // create the mysql insert preparedstatement
@@ -189,13 +202,13 @@ public class Database {
     }
 
     //deleting a user by its ID
-    public void delete(Connection connection, int userID) throws SQLException {
+    public void deleteUser(Connection connection, String userID) throws SQLException {
         String sql = "DELETE FROM User WHERE UserID = ?";
 
         PreparedStatement pstmt = connection.prepareStatement(sql);
 
             // set the corresponding param
-            pstmt.setInt(1, userID);
+            pstmt.setInt(1, Integer.parseInt(userID));
             // execute the delete statement
             pstmt.executeUpdate();
 

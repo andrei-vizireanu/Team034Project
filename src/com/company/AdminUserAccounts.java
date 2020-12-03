@@ -4,6 +4,8 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.SQLException;
 
 public class AdminUserAccounts {
@@ -106,7 +108,8 @@ public class AdminUserAccounts {
                 //creating the fields for each value
                 JTextField usernameFiled = new JTextField(username);
                 JTextField passwordField = new JTextField(password);
-                JTextField userTitleField = new JTextField(userTitle);
+                String[] titles = { "Master", "Mr", "Miss", "Mrs", "Ms", "Mx"};
+                JComboBox titlesCombo = new JComboBox(titles);
                 JTextField forenameField = new JTextField(forename);
                 JTextField surnameField = new JTextField(surname);
                 JTextField emailField = new JTextField(email);
@@ -114,11 +117,17 @@ public class AdminUserAccounts {
                 //creating an array for the combo box
                 String[] roles = { "Student", "Teacher", "Registrar", "Administrator"};
 
-                //creating the combo box and checking which item (role) should be selected for the selected User
+                //creating the combo box and checking which item (role and title) should be selected for the selected User
                 JComboBox rolesCombo = new JComboBox(roles);
                 for(int i = 0; i < roles.length; i++){
                     if(role.equals(roles[i])){
                         rolesCombo.setSelectedIndex(i);
+                    }
+                }
+
+                for(int i = 0; i < titles.length; i++){
+                    if(userTitle.equals(titles[i])){
+                        titlesCombo.setSelectedIndex(i);
                     }
                 }
 
@@ -127,14 +136,14 @@ public class AdminUserAccounts {
 
                     //checking if you updated the user with new information
                     if(!usernameFiled.getText().equals(username) || !passwordField.getText().equals(password) ||
-                            !userTitleField.getText().equals(userTitle) || !forenameField.getText().equals(forename) ||
-                            !surnameField.getText().equals(surname) || !emailField.getText().equals(email) ||
-                            !String.valueOf(rolesCombo.getSelectedItem()).equals(role)){
+                            !String.valueOf(titlesCombo.getSelectedItem()).equals(userTitle) ||
+                            !forenameField.getText().equals(forename) || !surnameField.getText().equals(surname) ||
+                            !emailField.getText().equals(email) || !String.valueOf(rolesCombo.getSelectedItem()).equals(role)){
 
                         //updating the selected user's information
                         try {
                             database.updateUser(Main.connection,usernameFiled.getText(), passwordField.getText(),
-                                    userTitleField.getText(), forenameField.getText(), surnameField.getText(),
+                                    String.valueOf(titlesCombo.getSelectedItem()), forenameField.getText(), surnameField.getText(),
                                     emailField.getText(), String.valueOf(rolesCombo.getSelectedItem()), id);
                         } catch (SQLException throwables) {
                             throwables.printStackTrace();
@@ -143,11 +152,14 @@ public class AdminUserAccounts {
                         //refreshing the table with the new values
                         table.setValueAt(usernameFiled.getText(), table.getSelectedRow(), 1);
                         table.setValueAt(passwordField.getText(), table.getSelectedRow(), 2);
-                        table.setValueAt(userTitleField.getText(), table.getSelectedRow(), 3);
+                        table.setValueAt(String.valueOf(titlesCombo.getSelectedItem()), table.getSelectedRow(), 3);
                         table.setValueAt(forenameField.getText(), table.getSelectedRow(), 4);
                         table.setValueAt(surnameField.getText(), table.getSelectedRow(), 5);
                         table.setValueAt(emailField.getText(), table.getSelectedRow(), 6);
                         table.setValueAt(String.valueOf(rolesCombo.getSelectedItem()), table.getSelectedRow(), 7);
+
+                        //resizing the table again
+                        fitExactly();
 
                         //closing the windows after this is proceed
                         editDialog.dispose();
@@ -182,7 +194,7 @@ public class AdminUserAccounts {
                 infoPanel.add(passwordLabel);
                 infoPanel.add(passwordField);
                 infoPanel.add(titleLabel);
-                infoPanel.add(userTitleField);
+                infoPanel.add(titlesCombo);
                 infoPanel.add(forenameLabel);
                 infoPanel.add(forenameField);
                 infoPanel.add(surnameLabel);
@@ -254,16 +266,6 @@ public class AdminUserAccounts {
             editContainer.setLayout(new BorderLayout());
             infoPanel.setLayout(new GridLayout(14, 2, 10, 10));
 
-            //getting each value from the row selected
-//            String id = String.valueOf(table.getValueAt(table.getSelectedRow(), 0));
-//            String username = String.valueOf(table.getValueAt(table.getSelectedRow(), 1));
-//            String password = String.valueOf(table.getValueAt(table.getSelectedRow(), 2).toString());
-//            String userTitle = String.valueOf(table.getValueAt(table.getSelectedRow(), 3).toString());
-//            String forename = String.valueOf(table.getValueAt(table.getSelectedRow(), 4).toString());
-//            String surname = String.valueOf(table.getValueAt(table.getSelectedRow(), 5).toString());
-//            String email = String.valueOf(table.getValueAt(table.getSelectedRow(), 6).toString());
-//            String role = String.valueOf(table.getValueAt(table.getSelectedRow(), 7).toString());
-
             //creating the labels objects and setting their text colors and borders
             JLabel usernameLabel = new JLabel("Username");
             usernameLabel.setForeground(Color.BLUE);
@@ -290,17 +292,19 @@ public class AdminUserAccounts {
             //creating the fields for each value
             JTextField usernameFiled = new JTextField();
             JTextField passwordField = new JTextField();
-            JTextField userTitleField = new JTextField();
             JTextField forenameField = new JTextField();
             JTextField surnameField = new JTextField();
             JTextField emailField = new JTextField();
 
             //creating an array for the combo box
             String[] roles = {"", "Student", "Teacher", "Registrar", "Administrator"};
+            String[] titles = {"", "Master", "Mr", "Miss", "Mrs", "Ms", "Mx"};
 
             //creating the combo box and checking which item (role) should be selected for the selected User
             JComboBox rolesCombo = new JComboBox(roles);
+            JComboBox titlesCombo = new JComboBox(titles);
             rolesCombo.setSelectedIndex(0);
+            titlesCombo.setSelectedIndex(0);
 
             //action when edit is clicked
             add.addActionListener(e -> {
@@ -308,48 +312,43 @@ public class AdminUserAccounts {
                 //checking if you updated the user with new information
                 if(!usernameFiled.getText().contains(" ") && !usernameFiled.getText().equals("") &&
                         !passwordField.getText().contains(" ") && !passwordField.getText().equals("") &&
-                        !userTitleField.getText().contains(" ") && !userTitleField.getText().equals("") &&
+                        titlesCombo.getSelectedIndex() != 0 &&
                         !forenameField.getText().contains(" ") && !forenameField.getText().equals("") &&
                         !surnameField.getText().contains(" ") && !surnameField.getText().equals("") &&
                         !emailField.getText().contains(" ") && !emailField.getText().equals("") &&
                         rolesCombo.getSelectedIndex() != 0){
 
+                    String id = null;
+
                     //updating the selected user's information
                     try {
                         database.addUser(Main.connection,usernameFiled.getText(), passwordField.getText(),
-                                userTitleField.getText(), forenameField.getText(), surnameField.getText(),
-                                emailField.getText(), String.valueOf(rolesCombo.getSelectedItem()));
+                                String.valueOf(titlesCombo.getSelectedItem()), forenameField.getText(),
+                                surnameField.getText(), emailField.getText(), String.valueOf(rolesCombo.getSelectedItem()));
                     } catch (SQLException throwables) {
                         throwables.printStackTrace();
                     }
 
                     try {
-                        ((DefaultTableModel) tableModel).addRow(new Object[]{database.getID(Main.statement,
-                                usernameFiled.getText(), passwordField.getText()), usernameFiled.getText(),
-                                passwordField.getText(), forenameField.getText(), surnameField.getText(),
-                                emailField.getText(), rolesCombo.getSelectedItem().toString()});
+                        id = database.getID(Main.statement, usernameFiled.getText(), passwordField.getText());
+                        ((DefaultTableModel) tableModel).addRow(new Object[]{id, usernameFiled.getText(),
+                                passwordField.getText(), String.valueOf(titlesCombo.getSelectedItem()),
+                                forenameField.getText(), surnameField.getText(), emailField.getText(),
+                                rolesCombo.getSelectedItem().toString()});
+
+                        //resizing the table again
+                        fitExactly();
                     } catch (SQLException throwables) {
                         throwables.printStackTrace();
                     }
-
-                    //((DefaultTableModel) tableModel).insertRow();
-
-                    //refreshing the table with the new values
-//                    table.setValueAt(usernameFiled.getText(), table.getSelectedRow(), 1);
-//                    table.setValueAt(passwordField.getText(), table.getSelectedRow(), 2);
-//                    table.setValueAt(userTitleField.getText(), table.getSelectedRow(), 3);
-//                    table.setValueAt(forenameField.getText(), table.getSelectedRow(), 4);
-//                    table.setValueAt(surnameField.getText(), table.getSelectedRow(), 5);
-//                    table.setValueAt(emailField.getText(), table.getSelectedRow(), 6);
-//                    table.setValueAt(String.valueOf(rolesCombo.getSelectedItem()), table.getSelectedRow(), 7);
 
                     //closing the windows after this is proceed
                     addDialog.dispose();
 
                     //information message
                     JOptionPane.showMessageDialog(addDialog,
-                            "You updated the following User Account ID: ",
-                            "Successfully Updated",
+                            "You added the following User Account ID: " + id,
+                            "Successfully Added",
                             JOptionPane.INFORMATION_MESSAGE);
 
                 }
@@ -357,8 +356,8 @@ public class AdminUserAccounts {
                 else{
                     //error message
                     JOptionPane.showMessageDialog(addDialog,
-                            "Nothing will be updated because you didn't change anything",
-                            "Nothing Changed",
+                                "You need to fill all the fields! And make sure to not have any space in them!",
+                            "Fill all fields",
                             JOptionPane.ERROR_MESSAGE);
                 }
 
@@ -376,7 +375,7 @@ public class AdminUserAccounts {
             infoPanel.add(passwordLabel);
             infoPanel.add(passwordField);
             infoPanel.add(titleLabel);
-            infoPanel.add(userTitleField);
+            infoPanel.add(titlesCombo);
             infoPanel.add(forenameLabel);
             infoPanel.add(forenameField);
             infoPanel.add(surnameLabel);
@@ -411,12 +410,31 @@ public class AdminUserAccounts {
 
         });
 
-        //TO DO
         //action when clicking the delete button
         delete.addActionListener(ae -> {
 
             if(table.getSelectedRowCount() == 1){
-                ((DefaultTableModel) tableModel).removeRow(table.getSelectedRow());
+
+                String id = String.valueOf(table.getValueAt(table.getSelectedRow(), 0));
+
+                int confirm1 = JOptionPane.showOptionDialog(frame,
+                        "Are you sure you want to delete the following User Account ID: " + id + " ?",
+                        "Delete Confirmation", JOptionPane.YES_NO_OPTION,
+                        JOptionPane.WARNING_MESSAGE, null, null, null);
+                if (confirm1 == JOptionPane.YES_OPTION) {
+
+                    try {
+                        database.deleteUser(Main.connection, id);
+                    } catch (SQLException throwables) {
+                        throwables.printStackTrace();
+                    }
+                    ((DefaultTableModel) tableModel).removeRow(table.getSelectedRow());
+
+                    //resizing the table again
+                    fitExactly();
+
+                }
+
             }
             else{
                 if(table.getRowCount() == 0){
@@ -435,6 +453,8 @@ public class AdminUserAccounts {
             }
 
         });
+
+        table.setDefaultEditor(Object.class, null);
 
         //creating the scroll pane in order to have a scrollable table
         JScrollPane scrollPane = new JScrollPane(table);
@@ -468,6 +488,11 @@ public class AdminUserAccounts {
         //making the frame visible
         frame.setVisible(true);
 
+    }
+
+    public boolean isFocusTransferable()
+    {
+        return false;
     }
 
     //resizing the cells of the table in order to fit perfectly the values from it
