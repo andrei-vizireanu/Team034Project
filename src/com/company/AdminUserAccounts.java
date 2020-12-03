@@ -320,7 +320,7 @@ public class AdminUserAccounts {
 
                     String id = null;
 
-                    //updating the selected user's information
+                    //adding the user's information
                     try {
                         database.addUser(Main.connection,usernameFiled.getText(), passwordField.getText(),
                                 String.valueOf(titlesCombo.getSelectedItem()), forenameField.getText(),
@@ -330,7 +330,7 @@ public class AdminUserAccounts {
                     }
 
                     try {
-                        id = database.getID(Main.statement, usernameFiled.getText(), passwordField.getText());
+                        id = database.getUserID(Main.statement, usernameFiled.getText(), passwordField.getText());
                         ((DefaultTableModel) tableModel).addRow(new Object[]{id, usernameFiled.getText(),
                                 passwordField.getText(), String.valueOf(titlesCombo.getSelectedItem()),
                                 forenameField.getText(), surnameField.getText(), emailField.getText(),
@@ -423,11 +423,10 @@ public class AdminUserAccounts {
                         JOptionPane.WARNING_MESSAGE, null, null, null);
                 if (confirm1 == JOptionPane.YES_OPTION) {
 
-                    try {
-                        database.deleteUser(Main.connection, id);
-                    } catch (SQLException throwables) {
-                        throwables.printStackTrace();
-                    }
+                    //deleting the user account
+                    database.deleteUser(Main.connection, id);
+
+                    //removing the row from the table
                     ((DefaultTableModel) tableModel).removeRow(table.getSelectedRow());
 
                     //resizing the table again

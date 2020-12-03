@@ -1,5 +1,6 @@
 package com.company;
 
+import javax.swing.table.DefaultTableModel;
 import java.sql.*;
 
 public class Database {
@@ -76,6 +77,30 @@ public class Database {
 
     }
 
+    //getting the info for all of the departments
+    public String[][] getInfoDepartment(Statement statement) throws SQLException {
+
+        String sql = ("SELECT * FROM Department;");
+        ResultSet rs = statement.executeQuery(sql);
+        rs.last();
+        String[][] data = new String[rs.getRow()][];
+        int i = 0;
+
+        rs.beforeFirst();
+        while(rs.next()) {
+
+            String id = rs.getString("DepartmentID");
+            String depCode = rs.getString("DepartmentCode");
+            String depName = rs.getString("DepartmentName");
+
+            data[i] = new String[]{id, depCode, depName};
+            i++;
+        }
+
+        return data;
+
+    }
+
     //updating the user with the new info
     public void updateUser(Connection connection, String username, String password, String title,
             String forename, String surname, String email, String role, String id) throws SQLException {
@@ -102,6 +127,29 @@ public class Database {
 
         // update
         pstmt.executeUpdate();
+
+    }
+
+    //updating the department with the new info
+    public void updateDepartment(Connection connection, String depCode, String depName, String id) {
+
+        try{
+            String sql = "UPDATE Department SET DepartmentCode = ?, " +
+                    "DepartmentName = ? " + "WHERE DepartmentID = " + id;
+
+            PreparedStatement pstmt = connection.prepareStatement(sql);
+
+            // set the corresponding param
+            pstmt.setString(1, depCode);
+            pstmt.setString(2, depName);
+            //pstmt.setString(3, id);
+
+            // update
+            pstmt.executeUpdate();
+        }catch (SQLException e){
+            System.out.println(e);
+        }
+
 
     }
 
@@ -159,19 +207,20 @@ public class Database {
 
     }
 
-    public String getID(Statement statement, String username, String password) throws SQLException {
+    //getting the user id
+    public String getUserID(Statement statement, String username, String password) throws SQLException {
 
         String sql = ("SELECT * FROM User;");
         ResultSet rs = statement.executeQuery(sql);
 
         while(rs.next()) {
 
-            String id = rs.getString("UserID");
+            String userID = rs.getString("UserID");
             String user = rs.getString("UserName");
             String pass = rs.getString("Password");
 
             if(username.equals(user) && password.equals(pass))
-                return id;
+                return userID;
 
         }
 
@@ -179,6 +228,35 @@ public class Database {
 
     }
 
+    //getting the department id
+    public String getDepartmentID(Statement statement, String depCode, String depName){
+
+        String sql = ("SELECT * FROM Department;");
+
+        try {
+
+            ResultSet rs = statement.executeQuery(sql);
+
+            while(rs.next()) {
+
+                String depID = rs.getString("DepartmentID");
+                String departmentCode = rs.getString("DepartmentCode");
+                String departmentName = rs.getString("DepartmentName");
+
+                if(depCode.equals(departmentCode) && depName.equals(departmentName))
+                    return depID;
+
+            }
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+        return null;
+
+    }
+
+    //adding a user to the database
     public void addUser(Connection connection, String username, String password, String title, String forename,
                         String surname, String email, String role) throws SQLException {
 
@@ -201,16 +279,58 @@ public class Database {
 
     }
 
+    //adding a department to the databse
+    public void addDepartment(Connection connection, String depCode, String depName) {
+
+        // the mysql insert statement
+        String query = " insert into Department (DepartmentCode, DepartmentName)"
+                + " values (?, ?)";
+
+        try {
+            // create the mysql insert preparedstatement
+            PreparedStatement preparedStmt = connection.prepareStatement(query);
+            preparedStmt.setString(1, depCode);
+            preparedStmt.setString(2, depName);
+
+            // execute the preparedstatement
+            preparedStmt.execute();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+    }
+
     //deleting a user by its ID
-    public void deleteUser(Connection connection, String userID) throws SQLException {
+    public void deleteUser(Connection connection, String userID){
         String sql = "DELETE FROM User WHERE UserID = ?";
 
-        PreparedStatement pstmt = connection.prepareStatement(sql);
+        try {
+            PreparedStatement pstmt = connection.prepareStatement(sql);
 
             // set the corresponding param
             pstmt.setInt(1, Integer.parseInt(userID));
             // execute the delete statement
             pstmt.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+    }
+
+    //deleting a department by its ID
+    public void deleteDepartment(Connection connection, String depID){
+        String sql = "DELETE FROM Department WHERE DepartmentID = ?";
+
+        try {
+            PreparedStatement pstmt = connection.prepareStatement(sql);
+
+            // set the corresponding param
+            pstmt.setInt(1, Integer.parseInt(depID));
+            // execute the delete statement
+            pstmt.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
 
     }
 

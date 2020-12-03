@@ -45,11 +45,24 @@ public class Administrator extends JFrame {
         buttonPanel.add(modules);
         buttonPanel.add(degreeCourses);
 
-        //action listener for clicking the "Login" button
+        //action listener for clicking the "User Accounts" button
         accounts.addActionListener(ae -> {
 
             try {
                 AdminUserAccounts users = new AdminUserAccounts("User Accounts Workbench");
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+            //JTableButtonTest table = new JTableButtonTest();
+            frame.dispose();
+
+        });
+
+        //action listener for clicking the "University Departments" button
+        departments.addActionListener(ae -> {
+
+            try {
+                AdminUniDepartments departments = new AdminUniDepartments("University Departments Workbench");
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
