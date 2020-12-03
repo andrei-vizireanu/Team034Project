@@ -1,6 +1,5 @@
 package com.company;
 
-import com.mysql.jdbc.StringUtils;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -303,7 +302,7 @@ public class AdminDegreeCourses {
                         !modNameField.getText().equals("") &&
                         !levelField.getText().contains(" ") && !levelField.getText().equals("") &&
                         !creditField.getText().contains(" ") && !creditField.getText().equals("") &&
-                        StringUtils.isStrictlyNumeric(levelField.getText())){
+                        checkString(levelField.getText())){
 
                     String id = null;
 
@@ -490,6 +489,15 @@ public class AdminDegreeCourses {
 
         //making the frame visible
         frame.setVisible(true);
+
+    }
+
+    public boolean checkString(String word){
+
+        if(word.matches("[0-9]+")){
+            return true;
+        }
+        else return false;
 
     }
 
