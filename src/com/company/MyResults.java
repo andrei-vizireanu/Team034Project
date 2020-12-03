@@ -50,13 +50,27 @@ public class MyResults {
 
 
                 String moduleCode = (String) table.getValueAt(table.getSelectedRow(), 0);
-                String grade = (String) table.getValueAt(table.getSelectedRow(), 1);
-                String pass = (String) table.getValueAt(table.getSelectedRow(), 2);
-                String resit = (String) table.getValueAt(table.getSelectedRow(), 3);
+                double grade = Double.parseDouble((String)table.getValueAt(table.getSelectedRow(), 2));
+                int pass = Integer.parseInt((String)table.getValueAt(table.getSelectedRow(), 4));
+                double resit = Double.parseDouble((String)table.getValueAt(table.getSelectedRow(), 5));
 
-                JLabel gradeLbl = new JLabel("Grade");
-                gradeLbl.setForeground(Color.BLUE);
-                gradeLbl.setBorder(borderLabels);
+                JLabel resultsFS = new JLabel("Results");
+                resultsFS.setForeground(Color.BLUE);
+                resultsFS.setBorder(borderLabels);
+
+                viewResults2.addActionListener(e -> {
+
+                    if(!) && teacherNameTxtField.getText().equals(teacherName)) {
+                        try {
+                            database.UpdateStudent(Main.connection, Double.parseDouble(gradeTxtField.getText()),
+                                    pass, resit);
+                        } catch (SQLException throwables) {
+                            throwables.printStackTrace();
+                        }
+
+                        table.setValueAt(gradeTxtField.getText(), table.getSelectedRow(), 2);
+
+                        editDialog.dispose();
             }
         });
     }
