@@ -180,11 +180,10 @@ public class Database {
 
 
     public void UpdateStudent(Connection connection, double grade,
-                              int pass, double resit, String regNo) throws SQLException {
+                              boolean pass, String regNo) throws SQLException {
 
         String sql = "UPDATE Student SET Grade = ?, " +
-                "Pass = ?, " +
-                "Resit = ?, " +
+                "Pass = ? " +
                 "WHERE RegNo = ?";
 
         PreparedStatement pstmt = connection.prepareStatement(sql);
@@ -193,14 +192,14 @@ public class Database {
         pstmt.setDouble(1, grade);
 
         if (grade>=70) {
-            pstmt.setInt(2, 1);
-            pstmt.setDouble(3, 0);
+            pstmt.setBoolean(2, true);
+            //pstmt.setDouble(3, 0.0);
         }
         else {
-            pstmt.setInt(2, 0);
-            pstmt.setDouble(3, resit);
+            pstmt.setBoolean(2, false);
+            //pstmt.setDouble(3, resit);
         }
-        pstmt.setString(4, regNo);
+        //pstmt.setString(4, regNo);
 
         // update
         pstmt.executeUpdate();

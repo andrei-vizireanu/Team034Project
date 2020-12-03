@@ -62,7 +62,7 @@ public class Grades {
                 String teacherName = (String) table.getValueAt(table.getSelectedRow(), 1);
                 double grade = Double.parseDouble((String)table.getValueAt(table.getSelectedRow(), 2));
                 String regNo = (String) table.getValueAt(table.getSelectedRow(), 3);
-                int pass = Integer.parseInt((String)table.getValueAt(table.getSelectedRow(), 4));
+                boolean pass = Boolean.parseBoolean((String)table.getValueAt(table.getSelectedRow(), 4));
                 double resit = Double.parseDouble((String)table.getValueAt(table.getSelectedRow(), 5));
 
                 JLabel gradeLbl = new JLabel("Grade");
@@ -77,7 +77,7 @@ public class Grades {
                     if(!(Double.parseDouble(gradeTxtField.getText()) == grade) && teacherNameTxtField.getText().equals(teacherName)) {
                         try {
                             database.UpdateStudent(Main.connection, Double.parseDouble(gradeTxtField.getText()),
-                                    pass, resit, regNo);
+                                    pass, regNo);
                         } catch (SQLException throwables) {
                             throwables.printStackTrace();
                         }
