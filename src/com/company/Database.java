@@ -400,6 +400,130 @@ public class Database {
         }
 
     }
+    
+    //geting user table with only students
+    public String[][] getStudentUser(Statement statement) throws SQLException {
+
+        String sql = ("SELECT * FROM User WHERE Role = 'Student';");
+        ResultSet rs = statement.executeQuery(sql);
+        rs.last();
+        String[][] data = new String[rs.getRow()][];
+        int i = 0;
+        //int j = 0;
+
+        rs.beforeFirst();
+        while(rs.next()) {
+
+            String id = rs.getString("UserID");
+            String user = rs.getString("Username");
+            String pass = rs.getString("Password");
+            String title = rs.getString("Title");
+            String forename = rs.getString("Forename");
+            String surname = rs.getString("Surname");
+            String email = rs.getString("Email");
+            String role = rs.getString("Role");
+
+            data[i] = new String[]{id, user, pass, title, forename, surname, email,role};
+            i++;
+        }
+
+        return data;
+
+    }
+
+
+    public void addStudent(Connection connection, String username, String password, String title, String forename,
+                           String surname, String email, String role) throws SQLException {
+
+        // the mysql insert statement
+        String query = " insert into User (Username, Password, Title, Forename, Surname, Email, Role)"
+                + " values (?, ?, ?, ?, ?, ?,'Student')";
+
+        // create the mysql insert preparedstatement
+        PreparedStatement preparedStmt = connection.prepareStatement(query);
+        preparedStmt.setString(1, username);
+        preparedStmt.setString(2, password);
+        preparedStmt.setString(3, title);
+        preparedStmt.setString(4, forename);
+        preparedStmt.setString(5, surname);
+        preparedStmt.setString(6, email);
+        //preparedStmt.setString(7, role);
+
+        // execute the preparedstatement
+        preparedStmt.execute();
+
+    }
+
+    //deleting a department by its ID
+    public void deleteDepartment(Connection connection, String depID){
+        String sql = "DELETE FROM Department WHERE DepartmentID = ?";
+
+        try {
+            PreparedStatement pstmt = connection.prepareStatement(sql);
+
+            // set the corresponding param
+            pstmt.setInt(1, Integer.parseInt(depID));
+            // execute the delete statement
+            pstmt.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+    }
+    
+    //REGISTRAR
+    //geting user table with only students
+    public String[][] getStudentUser(Statement statement) throws SQLException {
+
+        String sql = ("SELECT * FROM User WHERE Role = 'Student';");
+        ResultSet rs = statement.executeQuery(sql);
+        rs.last();
+        String[][] data = new String[rs.getRow()][];
+        int i = 0;
+        //int j = 0;
+
+        rs.beforeFirst();
+        while(rs.next()) {
+
+            String id = rs.getString("UserID");
+            String user = rs.getString("Username");
+            String pass = rs.getString("Password");
+            String title = rs.getString("Title");
+            String forename = rs.getString("Forename");
+            String surname = rs.getString("Surname");
+            String email = rs.getString("Email");
+            String role = rs.getString("Role");
+
+            data[i] = new String[]{id, user, pass, title, forename, surname, email,role};
+            i++;
+        }
+
+        return data;
+
+    }
+
+
+    public void addStudent(Connection connection, String username, String password, String title, String forename,
+                           String surname, String email, String role) throws SQLException {
+
+        // the mysql insert statement
+        String query = " insert into User (Username, Password, Title, Forename, Surname, Email, Role)"
+                + " values (?, ?, ?, ?, ?, ?,'Student')";
+
+        // create the mysql insert preparedstatement
+        PreparedStatement preparedStmt = connection.prepareStatement(query);
+        preparedStmt.setString(1, username);
+        preparedStmt.setString(2, password);
+        preparedStmt.setString(3, title);
+        preparedStmt.setString(4, forename);
+        preparedStmt.setString(5, surname);
+        preparedStmt.setString(6, email);
+        //preparedStmt.setString(7, role);
+
+        // execute the preparedstatement
+        preparedStmt.execute();
+
+    }
 
     //closing the connection to the database
     public void close(Statement statement, Connection connection) {
