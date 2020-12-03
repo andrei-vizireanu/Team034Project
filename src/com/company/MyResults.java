@@ -58,21 +58,25 @@ public class MyResults {
                 resultsFS.setForeground(Color.BLUE);
                 resultsFS.setBorder(borderLabels);
 
-                viewResults2.addActionListener(e -> {
+//                viewResults2.addActionListener(e -> {
+//
+//                    if(!) && teacherNameTxtField.getText().equals(teacherName)) {
+//                        try {
+//                            database.UpdateStudent(Main.connection, Double.parseDouble(gradeTxtField.getText()),
+//                                    pass, resit);
+//                        } catch (SQLException throwables) {
+//                            throwables.printStackTrace();
+//                        }
+//
+//                        table.setValueAt(gradeTxtField.getText(), table.getSelectedRow(), 2);
+//
+//                        editDialog.dispose();
+//                    }
+//                });
 
-                    if(!) && teacherNameTxtField.getText().equals(teacherName)) {
-                        try {
-                            database.UpdateStudent(Main.connection, Double.parseDouble(gradeTxtField.getText()),
-                                    pass, resit);
-                        } catch (SQLException throwables) {
-                            throwables.printStackTrace();
-                        }
-
-                        table.setValueAt(gradeTxtField.getText(), table.getSelectedRow(), 2);
-
-                        editDialog.dispose();
             }
         });
+
     }
 }
 
