@@ -14,10 +14,11 @@ public class Grades {
     //declaring the variables
 
     private JFrame frame;
-    private JPanel panel;
+    private JPanel btnPanel;
     private Container mainContainer;
     private JTable table;
     private JButton addGradeBtn;
+    private JButton goBackBtn;
     private Database database;
     private final int width = 800;
     private final int height = 600;
@@ -26,9 +27,10 @@ public class Grades {
 
         //initializing variables
         frame = new JFrame(title);
-        panel = new JPanel();
+        btnPanel = new JPanel();
         mainContainer = new Container();
         addGradeBtn = new JButton("Add Grade");
+        goBackBtn = new JButton("Go back");
         database = new Database();
 
         //column names
@@ -72,6 +74,7 @@ public class Grades {
                 gradeLbl.setBorder(borderLabels);
 
                 JTextField usernameTxtField = new JTextField(username);
+                usernameTxtField.setEditable(false);
                 JTextField gradeTxtField = new JTextField((int) grade);
 
                 addGradeBtn2.addActionListener(e -> {
@@ -86,7 +89,7 @@ public class Grades {
                                 throwables.printStackTrace();
                             }
 
-                            table.setValueAt(gradeTxtField.getText(), table.getSelectedRow(), 2);
+                            table.setValueAt(gradeTxtField.getText(), table.getSelectedRow(), 5);
 
                             editDialog.dispose();
 
@@ -108,6 +111,8 @@ public class Grades {
 
                 infoPanel.add(gradeLbl);
                 infoPanel.add(gradeTxtField);
+
+                infoPanel.add(usernameTxtField);
 
                 buttonsPanel.add(addGradeBtn2);
                 buttonsPanel.add(cancelBtn);
@@ -144,12 +149,23 @@ public class Grades {
             }
         });
 
+        goBackBtn.addActionListener(ae -> {
+
+            Teacher teacher = new Teacher("Teacher");
+            frame.dispose();
+
+        });
+
+        table.setDefaultEditor(Object.class, null);
+
         JScrollPane scrollPane = new JScrollPane(table);
 
+        btnPanel.add(addGradeBtn);
+        btnPanel.add(goBackBtn);
         mainContainer.setLayout(new BorderLayout());
 
         mainContainer.add(scrollPane, BorderLayout.NORTH);
-        mainContainer.add(addGradeBtn, BorderLayout.CENTER);
+        mainContainer.add(btnPanel, BorderLayout.CENTER);
 
         MyFrame.centreWindow(frame, width, height);
 
