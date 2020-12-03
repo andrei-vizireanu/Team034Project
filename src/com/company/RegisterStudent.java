@@ -55,15 +55,14 @@ public class RegisterStudent {
                         JOptionPane.WARNING_MESSAGE, null, null, null);
                 if (confirm1 == JOptionPane.YES_OPTION) {
 
-                    try {
-                        database.deleteUser(Main.connection, id);
-                    } catch (SQLException throwables) {
-                        throwables.printStackTrace();
-                    }
+                    //deleting the user account
+                    database.deleteUser(Main.connection, id);
+
+                    //removing the row from the table
                     ((DefaultTableModel) tableModel).removeRow(table.getSelectedRow());
 
-                   /* //resizing the table again
-                    fitExactly();*/
+                    //resizing the table again
+                    //fitExactly();
 
                 }
 
