@@ -1,5 +1,7 @@
 package com.company;
 
+import com.mysql.jdbc.StringUtils;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
@@ -22,6 +24,8 @@ public class AdminModules {
     private JButton delete;
     private JButton goBack;
     private Database database;
+    private final int dialogWidth = 500;
+    private final int dialogHeight = 600;
     private final int width = 800;
     private final int height = 600;
 
@@ -73,64 +77,58 @@ public class AdminModules {
 
                 //setting the layouts of the container and infoPanel
                 editContainer.setLayout(new BorderLayout());
-                infoPanel.setLayout(new GridLayout(14, 2, 10, 10));
+                infoPanel.setLayout(new GridLayout(12, 2, 10, 10));
 
                 //getting each value from the row selected
                 String id = String.valueOf(table.getValueAt(table.getSelectedRow(), 0));
-                String username = String.valueOf(table.getValueAt(table.getSelectedRow(), 1));
-                String password = String.valueOf(table.getValueAt(table.getSelectedRow(), 2).toString());
-                String userTitle = String.valueOf(table.getValueAt(table.getSelectedRow(), 3).toString());
-                String forename = String.valueOf(table.getValueAt(table.getSelectedRow(), 4).toString());
-                String surname = String.valueOf(table.getValueAt(table.getSelectedRow(), 5).toString());
-                String email = String.valueOf(table.getValueAt(table.getSelectedRow(), 6).toString());
-                String role = String.valueOf(table.getValueAt(table.getSelectedRow(), 7).toString());
+                String moduleCode = String.valueOf(table.getValueAt(table.getSelectedRow(), 1));
+                String moduleName = String.valueOf(table.getValueAt(table.getSelectedRow(), 2).toString());
+                String level = String.valueOf(table.getValueAt(table.getSelectedRow(), 3).toString());
+                String core = String.valueOf(table.getValueAt(table.getSelectedRow(), 4).toString());
+                String credit = String.valueOf(table.getValueAt(table.getSelectedRow(), 5).toString());
+                String degree = String.valueOf(table.getValueAt(table.getSelectedRow(), 6).toString());
 
                 //creating the labels objects and setting their text colors and borders
-                JLabel usernameLabel = new JLabel("Username");
-                usernameLabel.setForeground(Color.BLUE);
-                usernameLabel.setBorder(borderLabels);
-                JLabel passwordLabel = new JLabel("Password");
-                passwordLabel.setForeground(Color.BLUE);
-                passwordLabel.setBorder(borderLabels);
-                JLabel titleLabel = new JLabel("Title");
-                titleLabel.setForeground(Color.BLUE);
-                titleLabel.setBorder(borderLabels);
-                JLabel forenameLabel = new JLabel("Forename");
-                forenameLabel.setForeground(Color.BLUE);
-                forenameLabel.setBorder(borderLabels);
-                JLabel surnameLabel = new JLabel("Surname");
-                surnameLabel.setForeground(Color.BLUE);
-                surnameLabel.setBorder(borderLabels);
-                JLabel emailLabel = new JLabel("Email");
-                emailLabel.setForeground(Color.BLUE);
-                emailLabel.setBorder(borderLabels);
-                JLabel roleLabel = new JLabel("Role");
-                roleLabel.setForeground(Color.BLUE);
-                roleLabel.setBorder(borderLabels);
+                JLabel modCodeLabel = new JLabel("Module Code");
+                modCodeLabel.setForeground(Color.BLUE);
+                modCodeLabel.setBorder(borderLabels);
+                JLabel modNameLabel = new JLabel("Module Name");
+                modNameLabel.setForeground(Color.BLUE);
+                modNameLabel.setBorder(borderLabels);
+                JLabel levelLabel = new JLabel("Level");
+                levelLabel.setForeground(Color.BLUE);
+                levelLabel.setBorder(borderLabels);
+                JLabel coreLabel = new JLabel("Core");
+                coreLabel.setForeground(Color.BLUE);
+                coreLabel.setBorder(borderLabels);
+                JLabel creditLabel = new JLabel("Credit");
+                creditLabel.setForeground(Color.BLUE);
+                creditLabel.setBorder(borderLabels);
+                JLabel degreeLabel = new JLabel("Degree");
+                degreeLabel.setForeground(Color.BLUE);
+                degreeLabel.setBorder(borderLabels);
 
                 //creating the fields for each value
-                JTextField usernameFiled = new JTextField(username);
-                JTextField passwordField = new JTextField(password);
-                String[] titles = { "Master", "Mr", "Miss", "Mrs", "Ms", "Mx"};
-                JComboBox titlesCombo = new JComboBox(titles);
-                JTextField forenameField = new JTextField(forename);
-                JTextField surnameField = new JTextField(surname);
-                JTextField emailField = new JTextField(email);
+                JTextField modCodeFiled = new JTextField(moduleCode);
+                JTextField modNameField = new JTextField(moduleName);
+                JTextField levelField = new JTextField(level);
+                String[] cores = {"Obligatory", "Optional"};
+                JComboBox coresCombo = new JComboBox(cores);
+                JTextField creditField = new JTextField(credit);
+                String[][] IDsDegrees = database.getDegreeIDsNames(Main.statement);
+                String[] degreeTitles = IDsDegrees[1];
+                JComboBox degreeTitlesCombo = new JComboBox(degreeTitles);
 
-                //creating an array for the combo box
-                String[] roles = { "Student", "Teacher", "Registrar", "Administrator"};
-
-                //creating the combo box and checking which item (role and title) should be selected for the selected User
-                JComboBox rolesCombo = new JComboBox(roles);
-                for(int i = 0; i < roles.length; i++){
-                    if(role.equals(roles[i])){
-                        rolesCombo.setSelectedIndex(i);
+                //checking which item (degreeName and core) should be selected for the selected Module
+                for(int i = 0; i < degreeTitles.length; i++){
+                    if(degree.equals(degreeTitles[i])){
+                        degreeTitlesCombo.setSelectedIndex(i);
                     }
                 }
 
-                for(int i = 0; i < titles.length; i++){
-                    if(userTitle.equals(titles[i])){
-                        titlesCombo.setSelectedIndex(i);
+                for(int i = 0; i < cores.length; i++){
+                    if(core.equals(cores[i])){
+                        coresCombo.setSelectedIndex(i);
                     }
                 }
 
@@ -138,28 +136,22 @@ public class AdminModules {
                 edit.addActionListener(e -> {
 
                     //checking if you updated the user with new information
-                    if(!usernameFiled.getText().equals(username) || !passwordField.getText().equals(password) ||
-                            !String.valueOf(titlesCombo.getSelectedItem()).equals(userTitle) ||
-                            !forenameField.getText().equals(forename) || !surnameField.getText().equals(surname) ||
-                            !emailField.getText().equals(email) || !String.valueOf(rolesCombo.getSelectedItem()).equals(role)){
+                    if(!modCodeFiled.getText().equals(moduleCode) || !modNameField.getText().equals(moduleName) ||
+                            !levelField.getText().equals(level) || !String.valueOf(coresCombo.getSelectedItem()).equals(core) ||
+                            !creditField.getText().equals(credit) || !String.valueOf(degreeTitlesCombo.getSelectedItem()).equals(degree)){
 
                         //updating the selected user's information
-                        try {
-                            database.updateUser(Main.connection,usernameFiled.getText(), passwordField.getText(),
-                                    String.valueOf(titlesCombo.getSelectedItem()), forenameField.getText(), surnameField.getText(),
-                                    emailField.getText(), String.valueOf(rolesCombo.getSelectedItem()), id);
-                        } catch (SQLException throwables) {
-                            throwables.printStackTrace();
-                        }
+                        database.updateModule(Main.connection, modCodeFiled.getText(), modNameField.getText(),
+                                levelField.getText(), String.valueOf(coresCombo.getSelectedItem()), creditField.getText(),
+                                IDsDegrees, String.valueOf(degreeTitlesCombo.getSelectedItem()), id);
 
                         //refreshing the table with the new values
-                        table.setValueAt(usernameFiled.getText(), table.getSelectedRow(), 1);
-                        table.setValueAt(passwordField.getText(), table.getSelectedRow(), 2);
-                        table.setValueAt(String.valueOf(titlesCombo.getSelectedItem()), table.getSelectedRow(), 3);
-                        table.setValueAt(forenameField.getText(), table.getSelectedRow(), 4);
-                        table.setValueAt(surnameField.getText(), table.getSelectedRow(), 5);
-                        table.setValueAt(emailField.getText(), table.getSelectedRow(), 6);
-                        table.setValueAt(String.valueOf(rolesCombo.getSelectedItem()), table.getSelectedRow(), 7);
+                        table.setValueAt(modCodeFiled.getText(), table.getSelectedRow(), 1);
+                        table.setValueAt(modNameField.getText(), table.getSelectedRow(), 2);
+                        table.setValueAt(levelField.getText(), table.getSelectedRow(), 3);
+                        table.setValueAt(String.valueOf(coresCombo.getSelectedItem()), table.getSelectedRow(), 4);
+                        table.setValueAt(creditField.getText(), table.getSelectedRow(), 5);
+                        table.setValueAt(String.valueOf(degreeTitlesCombo.getSelectedItem()), table.getSelectedRow(), 6);
 
                         //resizing the table again
                         fitExactly();
@@ -169,7 +161,7 @@ public class AdminModules {
 
                         //information message
                         JOptionPane.showMessageDialog(editDialog,
-                                "You updated the following User Account ID: " + id,
+                                "You updated the following Module ID: " + id,
                                 "Successfully Updated",
                                 JOptionPane.INFORMATION_MESSAGE);
 
@@ -192,20 +184,21 @@ public class AdminModules {
 
 
                 //adding the labels and fields to the information panel
-                infoPanel.add(usernameLabel);
-                infoPanel.add(usernameFiled);
-                infoPanel.add(passwordLabel);
-                infoPanel.add(passwordField);
-                infoPanel.add(titleLabel);
-                infoPanel.add(titlesCombo);
-                infoPanel.add(forenameLabel);
-                infoPanel.add(forenameField);
-                infoPanel.add(surnameLabel);
-                infoPanel.add(surnameField);
-                infoPanel.add(emailLabel);
-                infoPanel.add(emailField);
-                infoPanel.add(roleLabel);
-                infoPanel.add(rolesCombo);
+                infoPanel.add(modCodeLabel);
+                infoPanel.add(modCodeFiled);
+                infoPanel.add(modNameLabel);
+                infoPanel.add(modNameField);
+                infoPanel.add(levelLabel);
+                infoPanel.add(levelField);
+                infoPanel.add(coreLabel);
+                infoPanel.add(coresCombo);
+                infoPanel.add(creditLabel);
+                infoPanel.add(creditField);
+                infoPanel.add(degreeLabel);
+                infoPanel.add(degreeTitlesCombo);
+
+                //setting the border to the buttonsPanel
+                buttonsPanel.setBorder(borderLabels);
 
                 //adding the buttons to the buttons panel
                 buttonsPanel.add(edit);
@@ -216,13 +209,13 @@ public class AdminModules {
                 editContainer.add(buttonsPanel, BorderLayout.CENTER);
 
                 //centre the edit Window
-                MyFrame.centreWindow(editDialog, 500, 700);
+                MyFrame.centreWindow(editDialog, dialogWidth, dialogHeight);
 
                 //adding the edit container to the edit dialog
                 editDialog.getContentPane().add(editContainer);
 
                 //setting the size of the edit dialog
-                editDialog.setSize(500, 700);
+                editDialog.setSize(dialogWidth, dialogHeight);
 
                 //don't allow the frame to be resized
                 editDialog.setResizable(false);
@@ -267,90 +260,86 @@ public class AdminModules {
 
             //setting the layouts of the container and infoPanel
             editContainer.setLayout(new BorderLayout());
-            infoPanel.setLayout(new GridLayout(14, 2, 10, 10));
+            infoPanel.setLayout(new GridLayout(12, 2, 10, 10));
 
             //creating the labels objects and setting their text colors and borders
-            JLabel usernameLabel = new JLabel("Username");
-            usernameLabel.setForeground(Color.BLUE);
-            usernameLabel.setBorder(borderLabels);
-            JLabel passwordLabel = new JLabel("Password");
-            passwordLabel.setForeground(Color.BLUE);
-            passwordLabel.setBorder(borderLabels);
-            JLabel titleLabel = new JLabel("Title");
-            titleLabel.setForeground(Color.BLUE);
-            titleLabel.setBorder(borderLabels);
-            JLabel forenameLabel = new JLabel("Forename");
-            forenameLabel.setForeground(Color.BLUE);
-            forenameLabel.setBorder(borderLabels);
-            JLabel surnameLabel = new JLabel("Surname");
-            surnameLabel.setForeground(Color.BLUE);
-            surnameLabel.setBorder(borderLabels);
-            JLabel emailLabel = new JLabel("Email");
-            emailLabel.setForeground(Color.BLUE);
-            emailLabel.setBorder(borderLabels);
-            JLabel roleLabel = new JLabel("Role");
-            roleLabel.setForeground(Color.BLUE);
-            roleLabel.setBorder(borderLabels);
+            JLabel modCodeLabel = new JLabel("Module Code");
+            modCodeLabel.setForeground(Color.BLUE);
+            modCodeLabel.setBorder(borderLabels);
+            JLabel modNameLabel = new JLabel("Module Name");
+            modNameLabel.setForeground(Color.BLUE);
+            modNameLabel.setBorder(borderLabels);
+            JLabel levelLabel = new JLabel("Level (Numerical)");
+            levelLabel.setForeground(Color.BLUE);
+            levelLabel.setBorder(borderLabels);
+            JLabel coreLabel = new JLabel("Core");
+            coreLabel.setForeground(Color.BLUE);
+            coreLabel.setBorder(borderLabels);
+            JLabel creditLabel = new JLabel("Credit (Numerical)");
+            creditLabel.setForeground(Color.BLUE);
+            creditLabel.setBorder(borderLabels);
+            JLabel degreeLabel = new JLabel("Degree");
+            degreeLabel.setForeground(Color.BLUE);
+            degreeLabel.setBorder(borderLabels);
 
             //creating the fields for each value
-            JTextField usernameFiled = new JTextField();
-            JTextField passwordField = new JTextField();
-            JTextField forenameField = new JTextField();
-            JTextField surnameField = new JTextField();
-            JTextField emailField = new JTextField();
-
-            //creating an array for the combo box
-            String[] roles = {"", "Student", "Teacher", "Registrar", "Administrator"};
-            String[] titles = {"", "Master", "Mr", "Miss", "Mrs", "Ms", "Mx"};
-
-            //creating the combo box and checking which item (role) should be selected for the selected User
-            JComboBox rolesCombo = new JComboBox(roles);
-            JComboBox titlesCombo = new JComboBox(titles);
-            rolesCombo.setSelectedIndex(0);
-            titlesCombo.setSelectedIndex(0);
+            JTextField modCodeFiled = new JTextField();
+            JTextField modNameField = new JTextField();
+            JTextField levelField = new JTextField();
+            JTextField creditField = new JTextField();
+            String[][] IDsDegrees = database.getDegreeIDsNames(Main.statement);
+            String[] degreeTitles = IDsDegrees[1];
+            JComboBox degreeTitlesCombo = new JComboBox(degreeTitles);
+            degreeTitlesCombo.setSelectedIndex(0);
+            String[] cores = {"Obligatory", "Optional"};
+            JComboBox coresCombo = new JComboBox(cores);
+            coresCombo.setSelectedIndex(0);
 
             //action when edit is clicked
             add.addActionListener(e -> {
 
                 //checking if you updated the user with new information
-                if(!usernameFiled.getText().contains(" ") && !usernameFiled.getText().equals("") &&
-                        !passwordField.getText().contains(" ") && !passwordField.getText().equals("") &&
-                        titlesCombo.getSelectedIndex() != 0 &&
-                        !forenameField.getText().contains(" ") && !forenameField.getText().equals("") &&
-                        !surnameField.getText().contains(" ") && !surnameField.getText().equals("") &&
-                        !emailField.getText().contains(" ") && !emailField.getText().equals("") &&
-                        rolesCombo.getSelectedIndex() != 0){
+                if(!modCodeFiled.getText().contains(" ") && !modCodeFiled.getText().equals("") &&
+                        !modNameField.getText().equals("") &&
+                        !levelField.getText().contains(" ") && !levelField.getText().equals("") &&
+                        !creditField.getText().contains(" ") && !creditField.getText().equals("") &&
+                        StringUtils.isStrictlyNumeric(levelField.getText())){
 
                     String id = null;
 
                     //adding the user's information
-                    try {
-                        database.addUser(Main.connection,usernameFiled.getText(), passwordField.getText(),
-                                String.valueOf(titlesCombo.getSelectedItem()), forenameField.getText(),
-                                surnameField.getText(), emailField.getText(), String.valueOf(rolesCombo.getSelectedItem()));
-                    } catch (SQLException throwables) {
-                        throwables.printStackTrace();
+                    database.addModule(Main.connection, modCodeFiled.getText(), modNameField.getText(),
+                            levelField.getText(), String.valueOf(coresCombo.getSelectedItem()), creditField.getText(),
+                            String.valueOf(degreeTitlesCombo.getSelectedItem()), IDsDegrees);
+
+
+                    String degreeID = null;
+
+                    for(int i = 0; i < IDsDegrees[1].length; i++){
+
+                        if(IDsDegrees[1][i].equals(String.valueOf(degreeTitlesCombo.getSelectedItem()))){
+                            degreeID = IDsDegrees[0][i];
+                        }
+
                     }
 
-                    try {
-                        id = database.getUserID(Main.statement, usernameFiled.getText(), passwordField.getText());
-                        ((DefaultTableModel) tableModel).addRow(new Object[]{id, usernameFiled.getText(),
-                                passwordField.getText(), String.valueOf(titlesCombo.getSelectedItem()),
-                                forenameField.getText(), surnameField.getText(), emailField.getText(),
-                                rolesCombo.getSelectedItem().toString()});
+                    id = database.getModuleID(Main.statement, modCodeFiled.getText(), modNameField.getText(),
+                            levelField.getText(), String.valueOf(coresCombo.getSelectedItem()), creditField.getText(),
+                            degreeID);
 
-                        //resizing the table again
-                        fitExactly();
-                    } catch (SQLException throwables) {
-                        throwables.printStackTrace();
-                    }
+                    ((DefaultTableModel) tableModel).addRow(new Object[]{id, modCodeFiled.getText(),
+                            modNameField.getText(), levelField.getText(), String.valueOf(coresCombo.getSelectedItem()),
+                            creditField.getText(), String.valueOf(degreeTitlesCombo.getSelectedItem())});
+
+                    //resizing the table again
+                    fitExactly();
 
                     //closing the windows after this is proceed
                     addDialog.dispose();
 
                     //information message
                     JOptionPane.showMessageDialog(addDialog,
-                            "You added the following User Account ID: " + id,
+                            "You added the following Module ID: " + id,
                             "Successfully Added",
                             JOptionPane.INFORMATION_MESSAGE);
 
@@ -359,7 +348,8 @@ public class AdminModules {
                 else{
                     //error message
                     JOptionPane.showMessageDialog(addDialog,
-                            "You need to fill all the fields! And make sure to not have any space in them!",
+                            "You need to fill all the fields! And make sure to not have any space in them! " +
+                                    "(Module Code, Level, Credit)\n Moreover, Level and Credit need to be numeric!",
                             "Fill all fields",
                             JOptionPane.ERROR_MESSAGE);
                 }
@@ -373,20 +363,21 @@ public class AdminModules {
 
 
             //adding the labels and fields to the information panel
-            infoPanel.add(usernameLabel);
-            infoPanel.add(usernameFiled);
-            infoPanel.add(passwordLabel);
-            infoPanel.add(passwordField);
-            infoPanel.add(titleLabel);
-            infoPanel.add(titlesCombo);
-            infoPanel.add(forenameLabel);
-            infoPanel.add(forenameField);
-            infoPanel.add(surnameLabel);
-            infoPanel.add(surnameField);
-            infoPanel.add(emailLabel);
-            infoPanel.add(emailField);
-            infoPanel.add(roleLabel);
-            infoPanel.add(rolesCombo);
+            infoPanel.add(modCodeLabel);
+            infoPanel.add(modCodeFiled);
+            infoPanel.add(modNameLabel);
+            infoPanel.add(modNameField);
+            infoPanel.add(levelLabel);
+            infoPanel.add(levelField);
+            infoPanel.add(coreLabel);
+            infoPanel.add(coresCombo);
+            infoPanel.add(creditLabel);
+            infoPanel.add(creditField);
+            infoPanel.add(degreeLabel);
+            infoPanel.add(degreeTitlesCombo);
+
+            //setting the border to the buttonsPanel
+            buttonsPanel.setBorder(borderLabels);
 
             //adding the buttons to the buttons panel
             buttonsPanel.add(add);
@@ -397,13 +388,13 @@ public class AdminModules {
             editContainer.add(buttonsPanel, BorderLayout.CENTER);
 
             //centre the edit Window
-            MyFrame.centreWindow(addDialog, 500, 700);
+            MyFrame.centreWindow(addDialog, dialogWidth, dialogHeight);
 
             //adding the edit container to the edit dialog
             addDialog.getContentPane().add(editContainer);
 
             //setting the size of the edit dialog
-            addDialog.setSize(500, 700);
+            addDialog.setSize(dialogWidth, dialogHeight);
 
             //don't allow the frame to be resized
             addDialog.setResizable(false);
@@ -421,13 +412,13 @@ public class AdminModules {
                 String id = String.valueOf(table.getValueAt(table.getSelectedRow(), 0));
 
                 int confirm1 = JOptionPane.showOptionDialog(frame,
-                        "Are you sure you want to delete the following User Account ID: " + id + " ?",
+                        "Are you sure you want to delete the following Module ID: " + id + " ?",
                         "Delete Confirmation", JOptionPane.YES_NO_OPTION,
                         JOptionPane.WARNING_MESSAGE, null, null, null);
                 if (confirm1 == JOptionPane.YES_OPTION) {
 
                     //deleting the user account
-                    database.deleteUser(Main.connection, id);
+                    database.deleteModule(Main.connection, id);
 
                     //removing the row from the table
                     ((DefaultTableModel) tableModel).removeRow(table.getSelectedRow());
