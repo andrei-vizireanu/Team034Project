@@ -179,15 +179,28 @@ public class Database {
     }
 
 
-    public void UpdateStudent(Connection connection, String grade, String regNo) throws SQLException {
+    public void UpdateStudent(Connection connection, double grade,
+                              int pass, double resit, String regNo) throws SQLException {
 
-        String sql = "UPDATE Student SET Grade = ?, " + "WHERE RegNo = ?";
+        String sql = "UPDATE Student SET Grade = ?, " +
+                "Pass = ?, " +
+                "Resit = ?, " +
+                "WHERE RegNo = ?";
 
         PreparedStatement pstmt = connection.prepareStatement(sql);
 
         // set the corresponding param
-        pstmt.setString(1, grade);
-        pstmt.setString(2, regNo);
+        pstmt.setDouble(1, grade);
+
+        if (grade>=70) {
+            pstmt.setInt(2, 1);
+            pstmt.setDouble(3, 0);
+        }
+        else {
+            pstmt.setInt(2, 0);
+            pstmt.setDouble(3, resit);
+        }
+        pstmt.setString(4, regNo);
 
         // update
         pstmt.executeUpdate();
