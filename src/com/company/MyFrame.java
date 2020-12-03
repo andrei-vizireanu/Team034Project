@@ -108,6 +108,7 @@ public class MyFrame extends JFrame {
                     }
                     else if(role.equals("Registrar")){
                         //open the Registrar class
+                        Registrar admin = new Registrar("Registrar");
                     }
                     else {
                         System.out.println("Error");
