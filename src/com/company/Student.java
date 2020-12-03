@@ -39,7 +39,7 @@ public class Student extends JFrame {
         results.addActionListener(ae -> {
 
             try {
-                MyResults result = new MyResults("My Results");
+                StudentFeatures result = new StudentFeatures("My Results");
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
