@@ -1,0 +1,18 @@
+Index: .idea/libraries/mysql_connector_java_5_1_49_bin1.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><component name=\"libraryTable\">\r\n  <library name=\"mysql-connector-java-5.1.49-bin1\">\r\n    <CLASSES>\r\n      <root url=\"jar://$PROJECT_DIR$/../mysql-connector-java-5.1.49/mysql-connector-java-5.1.49-bin.jar!/\" />\r\n    </CLASSES>\r\n    <JAVADOC />\r\n    <SOURCES />\r\n  </library>\r\n</component>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/libraries/mysql_connector_java_5_1_49_bin1.xml	(revision 88e549ae9b6e73708d2df9405fd2596fea09e265)
++++ .idea/libraries/mysql_connector_java_5_1_49_bin1.xml	(date 1606934967880)
+@@ -1,7 +1,7 @@
+ <component name="libraryTable">
+   <library name="mysql-connector-java-5.1.49-bin1">
+     <CLASSES>
+-      <root url="jar://$PROJECT_DIR$/../mysql-connector-java-5.1.49/mysql-connector-java-5.1.49-bin.jar!/" />
++      <root url="jar://$PROJECT_DIR$/../Desktop/UNIVERSITY OF SHEFFIELD/YEAR2/COM2008 - SYSTEMS DESIGN AND SECURITY/mysql-connector-java-5.1.49/mysql-connector-java-5.1.49-bin.jar!/" />
+     </CLASSES>
+     <JAVADOC />
+     <SOURCES />

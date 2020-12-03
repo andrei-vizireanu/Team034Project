@@ -1,0 +1,19 @@
+<changelist name="Uncommitted_changes_before_Update_at_03_12_2020_22_07_[Default_Changelist]" date="1607033230513" recycled="false" toDelete="true">
+  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_03_12_2020_22_07_[Default_Changelist]/shelved.patch" />
+  <option name="DESCRIPTION" value="Uncommitted changes before Update at 03/12/2020 22:07 [Default Changelist]" />
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/TeamProject/com/company/Student.class" />
+    <option name="AFTER_PATH" value="out/production/TeamProject/com/company/Student.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_03_12_2020_22_07_[Default_Changelist]/Student.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/TeamProject/com/company/Database.class" />
+    <option name="AFTER_PATH" value="out/production/TeamProject/com/company/Database.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_03_12_2020_22_07_[Default_Changelist]/Database.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/TeamProject/com/company/MyResults.class" />
+    <option name="AFTER_PATH" />
+    <option name="SHELVED_PATH" />
+  </binary>
+</changelist>
