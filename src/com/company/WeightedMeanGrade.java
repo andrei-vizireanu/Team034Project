@@ -5,7 +5,6 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import java.awt.*;
-import java.sql.SQLException;
 
 public class WeightedMeanGrade {
 
@@ -20,7 +19,7 @@ public class WeightedMeanGrade {
     private final int width = 800;
     private final int height = 600;
 
-    public WeightedMeanGrade(String title) throws SQLException {
+    public WeightedMeanGrade(String title){
 
         //initializing the variables
         frame = new JFrame(title);

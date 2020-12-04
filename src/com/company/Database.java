@@ -452,11 +452,9 @@ public class Database {
 
             if (grade>=70) {
                 pstmt.setBoolean(2, true);
-                //pstmt.setDouble(3, 0.0);
             }
             else {
                 pstmt.setBoolean(2, false);
-                //pstmt.setDouble(3, resit);
             }
             pstmt.setString(3, regNo);
 
@@ -522,7 +520,6 @@ public class Database {
                 String username = rs.getString("Username");
                 String foreame = rs.getString("Forename");
                 String surname = rs.getString("Surname");
-                //String pass = rs.getString("Password");
 
                 if(username.equals(userName) && foreame.equals(forName) && surname.equals(surName)){
                     return id;
@@ -568,7 +565,6 @@ public class Database {
         }
 
         return null;
-
     }
 
     //getting the department id
@@ -876,7 +872,6 @@ public class Database {
             rs.last();
             String[][] data = new String[rs.getRow()][];
             int i = 0;
-            //int j = 0;
 
             rs.beforeFirst();
             while(rs.next()) {
@@ -917,7 +912,6 @@ public class Database {
             preparedStmt.setString(4, forename);
             preparedStmt.setString(5, surname);
             preparedStmt.setString(6, email);
-            //preparedStmt.setString(7, role);
 
             // execute the preparedstatement
             preparedStmt.execute();
@@ -937,7 +931,6 @@ public class Database {
             rs.last();
             String[][] data = new String[rs.getRow()][];
             int i = 0;
-            //int j = 0;
 
             rs.beforeFirst();
             while(rs.next()) {

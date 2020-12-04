@@ -7,7 +7,7 @@ import java.sql.SQLException;
 
 public class Administrator extends JFrame {
 
-    // Needed for serialisation WHAT THIS MEANS?
+    // Needed for serialisation
     private static final long serialVersionUID = 1L;
 
     // declaring the variables
@@ -94,7 +94,7 @@ public class Administrator extends JFrame {
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
-            //JTableButtonTest table = new JTableButtonTest();
+
             frame.dispose();
 
         });
@@ -107,7 +107,7 @@ public class Administrator extends JFrame {
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
-            //JTableButtonTest table = new JTableButtonTest();
+
             frame.dispose();
 
         });
@@ -120,7 +120,7 @@ public class Administrator extends JFrame {
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
-            //JTableButtonTest table = new JTableButtonTest();
+
             frame.dispose();
 
         });

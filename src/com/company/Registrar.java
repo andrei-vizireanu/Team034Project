@@ -7,7 +7,7 @@ import java.sql.SQLException;
 
 public class Registrar extends JFrame {
 
-    // Needed for serialisation WHAT THIS MEANS?
+    // Needed for serialisation
     private static final long serialVersionUID = 1L;
 
     // declaring the variables
@@ -70,11 +70,8 @@ public class Registrar extends JFrame {
         //action listener for clicking the "Login" button
         student.addActionListener(ae -> {
 
-            try {
-                RegisterStudent student = new RegisterStudent("Students");
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
+            RegisterStudent student = new RegisterStudent("Students");
+
             //JTableButtonTest table = new JTableButtonTest();
             frame.dispose();
 

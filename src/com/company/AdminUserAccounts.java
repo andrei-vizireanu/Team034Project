@@ -335,8 +335,6 @@ public class AdminUserAccounts {
 
                             String id = null;
 
-                            //Patrick
-
                             String thePassword = passwordField.getText();
                             //Generate Salt.
                             String salt = PasswordHashingUtilityFunction.getSalt(30);
@@ -385,13 +383,11 @@ public class AdminUserAccounts {
 
                             String id = null;
 
-                            //Patrick
-
                             String thePassword = passwordField.getText();
                             //Generate Salt.
                             String salt = PasswordHashingUtilityFunction.getSalt(30);
 
-                            // Protect user's password. The generateed value can be stored in DB.
+                            // Protect user's password. The generated value can be stored in DB.
                             String theSecuredPassword = PasswordHashingUtilityFunction.generateSecurePassword(thePassword, salt);
 
                             database.addUser(Main.connection,usernameFiled.getText(),theSecuredPassword, salt,
@@ -434,13 +430,12 @@ public class AdminUserAccounts {
 
                         String id = null;
 
-                        //Patrick
-
                         String thePassword = passwordField.getText();
+
                         //Generate Salt.
                         String salt = PasswordHashingUtilityFunction.getSalt(30);
 
-                        // Protect user's password. The generateed value can be stored in DB.
+                        // Protect user's password. The generated value can be stored in DB.
                         String theSecuredPassword = PasswordHashingUtilityFunction.generateSecurePassword(thePassword, salt);
 
                         database.addUser(Main.connection,usernameFiled.getText(),theSecuredPassword, salt,
@@ -452,8 +447,6 @@ public class AdminUserAccounts {
                                 passwordField.getText(), String.valueOf(titlesCombo.getSelectedItem()),
                                 forenameField.getText(), surnameField.getText(), emailField.getText(),
                                 rolesCombo.getSelectedItem().toString()});
-
-                        //database.addUserTeacher(Main.connection, id, moduleCodeField.getText());
 
                         //resizing the table again
                         fitExactly();

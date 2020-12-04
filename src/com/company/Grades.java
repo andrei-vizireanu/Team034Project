@@ -1,18 +1,15 @@
 package com.company;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
-import javax.xml.crypto.Data;
 import java.awt.*;
 import java.sql.SQLException;
 
 public class Grades {
 
     //declaring the variables
-
     private JFrame frame;
     private JPanel btnPanel;
     private Container mainContainer;
@@ -23,7 +20,7 @@ public class Grades {
     private final int width = 800;
     private final int height = 600;
 
-    public Grades(String title) throws SQLException {
+    public Grades(String title){
 
         //initializing variables
         frame = new JFrame(title);
@@ -173,4 +170,5 @@ public class Grades {
 
         frame.setVisible(true);
     }
+
 }

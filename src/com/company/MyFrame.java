@@ -3,11 +3,10 @@ package com.company;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.sql.SQLException;
 
 public class MyFrame extends JFrame {
 
-    // Needed for serialisation WHAT THIS MEANS?
+    // Needed for serialisation
     private static final long serialVersionUID = 1L;
 
     // declaring the variables
@@ -89,73 +88,65 @@ public class MyFrame extends JFrame {
         //action listener for clicking the "Login" button
         login.addActionListener(ae -> {
 
-            try {
+            //taking the data from the username and password fields
+            String username = userField.getText();
+            String password = passwordField.getText();
 
-                //taking the data from the username and password fields
-                String username = userField.getText();
-                String password = passwordField.getText();
+            if(username.isEmpty() || password.isEmpty()){
 
-                if(username.isEmpty() || password.isEmpty()){
+                //custom title, error icon
+                JOptionPane.showMessageDialog(frame,
+                        "Your need to type both username and password!",
+                        "Type username AND password",
+                        JOptionPane.ERROR_MESSAGE);
 
+            }
+            else{
+
+                //checking the credentials for the data typed in and the role for that user
+                boolean credentials = database.checkCredentials(Main.statement, username, password);
+                String role = database.getRole(Main.statement, username);
+
+                if(credentials){
+
+                    //check the role in order to open the correct window after login
+                    if(role.equals("Student")){
+                        //open the Student class
+                        Student student = new Student("Student");
+                    }
+                    else if(role.equals("Teacher")){
+                        //open the Teacher class
+                        Teacher teacher = new Teacher("Teacher");
+                    }
+                    else if(role.equals("Administrator")){
+                        //open the Administrator class
+                        Administrator admin = new Administrator("Admin");
+                    }
+                    else if(role.equals("Registrar")){
+                        //open the Registrar class
+                        Registrar admin = new Registrar("Registrar");
+                    }
+                    else {
+                        System.out.println("Error");
+                    }
+
+                    //close the current window if credentials are right
+                    frame.dispose();
+
+                }
+                else {
+
+                    //if credentials are wrong delete the info from the fields and pop up an alert window
+                    userField.setText("");
+                    passwordField.setText("");
                     //custom title, error icon
                     JOptionPane.showMessageDialog(frame,
-                            "Your need to type both username and password!",
-                            "Type username AND password",
+                            "Your username or password are wrong!",
+                            "Wrong Credentials",
                             JOptionPane.ERROR_MESSAGE);
 
                 }
-                else{
 
-                    //checking the credentials for the data typed in and the role for that user
-                    boolean credentials = database.checkCredentials(Main.statement, username, password);
-                    String role = database.getRole(Main.statement, username);
-
-                    if(credentials){
-
-                        //check the role in order to open the correct window after login
-                        if(role.equals("Student")){
-                            //open the Student class
-                            Student student = new Student("Student");
-                        }
-                        else if(role.equals("Teacher")){
-                            //open the Teacher class
-                            Teacher teacher = new Teacher("Teacher");
-                        }
-                        else if(role.equals("Administrator")){
-                            //open the Administrator class
-                            Administrator admin = new Administrator("Admin");
-                        }
-                        else if(role.equals("Registrar")){
-                            //open the Registrar class
-                            Registrar admin = new Registrar("Registrar");
-                        }
-                        else {
-                            System.out.println("Error");
-                        }
-
-                        //close the current window if credentials are right
-                        frame.dispose();
-
-                        //close the connection of the database - FOR THE MOMENT, MAYBE IT NEEDS TO BE CLOSED LATER, BUT WE'LL SEE
-                        //database.close();
-                    }
-                    else {
-
-                        //if credentials are wrong delete the info from the fields and pop up an alert window
-                        userField.setText("");
-                        passwordField.setText("");
-                        //custom title, error icon
-                        JOptionPane.showMessageDialog(frame,
-                                "Your username or password are wrong!",
-                                "Wrong Credentials",
-                                JOptionPane.ERROR_MESSAGE);
-
-                    }
-
-                }
-
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
             }
 
         });

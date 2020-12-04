@@ -57,22 +57,15 @@ public class Teacher extends JFrame {
         //action listener for clicking the buttons, in order
         gradesBtn.addActionListener(ae -> {
 
-            try {
-                Grades grades = new Grades("Grades for Students");
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
+            Grades grades = new Grades("Grades for Students");
 
             frame.dispose();
         });
 
         weightedMeanGradeBtn.addActionListener(e -> {
-            try {
-                WeightedMeanGrade meanGrade = new WeightedMeanGrade("Student's" +
+
+            WeightedMeanGrade meanGrade = new WeightedMeanGrade("Student's" +
                         "weighted mean grade");
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
 
             frame.dispose();
         });

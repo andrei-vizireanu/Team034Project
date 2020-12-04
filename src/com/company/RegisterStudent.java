@@ -4,7 +4,6 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.*;
 import java.awt.*;
-import java.sql.SQLException;
 
 public class RegisterStudent {
 
@@ -24,7 +23,7 @@ public class RegisterStudent {
     private final int width = 800;
     private final int height = 600;
 
-    public RegisterStudent(String title) throws SQLException {
+    public RegisterStudent(String title){
 
         //initializing the variables
         frame = new JFrame(title);
@@ -375,56 +374,6 @@ public class RegisterStudent {
                         }
 
                     }
-//                    if(rolesCombo.getSelectedIndex() == 2){
-//
-//                        if (!moduleCodeField.getText().contains(" ") && !moduleCodeField.getText().equals("")){
-//
-//                            String id = null;
-//
-//                            //Patrick
-//
-//                            String thePassword = passwordField.getText();
-//                            //Generate Salt.
-//                            String salt = PasswordHashingUtilityFunction.getSalt(30);
-//
-//                            // Protect user's password. The generateed value can be stored in DB.
-//                            String theSecuredPassword = PasswordHashingUtilityFunction.generateSecurePassword(thePassword, salt);
-//
-//                            database.addUser(Main.connection,usernameFiled.getText(),theSecuredPassword, salt,
-//                                    String.valueOf(titlesCombo.getSelectedItem()), forenameField.getText(),
-//                                    surnameField.getText(), emailField.getText(), String.valueOf(rolesCombo.getSelectedItem()));
-//
-//                            id = database.getUserID(Main.statement, usernameFiled.getText(), forenameField.getText(), surnameField.getText());
-//                            ((DefaultTableModel) tableModel).addRow(new Object[]{id, usernameFiled.getText(),
-//                                    passwordField.getText(), String.valueOf(titlesCombo.getSelectedItem()),
-//                                    forenameField.getText(), surnameField.getText(), emailField.getText(),
-//                                    rolesCombo.getSelectedItem().toString()});
-//
-//                            database.addUserTeacher(Main.connection, id, moduleCodeField.getText());
-//
-//                            //resizing the table again
-//                            fitExactly();
-//
-//                            //closing the windows after this is proceed
-//                            addDialog.dispose();
-//
-//                            //information message
-//                            JOptionPane.showMessageDialog(addDialog,
-//                                    "You added the User Account ID: " + id,
-//                                    "Successfully Added",
-//                                    JOptionPane.INFORMATION_MESSAGE);
-//
-//                        }
-//                        else{
-//                            //error message
-//                            JOptionPane.showMessageDialog(addDialog,
-//                                    "You need to fill all the fields (including Module Code)! And make sure to not have any space in them!",
-//                                    "Fill all fields",
-//                                    JOptionPane.ERROR_MESSAGE);
-//                        }
-//
-//                    }
-
                     else if(rolesCombo.getSelectedIndex() == 3 || rolesCombo.getSelectedIndex() == 4){
 
 

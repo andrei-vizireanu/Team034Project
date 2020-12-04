@@ -51,14 +51,9 @@ public class ModuleEntry {
         //resizing the table in order to fit every information from it
         fitExactly();
 
-
-
         JScrollPane scrollpane = new JScrollPane(table);
 
-
         mainContainer.setLayout(new BorderLayout());
-
-        //panel.setLayout(new GridLayout(2, 2, 10, 10));
 
         mainContainer.add(scrollpane, BorderLayout.NORTH);
         mainContainer.add(delete, BorderLayout.WEST);
@@ -69,15 +64,13 @@ public class ModuleEntry {
         MyFrame.centreWindow(frame, width, height);
 
         //adding the main container to the frame
-        //frame.getContentPane().add(buttonPanel);
-
         frame.getContentPane().add(mainContainer);
 
         //setting the width and the height of the frame
         frame.setSize(width,height);
 
         //don't allow the frame to be resized
-        //frame.setResizable(false);
+        frame.setResizable(false);
 
         //making the frame visible
         frame.setVisible(true);
