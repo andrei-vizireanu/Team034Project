@@ -152,11 +152,11 @@ public class AdminUserAccounts {
 
                         //refreshing the table with the new values
                         table.setValueAt(usernameFiled.getText(), table.getSelectedRow(), 1);
-                        table.setValueAt(String.valueOf(titlesCombo.getSelectedItem()), table.getSelectedRow(), 3);
-                        table.setValueAt(forenameField.getText(), table.getSelectedRow(), 4);
-                        table.setValueAt(surnameField.getText(), table.getSelectedRow(), 5);
-                        table.setValueAt(emailField.getText(), table.getSelectedRow(), 6);
-                        table.setValueAt(String.valueOf(rolesCombo.getSelectedItem()), table.getSelectedRow(), 7);
+                        table.setValueAt(String.valueOf(titlesCombo.getSelectedItem()), table.getSelectedRow(), 2);
+                        table.setValueAt(forenameField.getText(), table.getSelectedRow(), 3);
+                        table.setValueAt(surnameField.getText(), table.getSelectedRow(), 4);
+                        table.setValueAt(emailField.getText(), table.getSelectedRow(), 5);
+                        table.setValueAt(String.valueOf(rolesCombo.getSelectedItem()), table.getSelectedRow(), 6);
 
                         //resizing the table again
                         fitExactly();
