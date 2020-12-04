@@ -396,7 +396,7 @@ public class AdminUserAccounts {
 
                             id = database.getUserID(Main.statement, usernameFiled.getText(), forenameField.getText(), surnameField.getText());
                             ((DefaultTableModel) tableModel).addRow(new Object[]{id, usernameFiled.getText(),
-                                    passwordField.getText(), String.valueOf(titlesCombo.getSelectedItem()),
+                                    String.valueOf(titlesCombo.getSelectedItem()),
                                     forenameField.getText(), surnameField.getText(), emailField.getText(),
                                     rolesCombo.getSelectedItem().toString()});
 
@@ -444,7 +444,7 @@ public class AdminUserAccounts {
 
                         id = database.getUserID(Main.statement, usernameFiled.getText(), forenameField.getText(), surnameField.getText());
                         ((DefaultTableModel) tableModel).addRow(new Object[]{id, usernameFiled.getText(),
-                                passwordField.getText(), String.valueOf(titlesCombo.getSelectedItem()),
+                                String.valueOf(titlesCombo.getSelectedItem()),
                                 forenameField.getText(), surnameField.getText(), emailField.getText(),
                                 rolesCombo.getSelectedItem().toString()});
 
