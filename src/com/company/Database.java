@@ -391,6 +391,7 @@ public class Database {
         rs.last();
         double[] data = new double[rs.getRow()];
         int i = 0;
+        int len=0;
 
         rs.beforeFirst();
         while (rs.next()) {
@@ -399,15 +400,17 @@ public class Database {
             String modCode = rs.getString("ModuleCode");
             double grade = rs.getDouble("grade");
 
-            if (regNumber.equals(regNo) && modCode.equals(moduleCode))
+            if (regNumber.equals(regNo) && modCode.equals(moduleCode)) {
                 data[i] = grade;
+                len++;
+            }
             i++;
         }
 
         double sum = 0;
         int numberOfGrades = 0;
-        for (i=0; i<data.length; i++) {
-            sum = sum + data[i];
+        for (int j=0; j<len; j++) {
+            sum = sum + data[j];
             numberOfGrades++;
         }
 

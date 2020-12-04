@@ -71,12 +71,13 @@ public class WeightedMeanGrade {
                 JTextField regNoTxtField = new JTextField(regNo);
                 JTextField moduleCodeTxtField = new JTextField(moduleCode);
 
-                double[] weightedGrade = {0.0};
                 calculateGradeBtn.addActionListener(e -> {
+
+                    double weightedGrade = 0.0;
 
                     if(!regNoTxtField.getText().isEmpty() && !moduleCodeTxtField.getText().isEmpty()) {
                         try {
-                            weightedGrade[0] = (database.CalculateGrade(Main.statement, regNoTxtField.getText(),
+                            weightedGrade = (database.CalculateGrade(Main.statement, regNoTxtField.getText(),
                                     moduleCodeTxtField.getText()));
                         } catch (SQLException throwables) {
                             throwables.printStackTrace();
@@ -86,7 +87,7 @@ public class WeightedMeanGrade {
 
                         JOptionPane.showMessageDialog(calculateDialog,
                                 "The weighted mean grade for Student registered with " +
-                                        regNo + " is " + weightedGrade[0],
+                                        regNo + " is " + weightedGrade,
                                 "Successfully Calculated", JOptionPane.INFORMATION_MESSAGE);
                     }
                 });
