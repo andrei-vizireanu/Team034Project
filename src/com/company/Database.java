@@ -1,13 +1,11 @@
 package com.company;
 
-import javax.swing.table.DefaultTableModel;
 import java.sql.*;
-import java.util.Arrays;
 
 public class Database {
 
     //checking the credentials by username and password
-    public boolean checkCredentials(Statement statement, String username, String password) throws SQLException {
+    public boolean checkCredentials(Statement statement, String username, String password){
 
         try {
 
