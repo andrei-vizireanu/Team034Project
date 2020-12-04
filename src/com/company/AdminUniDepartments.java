@@ -39,6 +39,14 @@ public class AdminUniDepartments {
         goBack = new JButton("<- Go Back");
         database = new Database();
 
+        //stop the connection and statement to the database when closing the window
+        frame.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                database.close(Main.statement, Main.connection);
+            }
+        });
+
         //headers for the table
         String[] columnNames = {"ID", "Department Code", "Department Name"};
         //generating the rows with the University Departments' information

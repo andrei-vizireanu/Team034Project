@@ -15,6 +15,7 @@ public class Student extends JFrame {
     private Container mainContainer;
     private JPanel buttonPanel;
     private Button results;
+    private Database database;
     private final int width = 800;
     private final int height = 600;
 
@@ -25,6 +26,15 @@ public class Student extends JFrame {
         mainContainer = new Container();
         buttonPanel = new JPanel();
         results = new Button("My Results");
+        database = new Database();
+
+        //stop the connection and statement to the database when closing the window
+        frame.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                database.close(Main.statement, Main.connection);
+            }
+        });
 
         results.setPreferredSize(new Dimension(100, 50));
 

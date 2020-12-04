@@ -76,12 +76,10 @@ public class WeightedMeanGrade {
                     double weightedGrade = 0.0;
 
                     if(!regNoTxtField.getText().isEmpty() && !moduleCodeTxtField.getText().isEmpty()) {
-                        try {
-                            weightedGrade = (database.CalculateGrade(Main.statement, regNoTxtField.getText(),
+
+                        weightedGrade = (database.CalculateGrade(Main.statement, regNoTxtField.getText(),
                                     moduleCodeTxtField.getText()));
-                        } catch (SQLException throwables) {
-                            throwables.printStackTrace();
-                        }
+
 
 
                         calculateDialog.dispose();

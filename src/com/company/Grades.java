@@ -82,12 +82,10 @@ public class Grades {
                     if (usernameTxtField.getText().equals(username))
 
                         if(!(Double.parseDouble(gradeTxtField.getText()) == grade)) {
-                            try {
-                                database.UpdateStudent(Main.connection, Double.parseDouble(gradeTxtField.getText()),
+
+                            database.UpdateStudent(Main.connection, Double.parseDouble(gradeTxtField.getText()),
                                         pass, regNo);
-                            } catch (SQLException throwables) {
-                                throwables.printStackTrace();
-                            }
+
 
                             table.setValueAt(gradeTxtField.getText(), table.getSelectedRow(), 5);
 

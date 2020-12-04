@@ -16,6 +16,7 @@ public class Registrar extends JFrame {
     private JPanel buttonPanel;
     private Button student;
     private Button entry;
+    private Database database;
     /*private Button modules;
     private Button degreeCourses;*/
     private final int width = 800;
@@ -29,6 +30,15 @@ public class Registrar extends JFrame {
         buttonPanel = new JPanel();
         student = new Button("Students Registration");
         entry = new Button("Module Check");
+        database = new Database();
+
+        //stop the connection and statement to the database when closing the window
+        frame.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                database.close(Main.statement, Main.connection);
+            }
+        });
        /* modules = new Button("Modules");
         degreeCourses = new Button("Degree Courses");*/
 

@@ -4,8 +4,6 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.sql.SQLException;
 
 public class AdminUserAccounts {
@@ -21,7 +19,6 @@ public class AdminUserAccounts {
     private JButton delete;
     private JButton goBack;
     private Database database;
-    int choice = 0;
     private final int dialogWidth = 500;
     private final int dialogHeight = 900;
     private final int width = 800;
@@ -39,8 +36,16 @@ public class AdminUserAccounts {
         goBack = new JButton("<- Go Back");
         database = new Database();
 
+        //stop the connection and statement to the database when closing the window
+        frame.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                database.close(Main.statement, Main.connection);
+            }
+        });
+
         //headers for the table
-        String[] columnNames = { "ID", "Username", "Password", "Title", "Forename", "Surname", "Email", "Role"};
+        String[] columnNames = { "ID", "Username", "Title", "Forename", "Surname", "Email", "Role"};
         //generating the rows with the Users' information
         String[][] rows = database.getInfoUser(Main.statement);
 
@@ -75,25 +80,21 @@ public class AdminUserAccounts {
 
                 //setting the layouts of the container and infoPanel
                 editContainer.setLayout(new BorderLayout());
-                infoPanel.setLayout(new GridLayout(14, 2, 10, 10));
+                infoPanel.setLayout(new GridLayout(12, 2, 10, 10));
 
                 //getting each value from the row selected
                 String id = String.valueOf(table.getValueAt(table.getSelectedRow(), 0));
                 String username = String.valueOf(table.getValueAt(table.getSelectedRow(), 1));
-                String password = String.valueOf(table.getValueAt(table.getSelectedRow(), 2).toString());
-                String userTitle = String.valueOf(table.getValueAt(table.getSelectedRow(), 3).toString());
-                String forename = String.valueOf(table.getValueAt(table.getSelectedRow(), 4).toString());
-                String surname = String.valueOf(table.getValueAt(table.getSelectedRow(), 5).toString());
-                String email = String.valueOf(table.getValueAt(table.getSelectedRow(), 6).toString());
-                String role = String.valueOf(table.getValueAt(table.getSelectedRow(), 7).toString());
+                String userTitle = String.valueOf(table.getValueAt(table.getSelectedRow(), 2));
+                String forename = String.valueOf(table.getValueAt(table.getSelectedRow(), 3));
+                String surname = String.valueOf(table.getValueAt(table.getSelectedRow(), 4));
+                String email = String.valueOf(table.getValueAt(table.getSelectedRow(), 5));
+                String role = String.valueOf(table.getValueAt(table.getSelectedRow(), 6));
 
                 //creating the labels objects and setting their text colors and borders
                 JLabel usernameLabel = new JLabel("Username");
                 usernameLabel.setForeground(Color.BLUE);
                 usernameLabel.setBorder(borderLabels);
-                JLabel passwordLabel = new JLabel("Password");
-                passwordLabel.setForeground(Color.BLUE);
-                passwordLabel.setBorder(borderLabels);
                 JLabel titleLabel = new JLabel("Title");
                 titleLabel.setForeground(Color.BLUE);
                 titleLabel.setBorder(borderLabels);
@@ -112,7 +113,6 @@ public class AdminUserAccounts {
 
                 //creating the fields for each value
                 JTextField usernameFiled = new JTextField(username);
-                JTextField passwordField = new JTextField(password);
                 String[] titles = { "Master", "Mr", "Miss", "Mrs", "Ms", "Mx"};
                 JComboBox titlesCombo = new JComboBox(titles);
                 JTextField forenameField = new JTextField(forename);
@@ -140,23 +140,18 @@ public class AdminUserAccounts {
                 edit.addActionListener(e -> {
 
                     //checking if you updated the user with new information
-                    if(!usernameFiled.getText().equals(username) || !passwordField.getText().equals(password) ||
-                            !String.valueOf(titlesCombo.getSelectedItem()).equals(userTitle) ||
+                    if(!usernameFiled.getText().equals(username) || !String.valueOf(titlesCombo.getSelectedItem()).equals(userTitle) ||
                             !forenameField.getText().equals(forename) || !surnameField.getText().equals(surname) ||
                             !emailField.getText().equals(email) || !String.valueOf(rolesCombo.getSelectedItem()).equals(role)){
 
                         //updating the selected user's information
-                        try {
-                            database.updateUser(Main.connection,usernameFiled.getText(), passwordField.getText(),
+
+                        database.updateUser(Main.connection,usernameFiled.getText(),
                                     String.valueOf(titlesCombo.getSelectedItem()), forenameField.getText(), surnameField.getText(),
                                     emailField.getText(), String.valueOf(rolesCombo.getSelectedItem()), id);
-                        } catch (SQLException throwables) {
-                            throwables.printStackTrace();
-                        }
 
                         //refreshing the table with the new values
                         table.setValueAt(usernameFiled.getText(), table.getSelectedRow(), 1);
-                        table.setValueAt(passwordField.getText(), table.getSelectedRow(), 2);
                         table.setValueAt(String.valueOf(titlesCombo.getSelectedItem()), table.getSelectedRow(), 3);
                         table.setValueAt(forenameField.getText(), table.getSelectedRow(), 4);
                         table.setValueAt(surnameField.getText(), table.getSelectedRow(), 5);
@@ -196,8 +191,6 @@ public class AdminUserAccounts {
                 //adding the labels and fields to the information panel
                 infoPanel.add(usernameLabel);
                 infoPanel.add(usernameFiled);
-                infoPanel.add(passwordLabel);
-                infoPanel.add(passwordField);
                 infoPanel.add(titleLabel);
                 infoPanel.add(titlesCombo);
                 infoPanel.add(forenameLabel);
@@ -218,13 +211,13 @@ public class AdminUserAccounts {
                 editContainer.add(buttonsPanel, BorderLayout.CENTER);
 
                 //centre the edit Window
-                MyFrame.centreWindow(editDialog, dialogWidth, dialogHeight);
+                MyFrame.centreWindow(editDialog, dialogWidth, dialogHeight - 300);
 
                 //adding the edit container to the edit dialog
                 editDialog.getContentPane().add(editContainer);
 
                 //setting the size of the edit dialog
-                editDialog.setSize(dialogWidth, dialogHeight);
+                editDialog.setSize(dialogWidth, dialogHeight - 300);
 
                 //don't allow the frame to be resized
                 editDialog.setResizable(false);
