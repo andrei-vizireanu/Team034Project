@@ -320,14 +320,37 @@ public class AdminUserAccounts {
 
                     String id = null;
 
-                    //adding the user's information
+                    //Patrick
+
+                    String thePassword = passwordField.getText();
+                    //Generate Salt.
+                    String salt = PasswordHashingUtilityFunction.getSalt(30);
+
+                    // Protect user's password. The generateed value can be stored in DB.
+                    String theSecuredPassword = PasswordHashingUtilityFunction.generateSecurePassword(thePassword, salt);
+
                     try {
+
+                        database.addUser(Main.connection,usernameFiled.getText(),theSecuredPassword, salt,
+                                String.valueOf(titlesCombo.getSelectedItem()), forenameField.getText(),
+                                surnameField.getText(), emailField.getText(), String.valueOf(rolesCombo.getSelectedItem()));
+
+
+                    } catch (SQLException throwables){
+                        throwables.printStackTrace();
+                    }
+
+                    // Patrick ends
+
+                    //adding the user's information
+                    /*try {
                         database.addUser(Main.connection,usernameFiled.getText(), passwordField.getText(),
                                 String.valueOf(titlesCombo.getSelectedItem()), forenameField.getText(),
                                 surnameField.getText(), emailField.getText(), String.valueOf(rolesCombo.getSelectedItem()));
                     } catch (SQLException throwables) {
                         throwables.printStackTrace();
                     }
+                    */
 
                     try {
                         id = database.getUserID(Main.statement, usernameFiled.getText(), passwordField.getText());
@@ -341,6 +364,7 @@ public class AdminUserAccounts {
                     } catch (SQLException throwables) {
                         throwables.printStackTrace();
                     }
+
 
                     //closing the windows after this is proceed
                     addDialog.dispose();

@@ -7,7 +7,38 @@ import java.util.Arrays;
 public class Database {
 
     //checking the credentials by username and password
+
     public boolean checkCredentials(Statement statement, String username, String password) throws SQLException {
+
+        String sql = ("SELECT * FROM User;");
+
+        ResultSet rs = statement.executeQuery(sql);
+
+        while(rs.next()) {
+
+            String user = rs.getString("UserName");
+            String pass = rs.getString("Password");
+            String salt = rs.getString("PasswordSalt");
+
+            //boolean passwordMatch = PasswordHashingUtilityFunction.verifyUserPassword(password, pass, salt);
+
+            if(username.equals((user)))
+            {
+                return true;
+            }
+            /*if(passwordMatch && username.equals(user)) {
+                return true;
+            }*/
+
+            /*if(username.equals(user) && password.equals(pass))
+                return true;*/
+
+        }
+
+        return false;
+
+    }
+    /*public boolean checkCredentials(Statement statement, String username, String password) throws SQLException {
 
         String sql = ("SELECT * FROM User;");
         ResultSet rs = statement.executeQuery(sql);
@@ -24,7 +55,7 @@ public class Database {
 
         return false;
 
-    }
+    }*/
 
     //getting the role of a user by username and password
     public String getRole(Statement statement, String username, String password) throws SQLException {
@@ -38,7 +69,8 @@ public class Database {
             String pass = rs.getString("Password");
             String role = rs.getString("Role");
 
-            if(username.equals(user) && password.equals(pass))
+            if(username.equals(user))
+            //if(username.equals(user) && password.equals(pass))
                 return role;
 
         }
@@ -478,10 +510,12 @@ public class Database {
 
             String userID = rs.getString("UserID");
             String user = rs.getString("UserName");
-            String pass = rs.getString("Password");
+            //String pass = rs.getString("Password");
 
-            if(username.equals(user) && password.equals(pass))
-                return userID;
+            if(username.equals(user) && password != "");
+
+            /*if(username.equals(user) && password.equals(pass))
+                return userID;*/
 
         }
 
@@ -581,22 +615,23 @@ public class Database {
     }
 
     //adding a user to the database
-    public void addUser(Connection connection, String username, String password, String title, String forename,
+    public void addUser(Connection connection, String username, String password, String salt, String title, String forename,
                         String surname, String email, String role) throws SQLException {
 
         // the mysql insert statement
-        String query = " insert into User (Username, Password, Title, Forename, Surname, Email, Role)"
-                + " values (?, ?, ?, ?, ?, ?, ?)";
+        String query = " insert into User (Username, Password, PasswordSalt, Title, Forename, Surname, Email, Role)"
+                + " values (?, ?, ?, ?, ?, ?, ?, ?)";
 
         // create the mysql insert preparedstatement
         PreparedStatement preparedStmt = connection.prepareStatement(query);
         preparedStmt.setString(1, username);
         preparedStmt.setString(2, password);
-        preparedStmt.setString(3, title);
-        preparedStmt.setString(4, forename);
-        preparedStmt.setString(5, surname);
-        preparedStmt.setString(6, email);
-        preparedStmt.setString(7, role);
+        preparedStmt.setString(3, salt);
+        preparedStmt.setString(4, title);
+        preparedStmt.setString(5, forename);
+        preparedStmt.setString(6, surname);
+        preparedStmt.setString(7, email);
+        preparedStmt.setString(8, role);
 
         // execute the preparedstatement
         preparedStmt.execute();
@@ -749,6 +784,88 @@ public class Database {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+
+    }
+
+    //REGISTRAR
+    //geting user table with only students
+    public String[][] getStudentUser(Statement statement) throws SQLException {
+
+        String sql = ("SELECT * FROM User WHERE Role = 'Student';");
+        ResultSet rs = statement.executeQuery(sql);
+        rs.last();
+        String[][] data = new String[rs.getRow()][];
+        int i = 0;
+        //int j = 0;
+
+        rs.beforeFirst();
+        while(rs.next()) {
+
+            String id = rs.getString("UserID");
+            String user = rs.getString("Username");
+            String pass = rs.getString("Password");
+            String title = rs.getString("Title");
+            String forename = rs.getString("Forename");
+            String surname = rs.getString("Surname");
+            String email = rs.getString("Email");
+            String role = rs.getString("Role");
+
+            data[i] = new String[]{id, user, pass, title, forename, surname, email,role};
+            i++;
+        }
+
+        return data;
+
+    }
+
+    public void addStudent(Connection connection, String username, String password, String title, String forename,
+                           String surname, String email, String role) throws SQLException {
+
+        // the mysql insert statement
+        String query = " insert into User (Username, Password, Title, Forename, Surname, Email, Role)"
+                + " values (?, ?, ?, ?, ?, ?,'Student')";
+
+        // create the mysql insert preparedstatement
+        PreparedStatement preparedStmt = connection.prepareStatement(query);
+        preparedStmt.setString(1, username);
+        preparedStmt.setString(2, password);
+        preparedStmt.setString(3, title);
+        preparedStmt.setString(4, forename);
+        preparedStmt.setString(5, surname);
+        preparedStmt.setString(6, email);
+        //preparedStmt.setString(7, role);
+
+        // execute the preparedstatement
+        preparedStmt.execute();
+
+    }
+
+    //student table from db
+    public String[][] getStudentTable(Statement statement) throws SQLException {
+
+        String sql = ("SELECT * FROM Student;");
+        ResultSet rs = statement.executeQuery(sql);
+        rs.last();
+        String[][] data = new String[rs.getRow()][];
+        int i = 0;
+        //int j = 0;
+
+        rs.beforeFirst();
+        while(rs.next()) {
+
+            String id = rs.getString("User_ID");
+            String regNo = rs.getString("RegNo");
+            String degreeCode = rs.getString("DegreeCode");
+            String level = rs.getString("LevelOfStudy");
+            String entry = rs.getString("Entry");
+            String period = rs.getString("PeriodOfStudy");
+            String tutor = rs.getString("PersonalTutor");
+
+            data[i] = new String[]{id, regNo, degreeCode, level, entry, period, tutor};
+            i++;
+        }
+
+        return data;
 
     }
 
