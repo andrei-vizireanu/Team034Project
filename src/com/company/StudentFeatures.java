@@ -40,6 +40,9 @@ public class StudentFeatures {
         table = new JTable(tableModel);
 
         viewModules.addActionListener(ae -> {
+            if(table.getRowCount() == 0){
+               // database.viewStudentModules(Main.statement, usernameFiled.getText(), passwordField.getText(),);
+            }
 
 
         });
@@ -86,22 +89,4 @@ public class StudentFeatures {
         });
     }
 }
-
-                /* viewResults.addActionListener(e -> {
-
-                   if(!) && teacherNameTxtField.getText().equals(teacherName)) {
-                        try {
-                            database.UpdateStudent(Main.connection, Double.parseDouble(gradeTxtField.getText()),
-                                    pass, resit);
-                        } catch (SQLException throwables) {
-                            throwables.printStackTrace();
-                        }
-
-                        table.setValueAt(gradeTxtField.getText(), table.getSelectedRow(), 2);
-
-                        editDialog.dispose();
-            }
-        });
-    }
-}*/
 
