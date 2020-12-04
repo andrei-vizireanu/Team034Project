@@ -767,4 +767,71 @@ public class Database {
         }
     }
 
+    public String getModuleEntryID(Statement statement, String modCode){
+
+        String sql = ("SELECT * FROM module_entry;");
+
+        try {
+
+            ResultSet rs = statement.executeQuery(sql);
+
+            while(rs.next()) {
+
+                String modEntryID = rs.getString("ModuleEntryID");
+                String moduleCode = rs.getString("ModuleCode");
+
+
+                if(modCode.equals(moduleCode))
+                    return modEntryID;
+
+
+                        }
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+        return null;
+
+    }
+
+    public String getModuleID(Statement statement, String modCode, String modName){
+
+        String sql = ("SELECT * FROM Module;");
+
+        try {
+
+            ResultSet rs = statement.executeQuery(sql);
+
+            while(rs.next()) {
+
+                String moduleID = rs.getString("ModuleID");
+                String moduleName = rs.getString("ModuleName");
+                String moduleCode = rs.getString("ModuleCode");
+
+
+                if(modCode.equals(moduleCode) && modName.equals(moduleName) )
+                    return moduleID;
+
+
+            }
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+        return null;
+
+    }
+
+
+    public void viewStudentModules (Statement statement, String regNo,
+                                     String obligatory, int level ) throws SQLException {
+
+        String sql = ("SELECT ModuleCode FROM Module WHERE (Level = " + level + "); SELECT ModuleName FROM Module WHERE (Core = " + obligatory + "); " +
+                "SELECT Credit FROM Module WHERE (Level = " + level + "); SELECT RegNo FROM Grading WHERE (RegNo = " + regNo + ");");
+        ResultSet rs = statement.executeQuery(sql);
+    }
 }
+
+
