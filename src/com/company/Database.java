@@ -11,7 +11,7 @@ public class Database {
 
         try {
 
-            String sql = "SELECT * FROM User WHERE Username = '" + username + "'";
+            String sql = "SELECT * FROM User WHERE Username = '" + username + "';";
 
             ResultSet rs = statement.executeQuery(sql);
 
@@ -885,14 +885,13 @@ public class Database {
 
                 String id = rs.getString("UserID");
                 String user = rs.getString("Username");
-                String pass = rs.getString("Password");
                 String title = rs.getString("Title");
                 String forename = rs.getString("Forename");
                 String surname = rs.getString("Surname");
                 String email = rs.getString("Email");
                 String role = rs.getString("Role");
 
-                data[i] = new String[]{id, user, pass, title, forename, surname, email,role};
+                data[i] = new String[]{id, user, title, forename, surname, email,role};
                 i++;
             }
 
