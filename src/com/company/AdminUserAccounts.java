@@ -371,7 +371,8 @@ public class AdminUserAccounts {
 
                     //information message
                     JOptionPane.showMessageDialog(addDialog,
-                            "You added the following User Account ID: " + id,
+                            "You added the User Account Successfully ",
+                            //"You added the User Account ID: " + id,
                             "Successfully Added",
                             JOptionPane.INFORMATION_MESSAGE);
 
