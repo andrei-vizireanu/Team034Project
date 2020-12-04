@@ -1,0 +1,832 @@
+Index: src/com/company/RegisterStudent.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.company;\n\nimport javax.swing.*;\nimport javax.swing.border.EmptyBorder;\nimport javax.swing.table.DefaultTableModel;\nimport javax.swing.table.TableModel;\nimport java.awt.*;\nimport java.sql.SQLException;\n\npublic class RegisterStudent {\n    // declaring the variables\n    private JFrame frame;\n    private JPanel buttonsPanel;\n    private Container mainContainer;\n    private JTable table;\n    private JButton delete;\n    private JButton add;\n    private JButton edit;\n    private Database database;\n    private final int width = 1300;\n    private final int height = 700;\n\n    public RegisterStudent(String title) throws SQLException {\n\n        //initializing the variables\n        frame = new JFrame(title);\n        buttonsPanel = new JPanel();\n        mainContainer = new Container();\n        delete = new JButton(\"Delete\");\n        add = new JButton(\"Add\");\n        edit = new JButton(\"Edit\");\n        database = new Database();\n\n        // Column Names\n        String[] columnNames = { \"ID\", \"Username\", \"Password\", \"Title\", \"Forename\", \"Surname\", \"Email\", \"Role\"};\n//        String[][] rows = database.getStudentUser(Main.statement);\n//\n//        TableModel tableModel = new DefaultTableModel(rows, columnNames);\n//        table = new JTable(tableModel);\n//\n//\n//\n//        JScrollPane scrollpane = new JScrollPane(table);\n//\n//        //action when clicking the delete button\n//        delete.addActionListener(ae -> {\n//\n//            if(table.getSelectedRowCount() == 1){\n//\n//                String id = String.valueOf(table.getValueAt(table.getSelectedRow(), 0));\n//\n//                int confirm1 = JOptionPane.showOptionDialog(frame,\n//                        \"Are you sure you want to delete the following User Account ID: \" + id + \" ?\",\n//                        \"Delete Confirmation\", JOptionPane.YES_NO_OPTION,\n//                        JOptionPane.WARNING_MESSAGE, null, null, null);\n//                if (confirm1 == JOptionPane.YES_OPTION) {\n//\n//                    //deleting the user account\n//                    database.deleteUser(Main.connection, id);\n//\n//                    //removing the row from the table\n//                    ((DefaultTableModel) tableModel).removeRow(table.getSelectedRow());\n//\n//                    //resizing the table again\n//                    //fitExactly();\n//\n//                }\n//\n//            }\n//            else{\n//                if(table.getRowCount() == 0){\n//                    //custom title, error icon\n//                    JOptionPane.showMessageDialog(frame,\n//                            \"The table is empty so you cannot delete anything!\",\n//                            \"Empty Table\",\n//                            JOptionPane.ERROR_MESSAGE);\n//                }\n//                else{\n//                    JOptionPane.showMessageDialog(frame,\n//                            \"You need to select the item first in order to delete it!\",\n//                            \"Select an item\",\n//                            JOptionPane.ERROR_MESSAGE);\n//                }\n//            }\n//\n//        });\n//\n//\n//        //action when clicking the add button\n//        add.addActionListener(ae -> {\n//\n//            //declaring and initiating the objects\n//            Container editContainer = new Container();\n//            JFrame dialogFrame = new JFrame();\n//            JPanel infoPanel = new JPanel();\n//            JPanel buttonsPanel = new JPanel();\n//            JDialog addDialog = new JDialog(dialogFrame, \"Add Dialog\");\n//            JButton add = new JButton(\"Add\");\n//            JButton cancel = new JButton(\"Cancel\");\n//            EmptyBorder borderLabels = new EmptyBorder(15, 0, 0, 0);\n//            JScrollPane dialogScroll = new JScrollPane(infoPanel);\n//\n//            //setting the layouts of the container and infoPanel\n//            editContainer.setLayout(new BorderLayout());\n//            infoPanel.setLayout(new GridLayout(14, 2, 10, 10));\n//\n//            //creating the labels objects and setting their text colors and borders\n//            JLabel usernameLabel = new JLabel(\"Username\");\n//            usernameLabel.setForeground(Color.BLUE);\n//            usernameLabel.setBorder(borderLabels);\n//            JLabel passwordLabel = new JLabel(\"Password\");\n//            passwordLabel.setForeground(Color.BLUE);\n//            passwordLabel.setBorder(borderLabels);\n//            JLabel titleLabel = new JLabel(\"Title\");\n//            titleLabel.setForeground(Color.BLUE);\n//            titleLabel.setBorder(borderLabels);\n//            JLabel forenameLabel = new JLabel(\"Forename\");\n//            forenameLabel.setForeground(Color.BLUE);\n//            forenameLabel.setBorder(borderLabels);\n//            JLabel surnameLabel = new JLabel(\"Surname\");\n//            surnameLabel.setForeground(Color.BLUE);\n//            surnameLabel.setBorder(borderLabels);\n//            JLabel emailLabel = new JLabel(\"Email\");\n//            emailLabel.setForeground(Color.BLUE);\n//            emailLabel.setBorder(borderLabels);\n//            JLabel roleLabel = new JLabel(\"Role\");\n//            roleLabel.setForeground(Color.BLUE);\n//            roleLabel.setBorder(borderLabels);\n//\n//            //creating the fields for each value\n//            JTextField usernameFiled = new JTextField();\n//            JTextField passwordField = new JTextField();\n//            JTextField forenameField = new JTextField();\n//            JTextField surnameField = new JTextField();\n//            JTextField emailField = new JTextField();\n//\n//            //creating an array for the combo box\n//\n//            String[] roles = {\"\", \"Student\"};\n//            String[] titles = {\"\", \"Master\", \"Mr\", \"Miss\", \"Mrs\", \"Ms\", \"Mx\"};\n//\n//            //creating the combo box and checking which item (role) should be selected for the selected User\n//            JComboBox rolesCombo = new JComboBox(roles);\n//            JComboBox titlesCombo = new JComboBox(titles);\n//            //rolesCombo.setSelectedIndex(0);\n//            titlesCombo.setSelectedIndex(0);\n//\n//            //action when edit is clicked\n//            add.addActionListener(e -> {\n//\n//                //checking if you updated the user with new information\n//                if(!usernameFiled.getText().contains(\" \") && !usernameFiled.getText().equals(\"\") &&\n//                        !passwordField.getText().contains(\" \") && !passwordField.getText().equals(\"\") &&\n//                        titlesCombo.getSelectedIndex() != 0 &&\n//                        !forenameField.getText().contains(\" \") && !forenameField.getText().equals(\"\") &&\n//                        !surnameField.getText().contains(\" \") && !surnameField.getText().equals(\"\") &&\n//                        !emailField.getText().contains(\" \") && !emailField.getText().equals(\"\")) /*&&\n//                rolesCombo.getSelectedIndex() != 0*/{\n//\n//                    String id = null;\n//\n//                    //updating the selected user's information\n//                    try {\n//                        database.addUser(Main.connection,usernameFiled.getText(), passwordField.getText(),\n//                                String.valueOf(titlesCombo.getSelectedItem()), forenameField.getText(),\n//                                surnameField.getText(), emailField.getText(), String.valueOf(rolesCombo.getSelectedItem()));\n//                    } catch (SQLException throwables) {\n//                        throwables.printStackTrace();\n//                    }\n//\n//                    try {\n//                        id = database.getUserID(Main.statement, usernameFiled.getText(), passwordField.getText());\n//                        ((DefaultTableModel) tableModel).addRow(new Object[]{id, usernameFiled.getText(),\n//                                passwordField.getText(), String.valueOf(titlesCombo.getSelectedItem()),\n//                                forenameField.getText(), surnameField.getText(), emailField.getText(),\n//                                \"Student\"});\n//\n//                        //resizing the table again\n//                        //fitExactly();\n//                    } catch (SQLException throwables) {\n//                        throwables.printStackTrace();\n//                    }\n//\n//                    //closing the windows after this is proceed\n//                    addDialog.dispose();\n//\n//                    //information message\n//                    JOptionPane.showMessageDialog(addDialog,\n//                            \"You added the following User Account ID: \" + id,\n//                            \"Successfully Added\",\n//                            JOptionPane.INFORMATION_MESSAGE);\n//\n//                }\n//                //if the information is not changed but you still clicked on edit\n//                else{\n//                    //error message\n//                    JOptionPane.showMessageDialog(addDialog,\n//                            \"You need to fill all the fields! And make sure to not have any space in them!\",\n//                            \"Fill all fields\",\n//                            JOptionPane.ERROR_MESSAGE);\n//                }\n//\n//            });\n//\n//            //close the actual window when pressing on the cancel button\n//            cancel.addActionListener(e -> {\n//                addDialog.dispose();\n//            });\n//\n//\n//            //adding the labels and fields to the information panel\n//            infoPanel.add(usernameLabel);\n//            infoPanel.add(usernameFiled);\n//            infoPanel.add(passwordLabel);\n//            infoPanel.add(passwordField);\n//            infoPanel.add(titleLabel);\n//            infoPanel.add(titlesCombo);\n//            infoPanel.add(forenameLabel);\n//            infoPanel.add(forenameField);\n//            infoPanel.add(surnameLabel);\n//            infoPanel.add(surnameField);\n//            infoPanel.add(emailLabel);\n//            infoPanel.add(emailField);\n//            infoPanel.add(roleLabel);\n//            infoPanel.add(rolesCombo);\n//\n//            //adding the buttons to the buttons panel\n//            buttonsPanel.add(add);\n//            buttonsPanel.add(cancel);\n//\n//            //setting panel's layout\n//            editContainer.add(dialogScroll, BorderLayout.NORTH);\n//            editContainer.add(buttonsPanel, BorderLayout.CENTER);\n//\n//            //centre the edit Window\n//            MyFrame.centreWindow(addDialog, 500, 700);\n//\n//            //adding the edit container to the edit dialog\n//            addDialog.getContentPane().add(editContainer);\n//\n//            //setting the size of the edit dialog\n//            addDialog.setSize(500, 700);\n//\n//            //don't allow the frame to be resized\n//            addDialog.setResizable(false);\n//\n//            //setting the visibility of dialog\n//            addDialog.setVisible(true);\n//\n//        });\n//\n//\n//        //creating the scroll pane in order to have a scrollable table\n//        JScrollPane scrollPane = new JScrollPane(table);\n//\n//        //setting the layout and borders for the buttons panel\n//        buttonsPanel.setLayout(new GridLayout(3, 2, 10, 10));\n//        buttonsPanel.setBorder(new EmptyBorder(10, 200, 10, 200));\n//        buttonsPanel.add(edit);\n//        buttonsPanel.add(add);\n//        buttonsPanel.add(delete);\n//\n//        //setting the layout for the main container\n//        mainContainer.setLayout(new BorderLayout());\n//\n//        //adding to the main container the scroll pane and buttons panel\n//        mainContainer.add(scrollPane, BorderLayout.NORTH);\n//        mainContainer.add(buttonsPanel, BorderLayout.CENTER);\n//\n//        //center the window\n//        MyFrame.centreWindow(frame, width, height);\n//\n//        //adding the main container to the frame\n//        frame.getContentPane().add(mainContainer);\n//\n//        //setting the width and the height of the frame\n//        frame.setSize(width,height);\n//\n//        //don't allow the frame to be resized\n//        frame.setResizable(false);\n//\n//        //making the frame visible\n//        frame.setVisible(true);\n\n\n    }\n\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/com/company/RegisterStudent.java	(revision 301913029539aefa7e9fd8d64c46d204eeaef648)
++++ src/com/company/RegisterStudent.java	(date 1607069060066)
+@@ -33,254 +33,469 @@
+ 
+         // Column Names
+         String[] columnNames = { "ID", "Username", "Password", "Title", "Forename", "Surname", "Email", "Role"};
+-//        String[][] rows = database.getStudentUser(Main.statement);
+-//
+-//        TableModel tableModel = new DefaultTableModel(rows, columnNames);
+-//        table = new JTable(tableModel);
+-//
+-//
+-//
+-//        JScrollPane scrollpane = new JScrollPane(table);
+-//
+-//        //action when clicking the delete button
+-//        delete.addActionListener(ae -> {
+-//
+-//            if(table.getSelectedRowCount() == 1){
+-//
+-//                String id = String.valueOf(table.getValueAt(table.getSelectedRow(), 0));
+-//
+-//                int confirm1 = JOptionPane.showOptionDialog(frame,
+-//                        "Are you sure you want to delete the following User Account ID: " + id + " ?",
+-//                        "Delete Confirmation", JOptionPane.YES_NO_OPTION,
+-//                        JOptionPane.WARNING_MESSAGE, null, null, null);
+-//                if (confirm1 == JOptionPane.YES_OPTION) {
+-//
+-//                    //deleting the user account
+-//                    database.deleteUser(Main.connection, id);
+-//
+-//                    //removing the row from the table
+-//                    ((DefaultTableModel) tableModel).removeRow(table.getSelectedRow());
+-//
+-//                    //resizing the table again
+-//                    //fitExactly();
+-//
+-//                }
+-//
+-//            }
+-//            else{
+-//                if(table.getRowCount() == 0){
+-//                    //custom title, error icon
+-//                    JOptionPane.showMessageDialog(frame,
+-//                            "The table is empty so you cannot delete anything!",
+-//                            "Empty Table",
+-//                            JOptionPane.ERROR_MESSAGE);
+-//                }
+-//                else{
+-//                    JOptionPane.showMessageDialog(frame,
+-//                            "You need to select the item first in order to delete it!",
+-//                            "Select an item",
+-//                            JOptionPane.ERROR_MESSAGE);
+-//                }
+-//            }
+-//
+-//        });
+-//
+-//
+-//        //action when clicking the add button
+-//        add.addActionListener(ae -> {
+-//
+-//            //declaring and initiating the objects
+-//            Container editContainer = new Container();
+-//            JFrame dialogFrame = new JFrame();
+-//            JPanel infoPanel = new JPanel();
+-//            JPanel buttonsPanel = new JPanel();
+-//            JDialog addDialog = new JDialog(dialogFrame, "Add Dialog");
+-//            JButton add = new JButton("Add");
+-//            JButton cancel = new JButton("Cancel");
+-//            EmptyBorder borderLabels = new EmptyBorder(15, 0, 0, 0);
+-//            JScrollPane dialogScroll = new JScrollPane(infoPanel);
+-//
+-//            //setting the layouts of the container and infoPanel
+-//            editContainer.setLayout(new BorderLayout());
+-//            infoPanel.setLayout(new GridLayout(14, 2, 10, 10));
+-//
+-//            //creating the labels objects and setting their text colors and borders
+-//            JLabel usernameLabel = new JLabel("Username");
+-//            usernameLabel.setForeground(Color.BLUE);
+-//            usernameLabel.setBorder(borderLabels);
+-//            JLabel passwordLabel = new JLabel("Password");
+-//            passwordLabel.setForeground(Color.BLUE);
+-//            passwordLabel.setBorder(borderLabels);
+-//            JLabel titleLabel = new JLabel("Title");
+-//            titleLabel.setForeground(Color.BLUE);
+-//            titleLabel.setBorder(borderLabels);
+-//            JLabel forenameLabel = new JLabel("Forename");
+-//            forenameLabel.setForeground(Color.BLUE);
+-//            forenameLabel.setBorder(borderLabels);
+-//            JLabel surnameLabel = new JLabel("Surname");
+-//            surnameLabel.setForeground(Color.BLUE);
+-//            surnameLabel.setBorder(borderLabels);
+-//            JLabel emailLabel = new JLabel("Email");
+-//            emailLabel.setForeground(Color.BLUE);
+-//            emailLabel.setBorder(borderLabels);
+-//            JLabel roleLabel = new JLabel("Role");
+-//            roleLabel.setForeground(Color.BLUE);
+-//            roleLabel.setBorder(borderLabels);
+-//
+-//            //creating the fields for each value
+-//            JTextField usernameFiled = new JTextField();
+-//            JTextField passwordField = new JTextField();
+-//            JTextField forenameField = new JTextField();
+-//            JTextField surnameField = new JTextField();
+-//            JTextField emailField = new JTextField();
+-//
+-//            //creating an array for the combo box
+-//
+-//            String[] roles = {"", "Student"};
+-//            String[] titles = {"", "Master", "Mr", "Miss", "Mrs", "Ms", "Mx"};
+-//
+-//            //creating the combo box and checking which item (role) should be selected for the selected User
+-//            JComboBox rolesCombo = new JComboBox(roles);
+-//            JComboBox titlesCombo = new JComboBox(titles);
+-//            //rolesCombo.setSelectedIndex(0);
+-//            titlesCombo.setSelectedIndex(0);
+-//
+-//            //action when edit is clicked
+-//            add.addActionListener(e -> {
+-//
+-//                //checking if you updated the user with new information
+-//                if(!usernameFiled.getText().contains(" ") && !usernameFiled.getText().equals("") &&
+-//                        !passwordField.getText().contains(" ") && !passwordField.getText().equals("") &&
+-//                        titlesCombo.getSelectedIndex() != 0 &&
+-//                        !forenameField.getText().contains(" ") && !forenameField.getText().equals("") &&
+-//                        !surnameField.getText().contains(" ") && !surnameField.getText().equals("") &&
+-//                        !emailField.getText().contains(" ") && !emailField.getText().equals("")) /*&&
+-//                rolesCombo.getSelectedIndex() != 0*/{
+-//
+-//                    String id = null;
+-//
+-//                    //updating the selected user's information
+-//                    try {
+-//                        database.addUser(Main.connection,usernameFiled.getText(), passwordField.getText(),
+-//                                String.valueOf(titlesCombo.getSelectedItem()), forenameField.getText(),
+-//                                surnameField.getText(), emailField.getText(), String.valueOf(rolesCombo.getSelectedItem()));
+-//                    } catch (SQLException throwables) {
+-//                        throwables.printStackTrace();
+-//                    }
+-//
+-//                    try {
+-//                        id = database.getUserID(Main.statement, usernameFiled.getText(), passwordField.getText());
+-//                        ((DefaultTableModel) tableModel).addRow(new Object[]{id, usernameFiled.getText(),
+-//                                passwordField.getText(), String.valueOf(titlesCombo.getSelectedItem()),
+-//                                forenameField.getText(), surnameField.getText(), emailField.getText(),
+-//                                "Student"});
+-//
+-//                        //resizing the table again
+-//                        //fitExactly();
+-//                    } catch (SQLException throwables) {
+-//                        throwables.printStackTrace();
+-//                    }
+-//
+-//                    //closing the windows after this is proceed
+-//                    addDialog.dispose();
+-//
+-//                    //information message
+-//                    JOptionPane.showMessageDialog(addDialog,
+-//                            "You added the following User Account ID: " + id,
+-//                            "Successfully Added",
+-//                            JOptionPane.INFORMATION_MESSAGE);
+-//
+-//                }
+-//                //if the information is not changed but you still clicked on edit
+-//                else{
+-//                    //error message
+-//                    JOptionPane.showMessageDialog(addDialog,
+-//                            "You need to fill all the fields! And make sure to not have any space in them!",
+-//                            "Fill all fields",
+-//                            JOptionPane.ERROR_MESSAGE);
+-//                }
+-//
+-//            });
+-//
+-//            //close the actual window when pressing on the cancel button
+-//            cancel.addActionListener(e -> {
+-//                addDialog.dispose();
+-//            });
+-//
+-//
+-//            //adding the labels and fields to the information panel
+-//            infoPanel.add(usernameLabel);
+-//            infoPanel.add(usernameFiled);
+-//            infoPanel.add(passwordLabel);
+-//            infoPanel.add(passwordField);
+-//            infoPanel.add(titleLabel);
+-//            infoPanel.add(titlesCombo);
+-//            infoPanel.add(forenameLabel);
+-//            infoPanel.add(forenameField);
+-//            infoPanel.add(surnameLabel);
+-//            infoPanel.add(surnameField);
+-//            infoPanel.add(emailLabel);
+-//            infoPanel.add(emailField);
+-//            infoPanel.add(roleLabel);
+-//            infoPanel.add(rolesCombo);
+-//
+-//            //adding the buttons to the buttons panel
+-//            buttonsPanel.add(add);
+-//            buttonsPanel.add(cancel);
+-//
+-//            //setting panel's layout
+-//            editContainer.add(dialogScroll, BorderLayout.NORTH);
+-//            editContainer.add(buttonsPanel, BorderLayout.CENTER);
+-//
+-//            //centre the edit Window
+-//            MyFrame.centreWindow(addDialog, 500, 700);
+-//
+-//            //adding the edit container to the edit dialog
+-//            addDialog.getContentPane().add(editContainer);
+-//
+-//            //setting the size of the edit dialog
+-//            addDialog.setSize(500, 700);
+-//
+-//            //don't allow the frame to be resized
+-//            addDialog.setResizable(false);
+-//
+-//            //setting the visibility of dialog
+-//            addDialog.setVisible(true);
+-//
+-//        });
+-//
+-//
+-//        //creating the scroll pane in order to have a scrollable table
+-//        JScrollPane scrollPane = new JScrollPane(table);
+-//
+-//        //setting the layout and borders for the buttons panel
+-//        buttonsPanel.setLayout(new GridLayout(3, 2, 10, 10));
+-//        buttonsPanel.setBorder(new EmptyBorder(10, 200, 10, 200));
+-//        buttonsPanel.add(edit);
+-//        buttonsPanel.add(add);
+-//        buttonsPanel.add(delete);
+-//
+-//        //setting the layout for the main container
+-//        mainContainer.setLayout(new BorderLayout());
+-//
+-//        //adding to the main container the scroll pane and buttons panel
+-//        mainContainer.add(scrollPane, BorderLayout.NORTH);
+-//        mainContainer.add(buttonsPanel, BorderLayout.CENTER);
+-//
+-//        //center the window
+-//        MyFrame.centreWindow(frame, width, height);
+-//
+-//        //adding the main container to the frame
+-//        frame.getContentPane().add(mainContainer);
+-//
+-//        //setting the width and the height of the frame
+-//        frame.setSize(width,height);
+-//
+-//        //don't allow the frame to be resized
+-//        frame.setResizable(false);
+-//
+-//        //making the frame visible
+-//        frame.setVisible(true);
++        String[][] rows = database.getStudentUser(Main.statement);
++
++        TableModel tableModel = new DefaultTableModel(rows, columnNames);
++        table = new JTable(tableModel);
++
++
++
++        JScrollPane scrollpane = new JScrollPane(table);
++
++        //action when clicking the delete button
++        delete.addActionListener(ae -> {
++
++            if(table.getSelectedRowCount() == 1){
++
++                String id = String.valueOf(table.getValueAt(table.getSelectedRow(), 0));
++
++                int confirm1 = JOptionPane.showOptionDialog(frame,
++                        "Are you sure you want to delete the following User Account ID: " + id + " ?",
++                        "Delete Confirmation", JOptionPane.YES_NO_OPTION,
++                        JOptionPane.WARNING_MESSAGE, null, null, null);
++                if (confirm1 == JOptionPane.YES_OPTION) {
++
++                    //deleting the user account
++                    database.deleteUser(Main.connection, id);
++
++                    //removing the row from the table
++                    ((DefaultTableModel) tableModel).removeRow(table.getSelectedRow());
++
++                    //resizing the table again
++                    //fitExactly();
++
++                }
++
++            }
++            else{
++                if(table.getRowCount() == 0){
++                    //custom title, error icon
++                    JOptionPane.showMessageDialog(frame,
++                            "The table is empty so you cannot delete anything!",
++                            "Empty Table",
++                            JOptionPane.ERROR_MESSAGE);
++                }
++                else{
++                    JOptionPane.showMessageDialog(frame,
++                            "You need to select the item first in order to delete it!",
++                            "Select an item",
++                            JOptionPane.ERROR_MESSAGE);
++                }
++            }
++
++        });
++
++
++        //action when clicking the add button
++        add.addActionListener(ae -> {
++
++            //declaring and initiating the objects
++            Container editContainer = new Container();
++            JFrame dialogFrame = new JFrame();
++            JPanel infoPanel = new JPanel();
++            JPanel buttonsPanel = new JPanel();
++            JDialog addDialog = new JDialog(dialogFrame, "Add Dialog");
++            JButton add = new JButton("Add");
++            JButton cancel = new JButton("Cancel");
++            EmptyBorder borderLabels = new EmptyBorder(15, 0, 0, 0);
++            JScrollPane dialogScroll = new JScrollPane(infoPanel);
++
++            //setting the layouts of the container and infoPanel
++            editContainer.setLayout(new BorderLayout());
++            infoPanel.setLayout(new GridLayout(14, 2, 10, 10));
++
++            //creating the labels objects and setting their text colors and borders
++            JLabel usernameLabel = new JLabel("Username");
++            usernameLabel.setForeground(Color.BLUE);
++            usernameLabel.setBorder(borderLabels);
++            JLabel passwordLabel = new JLabel("Password");
++            passwordLabel.setForeground(Color.BLUE);
++            passwordLabel.setBorder(borderLabels);
++            JLabel titleLabel = new JLabel("Title");
++            titleLabel.setForeground(Color.BLUE);
++            titleLabel.setBorder(borderLabels);
++            JLabel forenameLabel = new JLabel("Forename");
++            forenameLabel.setForeground(Color.BLUE);
++            forenameLabel.setBorder(borderLabels);
++            JLabel surnameLabel = new JLabel("Surname");
++            surnameLabel.setForeground(Color.BLUE);
++            surnameLabel.setBorder(borderLabels);
++            JLabel emailLabel = new JLabel("Email");
++            emailLabel.setForeground(Color.BLUE);
++            emailLabel.setBorder(borderLabels);
++            JLabel roleLabel = new JLabel("Role");
++            roleLabel.setForeground(Color.BLUE);
++            roleLabel.setBorder(borderLabels);
++
++            //creating the fields for each value
++            JTextField usernameFiled = new JTextField();
++            JTextField passwordField = new JTextField();
++            JTextField forenameField = new JTextField();
++            JTextField surnameField = new JTextField();
++            JTextField emailField = new JTextField();
++
++            //creating an array for the combo box
++
++            String[] roles = {"", "Student"};
++            String[] titles = {"", "Master", "Mr", "Miss", "Mrs", "Ms", "Mx"};
++
++            //creating the combo box and checking which item (role) should be selected for the selected User
++            JComboBox rolesCombo = new JComboBox(roles);
++            JComboBox titlesCombo = new JComboBox(titles);
++            //rolesCombo.setSelectedIndex(0);
++            titlesCombo.setSelectedIndex(0);
++
++            //action when edit is clicked
++            add.addActionListener(e -> {
++
++                //checking if you updated the user with new information
++                if(!usernameFiled.getText().contains(" ") && !usernameFiled.getText().equals("") &&
++                        !passwordField.getText().contains(" ") && !passwordField.getText().equals("") &&
++                        titlesCombo.getSelectedIndex() != 0 &&
++                        !forenameField.getText().contains(" ") && !forenameField.getText().equals("") &&
++                        !surnameField.getText().contains(" ") && !surnameField.getText().equals("") &&
++                        !emailField.getText().contains(" ") && !emailField.getText().equals("")) /*&&
++                rolesCombo.getSelectedIndex() != 0*/{
++
++                    String id = null;
++
++                    String thePassword = passwordField.getText();
++                    //Generate Salt.
++                    String salt = PasswordHashingUtilityFunction.getSalt(30);
++
++                    // Protect user's password. The generateed value can be stored in DB.
++                    String theSecuredPassword = PasswordHashingUtilityFunction.generateSecurePassword(thePassword, salt);
++
++                    try {
++
++                        database.addUser(Main.connection,usernameFiled.getText(),theSecuredPassword, salt,
++                                String.valueOf(titlesCombo.getSelectedItem()), forenameField.getText(),
++                                surnameField.getText(), emailField.getText(), String.valueOf(rolesCombo.getSelectedItem()));
++
++
++                    } catch (SQLException throwables){
++                        throwables.printStackTrace();
++                    }
++
++                    //updating the selected user's information
++                    /*try {
++                        database.addUser(Main.connection,usernameFiled.getText(), passwordField.getText(),
++                                String.valueOf(titlesCombo.getSelectedItem()), forenameField.getText(),
++                                surnameField.getText(), emailField.getText(), String.valueOf(rolesCombo.getSelectedItem()));
++                    } catch (SQLException throwables) {
++                        throwables.printStackTrace();
++                    }*/
++
++                    try {
++                        id = database.getUserID(Main.statement, usernameFiled.getText(), passwordField.getText());
++                        ((DefaultTableModel) tableModel).addRow(new Object[]{id, usernameFiled.getText(),
++                                passwordField.getText(), String.valueOf(titlesCombo.getSelectedItem()),
++                                forenameField.getText(), surnameField.getText(), emailField.getText(),
++                                "Student"});
++
++                        //resizing the table again
++                        //fitExactly();
++                    } catch (SQLException throwables) {
++                        throwables.printStackTrace();
++                    }
++
++                    //closing the windows after this is proceed
++                    addDialog.dispose();
++
++                    //information message
++                    JOptionPane.showMessageDialog(addDialog,
++                            "You added the following User Account ID: " + id,
++                            "Successfully Added",
++                            JOptionPane.INFORMATION_MESSAGE);
++
++                }
++                //if the information is not changed but you still clicked on edit
++                else{
++                    //error message
++                    JOptionPane.showMessageDialog(addDialog,
++                            "You need to fill all the fields! And make sure to not have any space in them!",
++                            "Fill all fields",
++                            JOptionPane.ERROR_MESSAGE);
++                }
++
++            });
++
++            //close the actual window when pressing on the cancel button
++            cancel.addActionListener(e -> {
++                addDialog.dispose();
++            });
++
++
++            //adding the labels and fields to the information panel
++            infoPanel.add(usernameLabel);
++            infoPanel.add(usernameFiled);
++            infoPanel.add(passwordLabel);
++            infoPanel.add(passwordField);
++            infoPanel.add(titleLabel);
++            infoPanel.add(titlesCombo);
++            infoPanel.add(forenameLabel);
++            infoPanel.add(forenameField);
++            infoPanel.add(surnameLabel);
++            infoPanel.add(surnameField);
++            infoPanel.add(emailLabel);
++            infoPanel.add(emailField);
++            infoPanel.add(roleLabel);
++            infoPanel.add(rolesCombo);
++
++            //adding the buttons to the buttons panel
++            buttonsPanel.add(add);
++            buttonsPanel.add(cancel);
++
++            //setting panel's layout
++            editContainer.add(dialogScroll, BorderLayout.NORTH);
++            editContainer.add(buttonsPanel, BorderLayout.CENTER);
++
++            //centre the edit Window
++            MyFrame.centreWindow(addDialog, 500, 700);
++
++            //adding the edit container to the edit dialog
++            addDialog.getContentPane().add(editContainer);
++
++            //setting the size of the edit dialog
++            addDialog.setSize(500, 700);
++
++            //don't allow the frame to be resized
++            addDialog.setResizable(false);
++
++            //setting the visibility of dialog
++            addDialog.setVisible(true);
++
++        });
++
++        //action when edit button is clicked
++        edit.addActionListener(ae -> {
++
++            //you selected an existing row from the table
++            if(table.getSelectedRowCount() == 1){
++
++                //declaring and initiating the objects
++                Container editContainer = new Container();
++                JFrame dialogFrame = new JFrame();
++                JPanel infoPanel = new JPanel();
++                JPanel buttonsPanel = new JPanel();
++                JDialog editDialog = new JDialog(dialogFrame, "Edit Dialog");
++                JButton edit = new JButton("Edit");
++                JButton cancel = new JButton("Cancel");
++                EmptyBorder borderLabels = new EmptyBorder(15, 0, 0, 0);
++                JScrollPane dialogScroll = new JScrollPane(infoPanel);
++
++                //setting the layouts of the container and infoPanel
++                editContainer.setLayout(new BorderLayout());
++                infoPanel.setLayout(new GridLayout(14, 2, 10, 10));
++
++                //getting each value from the row selected
++                String id = String.valueOf(table.getValueAt(table.getSelectedRow(), 0));
++                String username = String.valueOf(table.getValueAt(table.getSelectedRow(), 1));
++                String password = String.valueOf(table.getValueAt(table.getSelectedRow(), 2).toString());
++                String userTitle = String.valueOf(table.getValueAt(table.getSelectedRow(), 3).toString());
++                String forename = String.valueOf(table.getValueAt(table.getSelectedRow(), 4).toString());
++                String surname = String.valueOf(table.getValueAt(table.getSelectedRow(), 5).toString());
++                String email = String.valueOf(table.getValueAt(table.getSelectedRow(), 6).toString());
++                String role = String.valueOf(table.getValueAt(table.getSelectedRow(), 7).toString());
++
++                //creating the labels objects and setting their text colors and borders
++                JLabel usernameLabel = new JLabel("Username");
++                usernameLabel.setForeground(Color.BLUE);
++                usernameLabel.setBorder(borderLabels);
++                JLabel passwordLabel = new JLabel("Password");
++                passwordLabel.setForeground(Color.BLUE);
++                passwordLabel.setBorder(borderLabels);
++                JLabel titleLabel = new JLabel("Title");
++                titleLabel.setForeground(Color.BLUE);
++                titleLabel.setBorder(borderLabels);
++                JLabel forenameLabel = new JLabel("Forename");
++                forenameLabel.setForeground(Color.BLUE);
++                forenameLabel.setBorder(borderLabels);
++                JLabel surnameLabel = new JLabel("Surname");
++                surnameLabel.setForeground(Color.BLUE);
++                surnameLabel.setBorder(borderLabels);
++                JLabel emailLabel = new JLabel("Email");
++                emailLabel.setForeground(Color.BLUE);
++                emailLabel.setBorder(borderLabels);
++                JLabel roleLabel = new JLabel("Role");
++                roleLabel.setForeground(Color.BLUE);
++                roleLabel.setBorder(borderLabels);
++
++                //creating the fields for each value
++                JTextField usernameFiled = new JTextField(username);
++                JTextField passwordField = new JTextField(password);
++                String[] titles = { "Master", "Mr", "Miss", "Mrs", "Ms", "Mx"};
++                JComboBox titlesCombo = new JComboBox(titles);
++                JTextField forenameField = new JTextField(forename);
++                JTextField surnameField = new JTextField(surname);
++                JTextField emailField = new JTextField(email);
++
++                //creating an array for the combo box
++                String[] roles = { "Student", "Teacher", "Registrar", "Administrator"};
++
++                //creating the combo box and checking which item (role and title) should be selected for the selected User
++                JComboBox rolesCombo = new JComboBox(roles);
++                for(int i = 0; i < roles.length; i++){
++                    if(role.equals(roles[i])){
++                        rolesCombo.setSelectedIndex(i);
++                    }
++                }
++
++                for(int i = 0; i < titles.length; i++){
++                    if(userTitle.equals(titles[i])){
++                        titlesCombo.setSelectedIndex(i);
++                    }
++                }
++
++                //action when edit is clicked
++                edit.addActionListener(e -> {
++
++                    //checking if you updated the user with new information
++                    if(!usernameFiled.getText().equals(username) || !passwordField.getText().equals(password) ||
++                            !String.valueOf(titlesCombo.getSelectedItem()).equals(userTitle) ||
++                            !forenameField.getText().equals(forename) || !surnameField.getText().equals(surname) ||
++                            !emailField.getText().equals(email) || !String.valueOf(rolesCombo.getSelectedItem()).equals(role)){
++
++                        //updating the selected user's information
++                        try {
++                            database.updateUser(Main.connection,usernameFiled.getText(), passwordField.getText(),
++                                    String.valueOf(titlesCombo.getSelectedItem()), forenameField.getText(), surnameField.getText(),
++                                    emailField.getText(), String.valueOf(rolesCombo.getSelectedItem()), id);
++                        } catch (SQLException throwables) {
++                            throwables.printStackTrace();
++                        }
++
++                        //refreshing the table with the new values
++                        table.setValueAt(usernameFiled.getText(), table.getSelectedRow(), 1);
++                        table.setValueAt(passwordField.getText(), table.getSelectedRow(), 2);
++                        table.setValueAt(String.valueOf(titlesCombo.getSelectedItem()), table.getSelectedRow(), 3);
++                        table.setValueAt(forenameField.getText(), table.getSelectedRow(), 4);
++                        table.setValueAt(surnameField.getText(), table.getSelectedRow(), 5);
++                        table.setValueAt(emailField.getText(), table.getSelectedRow(), 6);
++                        table.setValueAt(String.valueOf(rolesCombo.getSelectedItem()), table.getSelectedRow(), 7);
++
++                        //resizing the table again
++                        //fitExactly();
++
++                        //closing the windows after this is proceed
++                        editDialog.dispose();
++
++                        //information message
++                        JOptionPane.showMessageDialog(editDialog,
++                                "You updated the following User Account ID: " + id,
++                                "Successfully Updated",
++                                JOptionPane.INFORMATION_MESSAGE);
++
++                    }
++                    //if the information is not changed but you still clicked on edit
++                    else{
++                        //error message
++                        JOptionPane.showMessageDialog(editDialog,
++                                "Nothing will be updated because you didn't change anything",
++                                "Nothing Changed",
++                                JOptionPane.ERROR_MESSAGE);
++                    }
++
++                });
++
++                //close the actual window when pressing on the cancel button
++                cancel.addActionListener(e -> {
++                    editDialog.dispose();
++                });
++
++
++                //adding the labels and fields to the information panel
++                infoPanel.add(usernameLabel);
++                infoPanel.add(usernameFiled);
++                infoPanel.add(passwordLabel);
++                infoPanel.add(passwordField);
++                infoPanel.add(titleLabel);
++                infoPanel.add(titlesCombo);
++                infoPanel.add(forenameLabel);
++                infoPanel.add(forenameField);
++                infoPanel.add(surnameLabel);
++                infoPanel.add(surnameField);
++                infoPanel.add(emailLabel);
++                infoPanel.add(emailField);
++                infoPanel.add(roleLabel);
++                infoPanel.add(rolesCombo);
++
++                //adding the buttons to the buttons panel
++                buttonsPanel.add(edit);
++                buttonsPanel.add(cancel);
++
++                //setting panel's layout
++                editContainer.add(dialogScroll, BorderLayout.NORTH);
++                editContainer.add(buttonsPanel, BorderLayout.CENTER);
++
++                //centre the edit Window
++                MyFrame.centreWindow(editDialog, 500, 700);
++
++                //adding the edit container to the edit dialog
++                editDialog.getContentPane().add(editContainer);
++
++                //setting the size of the edit dialog
++                editDialog.setSize(500, 700);
++
++                //don't allow the frame to be resized
++                editDialog.setResizable(false);
++
++                //setting the visibility of dialog
++                editDialog.setVisible(true);
++
++            }
++            else{
++                //the table is empty
++                if(table.getRowCount() == 0){
++                    //custom title, error icon
++                    JOptionPane.showMessageDialog(frame,
++                            "The table is empty so you cannot edit anything!",
++                            "Empty Table",
++                            JOptionPane.ERROR_MESSAGE);
++                }
++                //the table is not empty but you didn't select anything
++                else{
++                    JOptionPane.showMessageDialog(frame,
++                            "You need to select the item first in order to edit it!",
++                            "Select an item",
++                            JOptionPane.ERROR_MESSAGE);
++                }
++            }
++
++        });
++
++
++        //creating the scroll pane in order to have a scrollable table
++        JScrollPane scrollPane = new JScrollPane(table);
++
++        //setting the layout and borders for the buttons panel
++        buttonsPanel.setLayout(new GridLayout(3, 2, 10, 10));
++        buttonsPanel.setBorder(new EmptyBorder(10, 200, 10, 200));
++        buttonsPanel.add(edit);
++        buttonsPanel.add(add);
++        buttonsPanel.add(delete);
++
++        //setting the layout for the main container
++        mainContainer.setLayout(new BorderLayout());
++
++        //adding to the main container the scroll pane and buttons panel
++        mainContainer.add(scrollPane, BorderLayout.NORTH);
++        mainContainer.add(buttonsPanel, BorderLayout.CENTER);
++
++        //center the window
++        MyFrame.centreWindow(frame, width, height);
++
++        //adding the main container to the frame
++        frame.getContentPane().add(mainContainer);
++
++        //setting the width and the height of the frame
++        frame.setSize(width,height);
++
++        //don't allow the frame to be resized
++        frame.setResizable(false);
++
++        //making the frame visible
++        frame.setVisible(true);
+ 
+ 
+     }
+Index: src/com/company/Database.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.company;\n\nimport javax.swing.table.DefaultTableModel;\nimport java.sql.*;\nimport java.util.Arrays;\n\npublic class Database {\n\n    //checking the credentials by username and password\n\n    public boolean checkCredentials(Statement statement, String username, String password) throws SQLException {\n\n        String sql = (\"SELECT * FROM User;\");\n\n        ResultSet rs = statement.executeQuery(sql);\n\n        while(rs.next()) {\n\n            String user = rs.getString(\"UserName\");\n            String pass = rs.getString(\"Password\");\n            String salt = rs.getString(\"PasswordSalt\");\n\n            //boolean passwordMatch = PasswordHashingUtilityFunction.verifyUserPassword(password, pass, salt);\n\n            if(username.equals((user)))\n            {\n                return true;\n            }\n            /*if(passwordMatch && username.equals(user)) {\n                return true;\n            }*/\n\n            /*if(username.equals(user) && password.equals(pass))\n                return true;*/\n\n        }\n\n        return false;\n\n    }\n    /*public boolean checkCredentials(Statement statement, String username, String password) throws SQLException {\n\n        String sql = (\"SELECT * FROM User;\");\n        ResultSet rs = statement.executeQuery(sql);\n\n        while(rs.next()) {\n\n            String user = rs.getString(\"UserName\");\n            String pass = rs.getString(\"Password\");\n\n            if(username.equals(user) && password.equals(pass))\n                return true;\n\n        }\n\n        return false;\n\n    }*/\n\n    //getting the role of a user by username and password\n    public String getRole(Statement statement, String username, String password) throws SQLException {\n\n        String sql = (\"SELECT * FROM User;\");\n        ResultSet rs = statement.executeQuery(sql);\n\n        while(rs.next()) {\n\n            String user = rs.getString(\"UserName\");\n            String pass = rs.getString(\"Password\");\n            String role = rs.getString(\"Role\");\n\n            if(username.equals(user))\n            //if(username.equals(user) && password.equals(pass))\n                return role;\n\n        }\n\n        return null;\n\n    }\n\n    //getting the names of the degrees\n    public String[][] getDegreeIDsNames(Statement statement) {\n\n        String[][] data = null;\n        try {\n            String sql = (\"SELECT * FROM Degree;\");\n            ResultSet rs = statement.executeQuery(sql);\n            rs.last();\n            data = new String[2][rs.getRow()];\n            int i = 0;\n\n            //System.out.println(data);\n            rs.beforeFirst();\n            while(rs.next()) {\n\n                String id = rs.getString(\"DegreeID\");\n                String degreeName = rs.getString(\"DegreeName\");\n\n                //System.out.println(Arrays.deepToString(data));\n                data[0][i] = id;\n                data[1][i] = degreeName;\n                i++;\n            }\n        }catch (SQLException e){\n            System.out.println(e);\n        }\n\n        return data;\n\n    }\n\n    //getting the info for all of the users\n    public String[][] getInfoUser(Statement statement) throws SQLException {\n\n        String sql = (\"SELECT * FROM User;\");\n        ResultSet rs = statement.executeQuery(sql);\n        rs.last();\n        String[][] data = new String[rs.getRow()][];\n        int i = 0;\n\n        rs.beforeFirst();\n        while(rs.next()) {\n\n            String id = rs.getString(\"UserID\");\n            String user = rs.getString(\"Username\");\n            String pass = rs.getString(\"Password\");\n            String title = rs.getString(\"Title\");\n            String forename = rs.getString(\"Forename\");\n            String surname = rs.getString(\"Surname\");\n            String email = rs.getString(\"Email\");\n            String role = rs.getString(\"Role\");\n\n            data[i] = new String[]{id, user, pass, title, forename, surname, email, role};\n            i++;\n        }\n\n        return data;\n\n    }\n\n    //getting the info for all of the departments\n    public String[][] getInfoDepartment(Statement statement) throws SQLException {\n\n        String sql = (\"SELECT * FROM Department;\");\n        ResultSet rs = statement.executeQuery(sql);\n        rs.last();\n        String[][] data = new String[rs.getRow()][];\n        int i = 0;\n\n        rs.beforeFirst();\n        while(rs.next()) {\n\n            String id = rs.getString(\"DepartmentID\");\n            String depCode = rs.getString(\"DepartmentCode\");\n            String depName = rs.getString(\"DepartmentName\");\n\n            data[i] = new String[]{id, depCode, depName};\n            i++;\n        }\n\n        return data;\n\n    }\n\n    //getting the info for all of the modules\n    public String[][] getInfoModule(Connection connection, Statement statement) throws SQLException {\n\n        try{\n            String sql = (\"SELECT * FROM Module;\");\n            ResultSet rs = statement.executeQuery(sql);\n            rs.last();\n            String[][] data = new String[rs.getRow()][];\n            int i = 0;\n\n            rs.beforeFirst();\n            while(rs.next()) {\n\n                String id = rs.getString(\"ModuleID\");\n                String moduleCode = rs.getString(\"ModuleCode\");\n                String moduleName = rs.getString(\"ModuleName\");\n                String level = rs.getString(\"Level\");\n                String core = rs.getString(\"Core\");\n                String credit = rs.getString(\"Credit\");\n                String degreeID = rs.getString(\"DegreeID\");\n\n                if(!degreeID.equals(\"0\")){\n\n\n                    Statement statement2 = connection.createStatement();\n                    String degreeName = getDegreeNameByID(statement2, degreeID);\n\n                    data[i] = new String[]{id, moduleCode, moduleName, level, core, credit, degreeName};\n                    i++;\n\n                    if (statement2 != null) {\n                        statement2.close();\n                    }\n\n                }\n                else{\n                    data[i] = new String[]{id, moduleCode, moduleName, level, core, credit, \"-\"};\n                    i++;\n                }\n\n            }\n            return data;\n        }catch (SQLException e){\n            System.out.println(\"getInfoModule from Database class\" + e);\n        }\n\n        return null;\n\n    }\n\n    //getting the info for all of the degree courses\n    public String[][] getInfoDegree(Statement statement) throws SQLException {\n\n        String sql = (\"SELECT * FROM Degree;\");\n\n        try{\n            ResultSet rs = statement.executeQuery(sql);\n            rs.last();\n            String[][] data = new String[rs.getRow()][];\n            int i = 0;\n            rs.beforeFirst();\n\n            while(rs.next()) {\n\n                String id = rs.getString(\"DegreeID\");\n                String degCode = rs.getString(\"DegreeCode\");\n                String degName = rs.getString(\"DegreeName\");\n                String degPartner = rs.getString(\"Partner\");\n                String degLead = rs.getString(\"Lead\");\n\n                data[i] = new String[]{id, degCode, degName, degPartner, degLead};\n                i++;\n            }\n            return data;\n        }catch (SQLException e){\n            System.out.println(\"getInfoDegree method from Database\" + e);\n        }\n\n        return null;\n    }\n\n    //getting degree names by using the ids\n    public String getDegreeNameByID(Statement statement, String degreeID) throws SQLException {\n\n        String sql2 = \"SELECT * FROM Degree WHERE DegreeID = \" + degreeID;\n        ResultSet rs = statement.executeQuery(sql2);\n\n        while(rs.next()) {\n            String degreeName = rs.getString(\"DegreeName\");\n            String degreeID2 = rs.getString(\"DegreeID\");\n\n            if(degreeID2.equals(degreeID)){\n                return degreeName;\n            }\n\n        }\n        return null;\n    }\n\n    //getting degree names by using the ids\n    public String[] getDepartmentCodes(Statement statement){\n\n        String sql2 = \"SELECT * FROM Department\";\n\n        try{\n            ResultSet rs = statement.executeQuery(sql2);\n            rs.last();\n            String[] data = new String[rs.getRow()];\n            int i = 0;\n            rs.beforeFirst();\n\n            while(rs.next()) {\n                String degreeName = rs.getString(\"DepartmentCode\");\n                data[i] = degreeName;\n                i++;\n            }\n\n            return data;\n\n        }catch (SQLException e){\n            System.out.println(\"getDepartmentCodes method from Database\" + e);\n        }\n\n        return null;\n    }\n\n    //updating the user with the new info\n    public void updateUser(Connection connection, String username, String password, String title,\n            String forename, String surname, String email, String role, String id) throws SQLException {\n\n        String sql = \"UPDATE User SET Username = ?, \" +\n                \"Password = ?, \" +\n                \"Title = ?, \" +\n                \"Forename = ?, \" +\n                \"Surname = ?, \" +\n                \"Email = ?, \" +\n                \"Role = ? \" + \"WHERE UserID = ?\";\n\n        PreparedStatement pstmt = connection.prepareStatement(sql);\n\n        // set the corresponding param\n        pstmt.setString(1, username);\n        pstmt.setString(2, password);\n        pstmt.setString(3, title);\n        pstmt.setString(4, forename);\n        pstmt.setString(5, surname);\n        pstmt.setString(6, email);\n        pstmt.setString(7, role);\n        pstmt.setString(8, id);\n\n        // update\n        pstmt.executeUpdate();\n\n    }\n\n    //updating the degree with the new info\n    public void updateDegree(Connection connection, String degCode, String degName, String partner, String lead, String id){\n\n        String sql = \"UPDATE Degree SET DegreeCode = ?, \" +\n                \"DegreeName = ?, \" +\n                \"Partner = ?, \" +\n                \"Lead = ? \" + \"WHERE DegreeID = ?\";\n\n        try{\n            PreparedStatement pstmt = connection.prepareStatement(sql);\n\n            // set the corresponding param\n            pstmt.setString(1, degCode);\n            pstmt.setString(2, degName);\n            pstmt.setString(3, partner);\n            pstmt.setString(4, lead);\n            pstmt.setString(5, id);\n\n            // update\n            pstmt.executeUpdate();\n        }catch (SQLException e){\n            System.out.println(\"updateDegree method from Database class \" + e);\n        }\n\n    }\n\n    //updating the department with the new info\n    public void updateDepartment(Connection connection, String depCode, String depName, String id) {\n\n        try{\n            String sql = \"UPDATE Department SET DepartmentCode = ?, \" +\n                    \"DepartmentName = ? \" + \"WHERE DepartmentID = \" + id;\n\n            PreparedStatement pstmt = connection.prepareStatement(sql);\n\n            // set the corresponding param\n            pstmt.setString(1, depCode);\n            pstmt.setString(2, depName);\n            //pstmt.setString(3, id);\n\n            // update\n            pstmt.executeUpdate();\n        }catch (SQLException e){\n            System.out.println(\"updateDepartment method from Database class \" + e);\n        }\n\n    }\n\n    //updating the department with the new info\n    public void updateModule(Connection connection, String moduleCode, String moduleName, String level, String core,\n                             String credit, String[][] IDsDegrees, String degreeSelected, String id) {\n\n        try{\n            String sql = \"UPDATE Module SET ModuleCode = ?, \" +\n                    \"ModuleName = ?, \" +\n                    \"Level = ?, \" +\n                    \"Core = ?, \" +\n                    \"Credit = ?, \" +\n                    \"DegreeID = ? \" + \"WHERE ModuleID = \" + id;\n\n            PreparedStatement pstmt = connection.prepareStatement(sql);\n\n            // set the corresponding param\n            pstmt.setString(1, moduleCode);\n            pstmt.setString(2, moduleName);\n            pstmt.setString(3, level);\n            pstmt.setString(4, core);\n            pstmt.setString(5, credit);\n\n            String degreeID = null;\n\n            for(int i = 0; i < IDsDegrees[1].length; i++){\n\n                if(IDsDegrees[1][i].equals(degreeSelected)){\n\n                    degreeID = IDsDegrees[0][i];\n\n                }\n\n            }\n\n            pstmt.setString(6, degreeID);\n\n            // update\n            pstmt.executeUpdate();\n        }catch (SQLException e){\n            System.out.println(\"updateModule method from Database class\" + e);\n        }\n\n\n    }\n\n    public String[][] getStudentInfo(Statement statement) throws SQLException {\n\n        String sql = (\"SELECT * FROM Grading;\");\n        ResultSet rs = statement.executeQuery(sql);\n        rs.last();\n        String[][] data = new String[rs.getRow()][];\n        int i = 0;\n\n        rs.beforeFirst();\n        while(rs.next()) {\n\n            String gradingID = rs.getString(\"GradingID\");\n            String moduleCode = rs.getString(\"ModuleCode\");\n            String username = rs.getString(\"Username\");\n            String teacher = rs.getString(\"Teacher\");\n            String grade = rs.getString(\"Grade\");\n            String regNo = rs.getString(\"RegNo\");\n            String pass = String.valueOf(rs.getInt(\"pass\"));\n            String moduleID = rs.getString(\"ModuleID\");\n\n            data[i] = new String[]{gradingID, moduleCode, username, teacher, grade,\n                    regNo, pass, moduleID};\n            i++;\n        }\n\n        return data;\n    }\n\n\n    public void UpdateStudent(Connection connection, double grade,\n                              boolean pass, String regNo) throws SQLException {\n\n        String sql = \"UPDATE Grading SET grade = ?, \" +\n                \"pass = ? \" +\n                \"WHERE RegNo = ?\";\n\n        PreparedStatement pstmt = connection.prepareStatement(sql);\n\n        // set the corresponding param\n        pstmt.setDouble(1, grade);\n\n        if (grade>=70) {\n            pstmt.setBoolean(2, true);\n            //pstmt.setDouble(3, 0.0);\n        }\n        else {\n            pstmt.setBoolean(2, false);\n            //pstmt.setDouble(3, resit);\n        }\n        pstmt.setString(3, regNo);\n\n        // update\n        pstmt.executeUpdate();\n\n    }\n\n    public double CalculateGrade(Statement statement, String regNo,\n                                 String moduleCode) throws SQLException {\n\n        String sql = (\"SELECT * FROM Grading;\");\n        ResultSet rs = statement.executeQuery(sql);\n        rs.last();\n        double[] data = new double[rs.getRow()];\n        int i = 0;\n        int len=0;\n\n        rs.beforeFirst();\n        while (rs.next()) {\n\n            String regNumber = rs.getString(\"RegNo\");\n            String modCode = rs.getString(\"ModuleCode\");\n            double grade = rs.getDouble(\"grade\");\n\n            if (regNumber.equals(regNo) && modCode.equals(moduleCode)) {\n                data[i] = grade;\n                len++;\n            }\n            i++;\n        }\n\n        double sum = 0;\n        int numberOfGrades = 0;\n        for (int j=0; j<len; j++) {\n            sum = sum + data[j];\n            numberOfGrades++;\n        }\n\n        return sum/numberOfGrades;\n    }\n\n    //getting the user id\n    public String getUserID(Statement statement, String username, String password) throws SQLException {\n\n        String sql = (\"SELECT * FROM User;\");\n        ResultSet rs = statement.executeQuery(sql);\n\n        while(rs.next()) {\n\n            String userID = rs.getString(\"UserID\");\n            String user = rs.getString(\"UserName\");\n            //String pass = rs.getString(\"Password\");\n\n            if(username.equals(user) && password != \"\");\n\n            /*if(username.equals(user) && password.equals(pass))\n                return userID;*/\n\n        }\n\n        return null;\n\n    }\n\n    //getting the module id\n    public String getModuleID(Statement statement, String modCode, String modName, String level, String core, String credit,\n                            String degreeID){\n\n        String sql = (\"SELECT * FROM Module;\");\n\n        try{\n\n            ResultSet rs = statement.executeQuery(sql);\n\n            while(rs.next()) {\n\n                String moduleID = rs.getString(\"ModuleID\");\n                String moduleCode = rs.getString(\"ModuleCode\");\n                String moduleName = rs.getString(\"ModuleName\");\n                String moduleLevel = rs.getString(\"Level\");\n                String moduleCore = rs.getString(\"Core\");\n                String moduleCredit = rs.getString(\"Credit\");\n                String moduleDegreeID = rs.getString(\"DegreeID\");\n\n                if(moduleCode.equals(modCode) && moduleName.equals(modName) && moduleLevel.equals(level) &&\n                        moduleCore.equals(core) && moduleCredit.equals(credit) && moduleDegreeID.equals(degreeID))\n                    return moduleID;\n\n            }\n\n        } catch (SQLException throwables) {\n            System.out.println(\"getModuleID \" + throwables);\n        }\n\n        return null;\n\n    }\n\n    //getting the department id\n    public String getDepartmentID(Statement statement, String depCode, String depName){\n\n        String sql = (\"SELECT * FROM Department;\");\n\n        try {\n\n            ResultSet rs = statement.executeQuery(sql);\n\n            while(rs.next()) {\n\n                String depID = rs.getString(\"DepartmentID\");\n                String departmentCode = rs.getString(\"DepartmentCode\");\n                String departmentName = rs.getString(\"DepartmentName\");\n\n                if(depCode.equals(departmentCode) && depName.equals(departmentName))\n                    return depID;\n\n            }\n\n        } catch (SQLException throwables) {\n            throwables.printStackTrace();\n        }\n\n        return null;\n\n    }\n\n    //getting the department id\n    public String getDegreeID(Statement statement, String degreeCode, String degreeName, String partner, String lead){\n\n        String sql = (\"SELECT * FROM Degree;\");\n\n        try{\n            ResultSet rs = statement.executeQuery(sql);\n\n            while(rs.next()) {\n\n                String depID = rs.getString(\"DegreeID\");\n                String degCode = rs.getString(\"DegreeCode\");\n                String degName = rs.getString(\"DegreeName\");\n                String partner1 = rs.getString(\"Partner\");\n                String lead1 = rs.getString(\"Lead\");\n\n                if(degCode.equals(degreeCode) && degName.equals(degreeName) && partner1.equals(partner) && lead1.equals(lead))\n                    return depID;\n\n            }\n\n        } catch (SQLException throwables) {\n            throwables.printStackTrace();\n        }\n\n        return null;\n\n    }\n\n    //adding a user to the database\n    public void addUser(Connection connection, String username, String password, String salt, String title, String forename,\n                        String surname, String email, String role) throws SQLException {\n\n        // the mysql insert statement\n        String query = \" insert into User (Username, Password, PasswordSalt, Title, Forename, Surname, Email, Role)\"\n                + \" values (?, ?, ?, ?, ?, ?, ?, ?)\";\n\n        // create the mysql insert preparedstatement\n        PreparedStatement preparedStmt = connection.prepareStatement(query);\n        preparedStmt.setString(1, username);\n        preparedStmt.setString(2, password);\n        preparedStmt.setString(3, salt);\n        preparedStmt.setString(4, title);\n        preparedStmt.setString(5, forename);\n        preparedStmt.setString(6, surname);\n        preparedStmt.setString(7, email);\n        preparedStmt.setString(8, role);\n\n        // execute the preparedstatement\n        preparedStmt.execute();\n\n    }\n\n    //adding a department to the database\n    public void addDepartment(Connection connection, String depCode, String depName) {\n\n        // the mysql insert statement\n        String query = \" insert into Department (DepartmentCode, DepartmentName)\"\n                + \" values (?, ?)\";\n\n        try {\n            // create the mysql insert preparedstatement\n            PreparedStatement preparedStmt = connection.prepareStatement(query);\n            preparedStmt.setString(1, depCode);\n            preparedStmt.setString(2, depName);\n\n            // execute the preparedstatement\n            preparedStmt.execute();\n        } catch (SQLException throwables) {\n            throwables.printStackTrace();\n        }\n\n    }\n\n    //adding a department to the database\n    public void addDegreeCourse(Connection connection, String degreeCode, String degreeName, String partner, String lead) {\n\n        // the mysql insert statement\n        String query = \" insert into Degree (DegreeCode, DegreeName, Partner, Lead)\"\n                + \" values (?, ?, ?, ?)\";\n\n        try {\n            // create the mysql insert preparedstatement\n            PreparedStatement preparedStmt = connection.prepareStatement(query);\n            preparedStmt.setString(1, degreeCode);\n            preparedStmt.setString(2, degreeName);\n            preparedStmt.setString(3, partner);\n            preparedStmt.setString(4, lead);\n\n            // execute the preparedstatement\n            preparedStmt.execute();\n        } catch (SQLException throwables) {\n            throwables.printStackTrace();\n        }\n\n    }\n\n    //adding a department to the database\n    public void addModule(Connection connection, String modCode, String modName, String level, String core, String credit,\n                          String degreeTitle, String[][] IDsDegrees) {\n\n        // the mysql insert statement\n        String query = \" insert into Module (ModuleCode, ModuleName, Level, Core, Credit, DegreeID)\"\n                + \" values (?, ?, ?, ?, ?, ?)\";\n\n        try {\n            // create the mysql insert preparedstatement\n            PreparedStatement preparedStmt = connection.prepareStatement(query);\n            preparedStmt.setString(1, modCode);\n            preparedStmt.setString(2, modName);\n            preparedStmt.setString(3, level);\n            preparedStmt.setString(4, core);\n            preparedStmt.setString(5, credit);\n\n            String degreeID = null;\n\n            for(int i = 0; i < IDsDegrees[1].length; i++){\n\n                if(IDsDegrees[1][i].equals(degreeTitle)){\n\n                    degreeID = IDsDegrees[0][i];\n\n                }\n\n            }\n\n            preparedStmt.setString(6, degreeID);\n\n            // execute the preparedstatement\n            preparedStmt.execute();\n        } catch (SQLException throwables) {\n            System.out.println(\"addModule method from Database class \" + throwables);\n        }\n\n    }\n\n    //deleting a user by its ID\n    public void deleteUser(Connection connection, String userID){\n        String sql = \"DELETE FROM User WHERE UserID = ?\";\n\n        try {\n            PreparedStatement pstmt = connection.prepareStatement(sql);\n\n            // set the corresponding param\n            pstmt.setInt(1, Integer.parseInt(userID));\n            // execute the delete statement\n            pstmt.executeUpdate();\n        } catch (SQLException throwables) {\n            throwables.printStackTrace();\n        }\n\n    }\n\n    //deleting a department by its ID\n    public void deleteDepartment(Connection connection, String depID){\n        String sql = \"DELETE FROM Department WHERE DepartmentID = ?\";\n\n        try {\n            PreparedStatement pstmt = connection.prepareStatement(sql);\n\n            // set the corresponding param\n            pstmt.setInt(1, Integer.parseInt(depID));\n            // execute the delete statement\n            pstmt.executeUpdate();\n        } catch (SQLException throwables) {\n            throwables.printStackTrace();\n        }\n\n    }\n\n    //deleting a degree course by its ID\n    public void deleteDegree(Connection connection, String degreeID){\n        String sql = \"DELETE FROM Degree WHERE DegreeID = ?\";\n\n        try {\n            PreparedStatement pstmt = connection.prepareStatement(sql);\n            // set the corresponding param\n            pstmt.setInt(1, Integer.parseInt(degreeID));\n            // execute the delete statement\n            pstmt.executeUpdate();\n        } catch (SQLException throwables) {\n            throwables.printStackTrace();\n        }\n\n    }\n\n    //deleting a module by its ID\n    public void deleteModule(Connection connection, String modID){\n        String sql = \"DELETE FROM Module WHERE ModuleID = ?\";\n\n        try {\n            PreparedStatement pstmt = connection.prepareStatement(sql);\n            // set the corresponding param\n            pstmt.setInt(1, Integer.parseInt(modID));\n            // execute the delete statement\n            pstmt.executeUpdate();\n        } catch (SQLException throwables) {\n            throwables.printStackTrace();\n        }\n\n    }\n\n    //REGISTRAR\n    //geting user table with only students\n    public String[][] getStudentUser(Statement statement) throws SQLException {\n\n        String sql = (\"SELECT * FROM User WHERE Role = 'Student';\");\n        ResultSet rs = statement.executeQuery(sql);\n        rs.last();\n        String[][] data = new String[rs.getRow()][];\n        int i = 0;\n        //int j = 0;\n\n        rs.beforeFirst();\n        while(rs.next()) {\n\n            String id = rs.getString(\"UserID\");\n            String user = rs.getString(\"Username\");\n            String pass = rs.getString(\"Password\");\n            String title = rs.getString(\"Title\");\n            String forename = rs.getString(\"Forename\");\n            String surname = rs.getString(\"Surname\");\n            String email = rs.getString(\"Email\");\n            String role = rs.getString(\"Role\");\n\n            data[i] = new String[]{id, user, pass, title, forename, surname, email,role};\n            i++;\n        }\n\n        return data;\n\n    }\n\n    public void addStudent(Connection connection, String username, String password, String title, String forename,\n                           String surname, String email, String role) throws SQLException {\n\n        // the mysql insert statement\n        String query = \" insert into User (Username, Password, Title, Forename, Surname, Email, Role)\"\n                + \" values (?, ?, ?, ?, ?, ?,'Student')\";\n\n        // create the mysql insert preparedstatement\n        PreparedStatement preparedStmt = connection.prepareStatement(query);\n        preparedStmt.setString(1, username);\n        preparedStmt.setString(2, password);\n        preparedStmt.setString(3, title);\n        preparedStmt.setString(4, forename);\n        preparedStmt.setString(5, surname);\n        preparedStmt.setString(6, email);\n        //preparedStmt.setString(7, role);\n\n        // execute the preparedstatement\n        preparedStmt.execute();\n\n    }\n\n    //student table from db\n    public String[][] getStudentTable(Statement statement) throws SQLException {\n\n        String sql = (\"SELECT * FROM Student;\");\n        ResultSet rs = statement.executeQuery(sql);\n        rs.last();\n        String[][] data = new String[rs.getRow()][];\n        int i = 0;\n        //int j = 0;\n\n        rs.beforeFirst();\n        while(rs.next()) {\n\n            String id = rs.getString(\"User_ID\");\n            String regNo = rs.getString(\"RegNo\");\n            String degreeCode = rs.getString(\"DegreeCode\");\n            String level = rs.getString(\"LevelOfStudy\");\n            String entry = rs.getString(\"Entry\");\n            String period = rs.getString(\"PeriodOfStudy\");\n            String tutor = rs.getString(\"PersonalTutor\");\n\n            data[i] = new String[]{id, regNo, degreeCode, level, entry, period, tutor};\n            i++;\n        }\n\n        return data;\n\n    }\n\n    //closing the connection to the database\n    public void close(Statement statement, Connection connection) {\n        try {\n            if (statement != null) {\n                statement.close();\n            }\n\n            if (connection != null) {\n                connection.close();\n            }\n        } catch (SQLException se) {\n            se.printStackTrace();\n        }\n    }\n\n    public String getModuleEntryID(Statement statement, String modCode){\n\n        String sql = (\"SELECT * FROM module_entry;\");\n\n        try {\n\n            ResultSet rs = statement.executeQuery(sql);\n\n            while(rs.next()) {\n\n                String modEntryID = rs.getString(\"ModuleEntryID\");\n                String moduleCode = rs.getString(\"ModuleCode\");\n\n\n                if(modCode.equals(moduleCode))\n                    return modEntryID;\n\n\n                        }\n\n        } catch (SQLException throwables) {\n            throwables.printStackTrace();\n        }\n\n        return null;\n\n    }\n\n    public String getModuleID(Statement statement, String modCode, String modName){\n\n        String sql = (\"SELECT * FROM Module;\");\n\n        try {\n\n            ResultSet rs = statement.executeQuery(sql);\n\n            while(rs.next()) {\n\n                String moduleID = rs.getString(\"ModuleID\");\n                String moduleName = rs.getString(\"ModuleName\");\n                String moduleCode = rs.getString(\"ModuleCode\");\n\n\n                if(modCode.equals(moduleCode) && modName.equals(moduleName) )\n                    return moduleID;\n\n\n            }\n\n        } catch (SQLException throwables) {\n            throwables.printStackTrace();\n        }\n\n        return null;\n\n    }\n\n\n    public void viewStudentModules (Statement statement, String regNo,\n                                     String obligatory, int level ) throws SQLException {\n\n        String sql = (\"SELECT ModuleCode FROM Module WHERE (Level = \" + level + \"); SELECT ModuleName FROM Module WHERE (Core = \" + obligatory + \"); \" +\n                \"SELECT Credit FROM Module WHERE (Level = \" + level + \"); SELECT RegNo FROM Grading WHERE (RegNo = \" + regNo + \");\");\n        ResultSet rs = statement.executeQuery(sql);\n    }\n}\n\n\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/com/company/Database.java	(revision 301913029539aefa7e9fd8d64c46d204eeaef648)
++++ src/com/company/Database.java	(date 1607076059504)
+@@ -10,52 +10,32 @@
+ 
+     public boolean checkCredentials(Statement statement, String username, String password) throws SQLException {
+ 
+-        String sql = ("SELECT * FROM User;");
++        try {
++
++            String sql = "SELECT * FROM User WHERE Username = '" + username + "'";
+ 
+-        ResultSet rs = statement.executeQuery(sql);
++            ResultSet rs = statement.executeQuery(sql);
+ 
+-        while(rs.next()) {
++            while (rs.next()) {
+ 
+-            String user = rs.getString("UserName");
+-            String pass = rs.getString("Password");
+-            String salt = rs.getString("PasswordSalt");
++                String user = rs.getString("UserName");
++                String pass = rs.getString("Password");
++                String salt = rs.getString("PasswordSalt");
+ 
+-            //boolean passwordMatch = PasswordHashingUtilityFunction.verifyUserPassword(password, pass, salt);
+-
+-            if(username.equals((user)))
+-            {
+-                return true;
+-            }
+-            /*if(passwordMatch && username.equals(user)) {
+-                return true;
+-            }*/
+-
+-            /*if(username.equals(user) && password.equals(pass))
+-                return true;*/
+-
+-        }
++                boolean passwordMatch = PasswordHashingUtilityFunction.verifyUserPassword(password, pass, salt);
+ 
+-        return false;
++                System.out.println(passwordMatch);
+ 
+-    }
+-    /*public boolean checkCredentials(Statement statement, String username, String password) throws SQLException {
+-
+-        String sql = ("SELECT * FROM User;");
+-        ResultSet rs = statement.executeQuery(sql);
+-
+-        while(rs.next()) {
+-
+-            String user = rs.getString("UserName");
+-            String pass = rs.getString("Password");
+-
+-            if(username.equals(user) && password.equals(pass))
+-                return true;
++                if (passwordMatch && username.equals(user)) {
++                    return true;
++                }
++            }
+ 
++        } catch (Exception e) {
++            System.err.println(e.getMessage());
+         }
+-
+         return false;
+-
+-    }*/
++    }
+ 
+     //getting the role of a user by username and password
+     public String getRole(Statement statement, String username, String password) throws SQLException {
+Index: src/com/company/AdminUserAccounts.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.company;\n\nimport javax.swing.*;\nimport javax.swing.border.EmptyBorder;\nimport javax.swing.table.*;\nimport java.awt.*;\nimport java.sql.SQLException;\n\npublic class AdminUserAccounts {\n\n    // declaring the variables\n    private JFrame frame;\n    private JPanel buttonsPanel;\n    private Container mainContainer;\n    private JTable table;\n    private TableModel tableModel;\n    private JButton edit;\n    private JButton add;\n    private JButton delete;\n    private JButton goBack;\n    private Database database;\n    private final int width = 800;\n    private final int height = 600;\n\n    public AdminUserAccounts(String title) throws SQLException {\n\n        //initializing the variables\n        frame = new JFrame(title);\n        buttonsPanel = new JPanel();\n        mainContainer = new Container();\n        edit = new JButton(\"Edit the user's information\");\n        add = new JButton(\"Add a new user\");\n        delete = new JButton(\"Delete the user\");\n        goBack = new JButton(\"<- Go Back\");\n        database = new Database();\n\n        //headers for the table\n        String[] columnNames = { \"ID\", \"Username\", \"Password\", \"Title\", \"Forename\", \"Surname\", \"Email\", \"Role\"};\n        //generating the rows with the Users' information\n        String[][] rows = database.getInfoUser(Main.statement);\n\n        //generating a Table Model with the rows and columns from above\n        tableModel = new DefaultTableModel(rows, columnNames);\n\n        //initializing the table linked to the tableModel\n        table = new JTable(tableModel);\n\n        //disable the auto-resizing of the table\n        table.setAutoResizeMode( JTable.AUTO_RESIZE_OFF);\n\n        //resizing the table in order to fit every information from it\n        fitExactly();\n\n        //action when edit button is clicked\n        edit.addActionListener(ae -> {\n\n            //you selected an existing row from the table\n            if(table.getSelectedRowCount() == 1){\n\n                //declaring and initiating the objects\n                Container editContainer = new Container();\n                JFrame dialogFrame = new JFrame();\n                JPanel infoPanel = new JPanel();\n                JPanel buttonsPanel = new JPanel();\n                JDialog editDialog = new JDialog(dialogFrame, \"Edit Dialog\");\n                JButton edit = new JButton(\"Edit\");\n                JButton cancel = new JButton(\"Cancel\");\n                EmptyBorder borderLabels = new EmptyBorder(15, 0, 0, 0);\n                JScrollPane dialogScroll = new JScrollPane(infoPanel);\n\n                //setting the layouts of the container and infoPanel\n                editContainer.setLayout(new BorderLayout());\n                infoPanel.setLayout(new GridLayout(14, 2, 10, 10));\n\n                //getting each value from the row selected\n                String id = String.valueOf(table.getValueAt(table.getSelectedRow(), 0));\n                String username = String.valueOf(table.getValueAt(table.getSelectedRow(), 1));\n                String password = String.valueOf(table.getValueAt(table.getSelectedRow(), 2).toString());\n                String userTitle = String.valueOf(table.getValueAt(table.getSelectedRow(), 3).toString());\n                String forename = String.valueOf(table.getValueAt(table.getSelectedRow(), 4).toString());\n                String surname = String.valueOf(table.getValueAt(table.getSelectedRow(), 5).toString());\n                String email = String.valueOf(table.getValueAt(table.getSelectedRow(), 6).toString());\n                String role = String.valueOf(table.getValueAt(table.getSelectedRow(), 7).toString());\n\n                //creating the labels objects and setting their text colors and borders\n                JLabel usernameLabel = new JLabel(\"Username\");\n                usernameLabel.setForeground(Color.BLUE);\n                usernameLabel.setBorder(borderLabels);\n                JLabel passwordLabel = new JLabel(\"Password\");\n                passwordLabel.setForeground(Color.BLUE);\n                passwordLabel.setBorder(borderLabels);\n                JLabel titleLabel = new JLabel(\"Title\");\n                titleLabel.setForeground(Color.BLUE);\n                titleLabel.setBorder(borderLabels);\n                JLabel forenameLabel = new JLabel(\"Forename\");\n                forenameLabel.setForeground(Color.BLUE);\n                forenameLabel.setBorder(borderLabels);\n                JLabel surnameLabel = new JLabel(\"Surname\");\n                surnameLabel.setForeground(Color.BLUE);\n                surnameLabel.setBorder(borderLabels);\n                JLabel emailLabel = new JLabel(\"Email\");\n                emailLabel.setForeground(Color.BLUE);\n                emailLabel.setBorder(borderLabels);\n                JLabel roleLabel = new JLabel(\"Role\");\n                roleLabel.setForeground(Color.BLUE);\n                roleLabel.setBorder(borderLabels);\n\n                //creating the fields for each value\n                JTextField usernameFiled = new JTextField(username);\n                JTextField passwordField = new JTextField(password);\n                String[] titles = { \"Master\", \"Mr\", \"Miss\", \"Mrs\", \"Ms\", \"Mx\"};\n                JComboBox titlesCombo = new JComboBox(titles);\n                JTextField forenameField = new JTextField(forename);\n                JTextField surnameField = new JTextField(surname);\n                JTextField emailField = new JTextField(email);\n\n                //creating an array for the combo box\n                String[] roles = { \"Student\", \"Teacher\", \"Registrar\", \"Administrator\"};\n\n                //creating the combo box and checking which item (role and title) should be selected for the selected User\n                JComboBox rolesCombo = new JComboBox(roles);\n                for(int i = 0; i < roles.length; i++){\n                    if(role.equals(roles[i])){\n                        rolesCombo.setSelectedIndex(i);\n                    }\n                }\n\n                for(int i = 0; i < titles.length; i++){\n                    if(userTitle.equals(titles[i])){\n                        titlesCombo.setSelectedIndex(i);\n                    }\n                }\n\n                //action when edit is clicked\n                edit.addActionListener(e -> {\n\n                    //checking if you updated the user with new information\n                    if(!usernameFiled.getText().equals(username) || !passwordField.getText().equals(password) ||\n                            !String.valueOf(titlesCombo.getSelectedItem()).equals(userTitle) ||\n                            !forenameField.getText().equals(forename) || !surnameField.getText().equals(surname) ||\n                            !emailField.getText().equals(email) || !String.valueOf(rolesCombo.getSelectedItem()).equals(role)){\n\n                        //updating the selected user's information\n                        try {\n                            database.updateUser(Main.connection,usernameFiled.getText(), passwordField.getText(),\n                                    String.valueOf(titlesCombo.getSelectedItem()), forenameField.getText(), surnameField.getText(),\n                                    emailField.getText(), String.valueOf(rolesCombo.getSelectedItem()), id);\n                        } catch (SQLException throwables) {\n                            throwables.printStackTrace();\n                        }\n\n                        //refreshing the table with the new values\n                        table.setValueAt(usernameFiled.getText(), table.getSelectedRow(), 1);\n                        table.setValueAt(passwordField.getText(), table.getSelectedRow(), 2);\n                        table.setValueAt(String.valueOf(titlesCombo.getSelectedItem()), table.getSelectedRow(), 3);\n                        table.setValueAt(forenameField.getText(), table.getSelectedRow(), 4);\n                        table.setValueAt(surnameField.getText(), table.getSelectedRow(), 5);\n                        table.setValueAt(emailField.getText(), table.getSelectedRow(), 6);\n                        table.setValueAt(String.valueOf(rolesCombo.getSelectedItem()), table.getSelectedRow(), 7);\n\n                        //resizing the table again\n                        fitExactly();\n\n                        //closing the windows after this is proceed\n                        editDialog.dispose();\n\n                        //information message\n                        JOptionPane.showMessageDialog(editDialog,\n                                \"You updated the following User Account ID: \" + id,\n                                \"Successfully Updated\",\n                                JOptionPane.INFORMATION_MESSAGE);\n\n                    }\n                    //if the information is not changed but you still clicked on edit\n                    else{\n                        //error message\n                        JOptionPane.showMessageDialog(editDialog,\n                                \"Nothing will be updated because you didn't change anything\",\n                                \"Nothing Changed\",\n                                JOptionPane.ERROR_MESSAGE);\n                    }\n\n                });\n\n                //close the actual window when pressing on the cancel button\n                cancel.addActionListener(e -> {\n                    editDialog.dispose();\n                });\n\n\n                //adding the labels and fields to the information panel\n                infoPanel.add(usernameLabel);\n                infoPanel.add(usernameFiled);\n                infoPanel.add(passwordLabel);\n                infoPanel.add(passwordField);\n                infoPanel.add(titleLabel);\n                infoPanel.add(titlesCombo);\n                infoPanel.add(forenameLabel);\n                infoPanel.add(forenameField);\n                infoPanel.add(surnameLabel);\n                infoPanel.add(surnameField);\n                infoPanel.add(emailLabel);\n                infoPanel.add(emailField);\n                infoPanel.add(roleLabel);\n                infoPanel.add(rolesCombo);\n\n                //adding the buttons to the buttons panel\n                buttonsPanel.add(edit);\n                buttonsPanel.add(cancel);\n\n                //setting panel's layout\n                editContainer.add(dialogScroll, BorderLayout.NORTH);\n                editContainer.add(buttonsPanel, BorderLayout.CENTER);\n\n                //centre the edit Window\n                MyFrame.centreWindow(editDialog, 500, 700);\n\n                //adding the edit container to the edit dialog\n                editDialog.getContentPane().add(editContainer);\n\n                //setting the size of the edit dialog\n                editDialog.setSize(500, 700);\n\n                //don't allow the frame to be resized\n                editDialog.setResizable(false);\n\n                //setting the visibility of dialog\n                editDialog.setVisible(true);\n\n            }\n            else{\n                //the table is empty\n                if(table.getRowCount() == 0){\n                    //custom title, error icon\n                    JOptionPane.showMessageDialog(frame,\n                            \"The table is empty so you cannot edit anything!\",\n                            \"Empty Table\",\n                            JOptionPane.ERROR_MESSAGE);\n                }\n                //the table is not empty but you didn't select anything\n                else{\n                    JOptionPane.showMessageDialog(frame,\n                            \"You need to select the item first in order to edit it!\",\n                            \"Select an item\",\n                            JOptionPane.ERROR_MESSAGE);\n                }\n            }\n\n        });\n\n        //action when clicking the delete button\n        add.addActionListener(ae -> {\n\n            //declaring and initiating the objects\n            Container editContainer = new Container();\n            JFrame dialogFrame = new JFrame();\n            JPanel infoPanel = new JPanel();\n            JPanel buttonsPanel = new JPanel();\n            JDialog addDialog = new JDialog(dialogFrame, \"Add Dialog\");\n            JButton add = new JButton(\"Add\");\n            JButton cancel = new JButton(\"Cancel\");\n            EmptyBorder borderLabels = new EmptyBorder(15, 0, 0, 0);\n            JScrollPane dialogScroll = new JScrollPane(infoPanel);\n\n            //setting the layouts of the container and infoPanel\n            editContainer.setLayout(new BorderLayout());\n            infoPanel.setLayout(new GridLayout(14, 2, 10, 10));\n\n            //creating the labels objects and setting their text colors and borders\n            JLabel usernameLabel = new JLabel(\"Username\");\n            usernameLabel.setForeground(Color.BLUE);\n            usernameLabel.setBorder(borderLabels);\n            JLabel passwordLabel = new JLabel(\"Password\");\n            passwordLabel.setForeground(Color.BLUE);\n            passwordLabel.setBorder(borderLabels);\n            JLabel titleLabel = new JLabel(\"Title\");\n            titleLabel.setForeground(Color.BLUE);\n            titleLabel.setBorder(borderLabels);\n            JLabel forenameLabel = new JLabel(\"Forename\");\n            forenameLabel.setForeground(Color.BLUE);\n            forenameLabel.setBorder(borderLabels);\n            JLabel surnameLabel = new JLabel(\"Surname\");\n            surnameLabel.setForeground(Color.BLUE);\n            surnameLabel.setBorder(borderLabels);\n            JLabel emailLabel = new JLabel(\"Email\");\n            emailLabel.setForeground(Color.BLUE);\n            emailLabel.setBorder(borderLabels);\n            JLabel roleLabel = new JLabel(\"Role\");\n            roleLabel.setForeground(Color.BLUE);\n            roleLabel.setBorder(borderLabels);\n\n            //creating the fields for each value\n            JTextField usernameFiled = new JTextField();\n            JTextField passwordField = new JTextField();\n            JTextField forenameField = new JTextField();\n            JTextField surnameField = new JTextField();\n            JTextField emailField = new JTextField();\n\n            //creating an array for the combo box\n            String[] roles = {\"\", \"Student\", \"Teacher\", \"Registrar\", \"Administrator\"};\n            String[] titles = {\"\", \"Master\", \"Mr\", \"Miss\", \"Mrs\", \"Ms\", \"Mx\"};\n\n            //creating the combo box and checking which item (role) should be selected for the selected User\n            JComboBox rolesCombo = new JComboBox(roles);\n            JComboBox titlesCombo = new JComboBox(titles);\n            rolesCombo.setSelectedIndex(0);\n            titlesCombo.setSelectedIndex(0);\n\n            //action when edit is clicked\n            add.addActionListener(e -> {\n\n                //checking if you updated the user with new information\n                if(!usernameFiled.getText().contains(\" \") && !usernameFiled.getText().equals(\"\") &&\n                        !passwordField.getText().contains(\" \") && !passwordField.getText().equals(\"\") &&\n                        titlesCombo.getSelectedIndex() != 0 &&\n                        !forenameField.getText().contains(\" \") && !forenameField.getText().equals(\"\") &&\n                        !surnameField.getText().contains(\" \") && !surnameField.getText().equals(\"\") &&\n                        !emailField.getText().contains(\" \") && !emailField.getText().equals(\"\") &&\n                        rolesCombo.getSelectedIndex() != 0){\n\n                    String id = null;\n\n                    //Patrick\n\n                    String thePassword = passwordField.getText();\n                    //Generate Salt.\n                    String salt = PasswordHashingUtilityFunction.getSalt(30);\n\n                    // Protect user's password. The generateed value can be stored in DB.\n                    String theSecuredPassword = PasswordHashingUtilityFunction.generateSecurePassword(thePassword, salt);\n\n                    try {\n\n                        database.addUser(Main.connection,usernameFiled.getText(),theSecuredPassword, salt,\n                                String.valueOf(titlesCombo.getSelectedItem()), forenameField.getText(),\n                                surnameField.getText(), emailField.getText(), String.valueOf(rolesCombo.getSelectedItem()));\n\n\n                    } catch (SQLException throwables){\n                        throwables.printStackTrace();\n                    }\n\n                    // Patrick ends\n\n                    //adding the user's information\n                    /*try {\n                        database.addUser(Main.connection,usernameFiled.getText(), passwordField.getText(),\n                                String.valueOf(titlesCombo.getSelectedItem()), forenameField.getText(),\n                                surnameField.getText(), emailField.getText(), String.valueOf(rolesCombo.getSelectedItem()));\n                    } catch (SQLException throwables) {\n                        throwables.printStackTrace();\n                    }\n                    */\n\n                    try {\n                        id = database.getUserID(Main.statement, usernameFiled.getText(), passwordField.getText());\n                        ((DefaultTableModel) tableModel).addRow(new Object[]{id, usernameFiled.getText(),\n                                passwordField.getText(), String.valueOf(titlesCombo.getSelectedItem()),\n                                forenameField.getText(), surnameField.getText(), emailField.getText(),\n                                rolesCombo.getSelectedItem().toString()});\n\n                        //resizing the table again\n                        fitExactly();\n                    } catch (SQLException throwables) {\n                        throwables.printStackTrace();\n                    }\n\n\n                    //closing the windows after this is proceed\n                    addDialog.dispose();\n\n                    //information message\n                    JOptionPane.showMessageDialog(addDialog,\n                            \"You added the User Account Successfully \",\n                            //\"You added the User Account ID: \" + id,\n                            \"Successfully Added\",\n                            JOptionPane.INFORMATION_MESSAGE);\n\n                }\n                //if the information is not changed but you still clicked on edit\n                else{\n                    //error message\n                    JOptionPane.showMessageDialog(addDialog,\n                                \"You need to fill all the fields! And make sure to not have any space in them!\",\n                            \"Fill all fields\",\n                            JOptionPane.ERROR_MESSAGE);\n                }\n\n            });\n\n            //close the actual window when pressing on the cancel button\n            cancel.addActionListener(e -> {\n                addDialog.dispose();\n            });\n\n\n            //adding the labels and fields to the information panel\n            infoPanel.add(usernameLabel);\n            infoPanel.add(usernameFiled);\n            infoPanel.add(passwordLabel);\n            infoPanel.add(passwordField);\n            infoPanel.add(titleLabel);\n            infoPanel.add(titlesCombo);\n            infoPanel.add(forenameLabel);\n            infoPanel.add(forenameField);\n            infoPanel.add(surnameLabel);\n            infoPanel.add(surnameField);\n            infoPanel.add(emailLabel);\n            infoPanel.add(emailField);\n            infoPanel.add(roleLabel);\n            infoPanel.add(rolesCombo);\n\n            //adding the buttons to the buttons panel\n            buttonsPanel.add(add);\n            buttonsPanel.add(cancel);\n\n            //setting panel's layout\n            editContainer.add(dialogScroll, BorderLayout.NORTH);\n            editContainer.add(buttonsPanel, BorderLayout.CENTER);\n\n            //centre the edit Window\n            MyFrame.centreWindow(addDialog, 500, 700);\n\n            //adding the edit container to the edit dialog\n            addDialog.getContentPane().add(editContainer);\n\n            //setting the size of the edit dialog\n            addDialog.setSize(500, 700);\n\n            //don't allow the frame to be resized\n            addDialog.setResizable(false);\n\n            //setting the visibility of dialog\n            addDialog.setVisible(true);\n\n        });\n\n        //action when clicking the delete button\n        delete.addActionListener(ae -> {\n\n            if(table.getSelectedRowCount() == 1){\n\n                String id = String.valueOf(table.getValueAt(table.getSelectedRow(), 0));\n\n                int confirm1 = JOptionPane.showOptionDialog(frame,\n                        \"Are you sure you want to delete the following User Account ID: \" + id + \" ?\",\n                        \"Delete Confirmation\", JOptionPane.YES_NO_OPTION,\n                        JOptionPane.WARNING_MESSAGE, null, null, null);\n                if (confirm1 == JOptionPane.YES_OPTION) {\n\n                    //deleting the user account\n                    database.deleteUser(Main.connection, id);\n\n                    //removing the row from the table\n                    ((DefaultTableModel) tableModel).removeRow(table.getSelectedRow());\n\n                    //resizing the table again\n                    fitExactly();\n\n                }\n\n            }\n            else{\n                if(table.getRowCount() == 0){\n                    //custom title, error icon\n                    JOptionPane.showMessageDialog(frame,\n                            \"The table is empty so you cannot delete anything!\",\n                            \"Empty Table\",\n                            JOptionPane.ERROR_MESSAGE);\n                }\n                else{\n                    JOptionPane.showMessageDialog(frame,\n                            \"You need to select the item first in order to delete it!\",\n                            \"Select an item\",\n                            JOptionPane.ERROR_MESSAGE);\n                }\n            }\n\n        });\n\n        //action when clicking the go back button\n        goBack.addActionListener(ae -> {\n\n            //going back to the previous page\n            Administrator admin = new Administrator(\"Admin\");\n            frame.dispose();\n\n        });\n\n        table.setDefaultEditor(Object.class, null);\n\n        //creating the scroll pane in order to have a scrollable table\n        JScrollPane scrollPane = new JScrollPane(table);\n\n        //setting the layout and borders for the buttons panel\n        buttonsPanel.setLayout(new GridLayout(4, 2, 10, 10));\n        buttonsPanel.setBorder(new EmptyBorder(5, 200, 5, 200));\n        buttonsPanel.add(edit);\n        buttonsPanel.add(add);\n        buttonsPanel.add(delete);\n        buttonsPanel.add(goBack);\n\n        //setting the layout for the main container\n        mainContainer.setLayout(new BorderLayout());\n\n        //adding to the main container the scroll pane and buttons panel\n        mainContainer.add(scrollPane, BorderLayout.NORTH);\n        mainContainer.add(buttonsPanel, BorderLayout.CENTER);\n\n        //center the window\n        MyFrame.centreWindow(frame, width, height);\n\n        //adding the main container to the frame\n        frame.getContentPane().add(mainContainer);\n\n        //setting the width and the height of the frame\n        frame.setSize(width,height);\n\n        //don't allow the frame to be resized\n        frame.setResizable(false);\n\n        //making the frame visible\n        frame.setVisible(true);\n\n    }\n\n    //resizing the cells of the table in order to fit perfectly the values from it\n    public void fitExactly(){\n\n        //making the info from the table to fit in exactly\n        for (int column = 0; column < table.getColumnCount(); column++){\n\n            //creating the objects tableColumn, rend, rendCol in order to take some info regarding the width of the cells\n            TableColumn tableColumn = table.getColumnModel().getColumn(column);\n            TableCellRenderer rend = table.getTableHeader().getDefaultRenderer();\n            TableCellRenderer rendCol = tableColumn.getHeaderRenderer();\n            int preferredWidth = tableColumn.getMinWidth();\n            int maxWidth;\n\n            if (rendCol == null) rendCol = rend;\n            Component header = rendCol.getTableCellRendererComponent(table, tableColumn.getHeaderValue(), false, false, 0, column);\n            maxWidth = header.getPreferredSize().width;\n\n            //checking each row's width and storing it if it's the biggest\n            for (int row = 0; row < table.getRowCount(); row++){\n                TableCellRenderer cellRenderer = table.getCellRenderer(row, column);\n                Component c = table.prepareRenderer(cellRenderer, row, column);\n                int width = c.getPreferredSize().width + table.getIntercellSpacing().width;\n                preferredWidth = Math.max(preferredWidth, width);\n\n                //checking if the actual row's width is smaller than the biggest one\n                if (preferredWidth <= maxWidth){\n                    preferredWidth = maxWidth;\n                }\n            }\n\n            //after finding the maximum width, we sum to it 20 in order to have some space between columns\n            tableColumn.setPreferredWidth(preferredWidth + 20);\n        }\n\n    }\n\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/com/company/AdminUserAccounts.java	(revision 301913029539aefa7e9fd8d64c46d204eeaef648)
++++ src/com/company/AdminUserAccounts.java	(date 1607071087518)
+@@ -320,8 +320,6 @@
+ 
+                     String id = null;
+ 
+-                    //Patrick
+-
+                     String thePassword = passwordField.getText();
+                     //Generate Salt.
+                     String salt = PasswordHashingUtilityFunction.getSalt(30);
+@@ -340,7 +338,6 @@
+                         throwables.printStackTrace();
+                     }
+ 
+-                    // Patrick ends
+ 
+                     //adding the user's information
+                     /*try {

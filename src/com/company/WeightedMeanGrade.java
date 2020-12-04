@@ -1,13 +1,11 @@
 package com.company;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import java.awt.*;
 import java.sql.SQLException;
-import java.util.concurrent.atomic.AtomicReference;
 
 public class WeightedMeanGrade {
 
@@ -16,7 +14,6 @@ public class WeightedMeanGrade {
     private JPanel buttonsPanel;
     private Container mainContainer;
     private JTable table;
-    private TableModel tableModel;
     private JButton calculateBtn;
     private JButton goBackBtn;
     private Database database;
@@ -25,10 +22,12 @@ public class WeightedMeanGrade {
 
     public WeightedMeanGrade(String title) throws SQLException {
 
+        //initializing the variables
         frame = new JFrame(title);
         buttonsPanel = new JPanel();
         mainContainer = new Container();
         calculateBtn = new JButton("Calculate the mean grade");
+        goBackBtn = new JButton("Go back");
         database = new Database();
 
         String[] columnNames = {"Grading ID", "Module Code", "Username", "Teacher name",
@@ -38,16 +37,21 @@ public class WeightedMeanGrade {
         TableModel tableModel = new DefaultTableModel(rows, columnNames);
         table = new JTable(tableModel);
 
+        //when clicking this button, a new window should open
         calculateBtn.addActionListener(ae -> {
 
+            //an existing row in the table is clicked
             if (table.getSelectedRowCount() == 1) {
+
+                //declaring and initializing the objects, setting the layout of the container
+                //and info panel, getting the value from the rows that contain the module
+                //code and the reg number, creating label object and fields for each value
                 Container calculateContainer = new Container();
                 JFrame dialogFrame = new JFrame();
                 JPanel infoPanel = new JPanel();
                 JPanel buttonsPanel = new JPanel();
                 JDialog calculateDialog = new JDialog(dialogFrame, "Calculate");
                 JButton calculateGradeBtn = new JButton("Calculate");
-                JButton editGradeBtn = new JButton("Edit");
                 JButton cancelBtn = new JButton("Cancel");
                 EmptyBorder borderLabels = new EmptyBorder(15, 0, 0, 0);
                 JScrollPane dialogScroll = new JScrollPane(infoPanel);
@@ -55,14 +59,8 @@ public class WeightedMeanGrade {
                 calculateContainer.setLayout(new BorderLayout());
                 infoPanel.setLayout(new GridLayout(14, 2, 10, 10));
 
-                String gradingID = (String) table.getValueAt(table.getSelectedRow(), 0);
                 String moduleCode = (String) table.getValueAt(table.getSelectedRow(), 1);
-                String username = (String) table.getValueAt(table.getSelectedRow(), 2);
-                String teacherName = (String) table.getValueAt(table.getSelectedRow(), 3);
-                double grade = Double.parseDouble((String)table.getValueAt(table.getSelectedRow(), 4));
                 String regNo = (String) table.getValueAt(table.getSelectedRow(), 5);
-                boolean pass = Boolean.parseBoolean((String)table.getValueAt(table.getSelectedRow(), 6));
-                String moduleID = (String)table.getValueAt(table.getSelectedRow(), 7);
 
                 JLabel calculateLbl = new JLabel("Calculate");
                 calculateLbl.setForeground(Color.BLUE);
@@ -71,6 +69,8 @@ public class WeightedMeanGrade {
                 JTextField regNoTxtField = new JTextField(regNo);
                 JTextField moduleCodeTxtField = new JTextField(moduleCode);
 
+                //when the calculate button is pressed, the teacher should type in the reg no
+                //and the module for which they want to see the weighted mean grade
                 calculateGradeBtn.addActionListener(e -> {
 
                     double weightedGrade = 0.0;
@@ -83,6 +83,7 @@ public class WeightedMeanGrade {
                             throwables.printStackTrace();
                         }
 
+
                         calculateDialog.dispose();
 
                         JOptionPane.showMessageDialog(calculateDialog,
@@ -92,10 +93,14 @@ public class WeightedMeanGrade {
                     }
                 });
 
+                //close the window when pressing the cancel button
                 cancelBtn.addActionListener(e -> {
                     calculateDialog.dispose();
                 });
 
+                //adding the fields and labels to the information panel, as well as the buttons
+                //to the button panel, setting the panel's layout and then adding everything to
+                //the calculate dialog
                 infoPanel.add(calculateLbl);
                 infoPanel.add(regNoTxtField);
                 infoPanel.add(moduleCodeTxtField);
@@ -134,9 +139,20 @@ public class WeightedMeanGrade {
             }
         });
 
+        //action listener for the go back button
+        goBackBtn.addActionListener(ae -> {
+
+            Teacher teacher = new Teacher("Teacher");
+            frame.dispose();
+        });
+
+        //creating the scroll pane so that the table is scrollable, then adding the buttons
+        //to the buttons panel, setting the layout for the main container and adding everything
+        //to the frame, allowing it to be visible eventually
         JScrollPane scrollPane = new JScrollPane(table);
 
         buttonsPanel.add(calculateBtn);
+        buttonsPanel.add(goBackBtn);
 
         mainContainer.setLayout(new BorderLayout());
 

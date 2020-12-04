@@ -6,56 +6,69 @@ import java.util.Arrays;
 
 public class Database {
 
+   /* public String getDegreeNameByID(Statement statement, String degreeID) throws SQLException {
+
+        String sql2 = "SELECT * FROM Degree WHERE DegreeID = " + degreeID;
+        ResultSet rs = statement.executeQuery(sql2);
+
+        while(rs.next()) {
+            String degreeName = rs.getString("DegreeName");
+            String degreeID2 = rs.getString("DegreeID");
+
+            if(degreeID2.equals(degreeID)){
+                return degreeName;
+            }
+
+        }
+        return null;
+    }*/
     //checking the credentials by username and password
 
     public boolean checkCredentials(Statement statement, String username, String password) throws SQLException {
 
-        String sql = ("SELECT * FROM User;");
+        try {
 
-        ResultSet rs = statement.executeQuery(sql);
+            //String sql = "SELECT * FROM User WHERE Username =" + username;
+            String sql = "SELECT * FROM User WHERE Username = '" + username + "'";
+            //String sql = ("SELECT *  FROM User");
+            //String sql2 = "SELECT * FROM Degree WHERE DegreeID = " + degreeID;
 
-        while(rs.next()) {
+            ResultSet rs = statement.executeQuery(sql);
 
-            String user = rs.getString("UserName");
-            String pass = rs.getString("Password");
-            String salt = rs.getString("PasswordSalt");
+            while (rs.next()) {
 
-            //boolean passwordMatch = PasswordHashingUtilityFunction.verifyUserPassword(password, pass, salt);
+                String user = rs.getString("UserName");
+                String pass = rs.getString("Password");
+                String salt = rs.getString("PasswordSalt");
 
-            if(username.equals((user)))
+                /*String providedPassword = "test2222";
+                String securedPassword = "rup2O2CzH0pw0KTk8lDdz3B4refSGGjM0XgdrJoQisU=";
+                String pSalt = "THTIXBK0QWPBXQMQC1AHBLXSLMK0VF";
+
+
+                boolean passwordMatch = PasswordHashingUtilityFunction.verifyUserPassword(providedPassword, securedPassword, pSalt);
+*/
+                boolean passwordMatch = PasswordHashingUtilityFunction.verifyUserPassword(password, pass, salt);
+
+                System.out.println(passwordMatch);
+
+            /*if(username.equals((user)))
             {
-                return true;
-            }
-            /*if(passwordMatch && username.equals(user)) {
                 return true;
             }*/
 
-            /*if(username.equals(user) && password.equals(pass))
-                return true;*/
+                if (passwordMatch && username.equals(user)) {
+                    return true;
+                }
+            }
 
+            //return false;
+
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
         }
-
         return false;
-
     }
-    /*public boolean checkCredentials(Statement statement, String username, String password) throws SQLException {
-
-        String sql = ("SELECT * FROM User;");
-        ResultSet rs = statement.executeQuery(sql);
-
-        while(rs.next()) {
-
-            String user = rs.getString("UserName");
-            String pass = rs.getString("Password");
-
-            if(username.equals(user) && password.equals(pass))
-                return true;
-
-        }
-
-        return false;
-
-    }*/
 
     //getting the role of a user by username and password
     public String getRole(Statement statement, String username, String password) throws SQLException {

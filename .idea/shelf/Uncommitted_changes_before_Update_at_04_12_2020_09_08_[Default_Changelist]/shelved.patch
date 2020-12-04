@@ -1,0 +1,168 @@
+Index: .idea/shelf/Uncommitted_changes_before_Update_at_26_11_2020_19_50_[Default_Changelist]/shelved.patch
+===================================================================
+--- .idea/shelf/Uncommitted_changes_before_Update_at_26_11_2020_19_50_[Default_Changelist]/shelved.patch	(revision 4e911a7de9b8cdcf851e64be8aea5bea6a78371c)
++++ .idea/shelf/Uncommitted_changes_before_Update_at_26_11_2020_19_50_[Default_Changelist]/shelved.patch	(revision 4e911a7de9b8cdcf851e64be8aea5bea6a78371c)
+@@ -1,20 +0,0 @@
+-Index: .idea/libraries/mysql_connector_java_5_1_49_bin1.xml
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+-<+><component name=\"libraryTable\">\r\n  <library name=\"mysql-connector-java-5.1.49-bin1\">\r\n    <CLASSES>\r\n      <root url=\"jar://$PROJECT_DIR$/../mysql-connector-java-5.1.49/mysql-connector-java-5.1.49-bin.jar!/\" />\r\n    </CLASSES>\r\n    <JAVADOC />\r\n    <SOURCES />\r\n  </library>\r\n</component>
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+---- .idea/libraries/mysql_connector_java_5_1_49_bin1.xml	(revision 00b339c8dce536e86faeb60fcda744515fbc4534)
+-+++ .idea/libraries/mysql_connector_java_5_1_49_bin1.xml	(date 1606408772742)
+-@@ -2,6 +2,7 @@
+-   <library name="mysql-connector-java-5.1.49-bin1">
+-     <CLASSES>
+-       <root url="jar://$PROJECT_DIR$/../mysql-connector-java-5.1.49/mysql-connector-java-5.1.49-bin.jar!/" />
+-+      <root url="jar://$PROJECT_DIR$/../Desktop/UNIVERSITY OF SHEFFIELD/YEAR2/COM2008 - SYSTEMS DESIGN AND SECURITY/mysql-connector-java-5.1.49/mysql-connector-java-5.1.49-bin.jar!/" />
+-     </CLASSES>
+-     <JAVADOC />
+-     <SOURCES />
+-diff --git .idea/shelf/Uncommitted_changes_before_Merge_at_26_11_2020__18_04__Default_Changelist_.xml .idea/shelf/Uncommitted_changes_before_Merge_at_26_11_2020__18_04__Default_Changelist_.xml
+-diff --git .idea/shelf/Uncommitted_changes_before_Merge_at_19_11_2020__13_19__Default_Changelist_.xml .idea/shelf/Uncommitted_changes_before_Merge_at_19_11_2020__13_19__Default_Changelist_.xml
+-diff --git .idea/shelf/Uncommitted_changes_before_Update_at_26_11_2020__18_04__Default_Changelist_.xml .idea/shelf/Uncommitted_changes_before_Update_at_26_11_2020__18_04__Default_Changelist_.xml
+Index: .idea/shelf/Uncommitted_changes_before_Merge_at_26_11_2020,_18_04_[Default_Changelist]/shelved.patch
+===================================================================
+--- .idea/shelf/Uncommitted_changes_before_Merge_at_26_11_2020,_18_04_[Default_Changelist]/shelved.patch	(revision 4e911a7de9b8cdcf851e64be8aea5bea6a78371c)
++++ .idea/shelf/Uncommitted_changes_before_Merge_at_26_11_2020,_18_04_[Default_Changelist]/shelved.patch	(revision 4e911a7de9b8cdcf851e64be8aea5bea6a78371c)
+@@ -1,51 +0,0 @@
+-Index: .idea/libraries/mysql_connector_java_5_1_49_bin1.xml
+-===================================================================
+---- .idea/libraries/mysql_connector_java_5_1_49_bin1.xml	(revision 2178434d6f3a497fa6b7046dd161e7c648dc02e4)
+-+++ .idea/libraries/mysql_connector_java_5_1_49_bin1.xml	(revision 2178434d6f3a497fa6b7046dd161e7c648dc02e4)
+-@@ -1,9 +0,0 @@
+--<component name="libraryTable">
+--  <library name="mysql-connector-java-5.1.49-bin1">
+--    <CLASSES>
+--      <root url="jar://$PROJECT_DIR$/../mysql-connector-java-5.1.49/mysql-connector-java-5.1.49-bin.jar!/" />
+--    </CLASSES>
+--    <JAVADOC />
+--    <SOURCES />
+--  </library>
+--</component>
+-\ No newline at end of file
+-Index: TeamProject.iml
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+-<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<module type=\"JAVA_MODULE\" version=\"4\">\n  <component name=\"NewModuleRootManager\" inherit-compiler-output=\"true\">\n    <exclude-output />\n    <content url=\"file://$MODULE_DIR$\">\n      <sourceFolder url=\"file://$MODULE_DIR$/src\" isTestSource=\"false\" />\n    </content>\n    <orderEntry type=\"inheritedJdk\" />\n    <orderEntry type=\"sourceFolder\" forTests=\"false\" />\n    <orderEntry type=\"library\" name=\"mysql-connector-java-5.1.49-bin1\" level=\"project\" />\n  </component>\n</module>
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+---- TeamProject.iml	(revision 2178434d6f3a497fa6b7046dd161e7c648dc02e4)
+-+++ TeamProject.iml	(date 1606241912907)
+-@@ -7,6 +7,6 @@
+-     </content>
+-     <orderEntry type="inheritedJdk" />
+-     <orderEntry type="sourceFolder" forTests="false" />
+--    <orderEntry type="library" name="mysql-connector-java-5.1.49-bin1" level="project" />
+-+    <orderEntry type="library" name="mysql-connector-java-5.1.49-bin" level="project" />
+-   </component>
+- </module>
+-\ No newline at end of file
+-Index: .idea/libraries/mysql_connector_java_5_1_49_bin.xml
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+---- .idea/libraries/mysql_connector_java_5_1_49_bin.xml	(date 1606241912925)
+-+++ .idea/libraries/mysql_connector_java_5_1_49_bin.xml	(date 1606241912925)
+-@@ -0,0 +1,9 @@
+-+<component name="libraryTable">
+-+  <library name="mysql-connector-java-5.1.49-bin">
+-+    <CLASSES>
+-+      <root url="jar://$USER_HOME$/Downloads/mysql-connector-java-5.1.49/mysql-connector-java-5.1.49-bin.jar!/" />
+-+    </CLASSES>
+-+    <JAVADOC />
+-+    <SOURCES />
+-+  </library>
+-+</component>
+-\ No newline at end of file
+Index: .idea/shelf/Uncommitted_changes_before_Update_at_26_11_2020,_19_55_[Default_Changelist]/shelved.patch
+===================================================================
+--- .idea/shelf/Uncommitted_changes_before_Update_at_26_11_2020,_19_55_[Default_Changelist]/shelved.patch	(revision 4e911a7de9b8cdcf851e64be8aea5bea6a78371c)
++++ .idea/shelf/Uncommitted_changes_before_Update_at_26_11_2020,_19_55_[Default_Changelist]/shelved.patch	(revision 4e911a7de9b8cdcf851e64be8aea5bea6a78371c)
+@@ -1,17 +0,0 @@
+-Index: src/com/company/MyFrame.java
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+-<+>package com.company;\n\nimport javax.swing.*;\nimport javax.swing.border.EmptyBorder;\nimport java.awt.*;\nimport java.awt.event.ActionEvent;\nimport java.awt.event.ActionListener;\nimport java.awt.font.FontRenderContext;\nimport java.awt.geom.AffineTransform;\nimport java.awt.geom.Rectangle2D;\nimport java.awt.image.ImageObserver;\nimport java.sql.Connection;\nimport java.sql.ResultSet;\nimport java.sql.SQLException;\nimport java.sql.Statement;\nimport java.text.AttributedCharacterIterator;\n\npublic class MyFrame extends JFrame {\n\n    // Needed for serialisation WHAT THIS MEANS?\n    private static final long serialVersionUID = 1L;\n\n    // declaring the variables\n    private static JFrame frame;\n    private static JPanel topPanel;\n    private static JPanel centerPanel;\n    private static JLabel titleLabel;\n    private static JLabel userLabel;\n    private static JLabel passwordLabel;\n    private static JTextField userField;\n    private static JPasswordField passwordField;\n    private static JButton login;\n    private static Container mainContainer;\n    private static GridBagConstraints gbc;\n    private final int width = 500;\n    private final int height = 500;\n    private static Statement stmt = null;\n\n    // Constructor with frame title\n    public MyFrame(String title) throws HeadlessException {\n\n        //initializing the variables\n        frame = new JFrame(title);\n        topPanel = new JPanel(new GridBagLayout());\n        centerPanel = new JPanel(new GridBagLayout());\n        gbc = new GridBagConstraints();\n        mainContainer = this.getContentPane();\n        titleLabel = new JLabel(\"Present Your Details\");\n        userLabel = new JLabel(\"Username:\");\n        passwordLabel = new JLabel(\"Password:\");\n        userField = new JTextField(20);\n        passwordField = new JPasswordField(20);\n        login = new JButton(\"Login\");\n\n        //initializing the indexes for rows and columns of the GridBag Constraint\n        gbc.gridx = 0;\n        gbc.gridy = 0;\n\n        //setting the layout of the main Container and adding to it the top and center Panels in the specified positions\n        mainContainer.setLayout(new BorderLayout());\n        mainContainer.add(centerPanel, BorderLayout.CENTER);\n        mainContainer.add(topPanel, BorderLayout.NORTH);\n\n        //setting the borders for top and center Panels\n        topPanel.setBorder(new EmptyBorder(100, 0, 0, 0));\n        centerPanel.setBorder(new EmptyBorder(0, 0, 150, 0));\n\n        //setting the font for title Label, then added to the top Panel\n        titleLabel.setFont (titleLabel.getFont ().deriveFont (30.0f));\n        topPanel.add(titleLabel);\n\n        //adding the labels and the fields in the center Panel\n        //changing the coordinates accordingly to the desired position\n        gbc.gridy++;\n        centerPanel.add(userLabel, gbc);\n        gbc.gridy++;\n        centerPanel.add(passwordLabel, gbc);\n        gbc.gridx++;\n        gbc.gridy = 1;\n        centerPanel.add(userField, gbc);\n        gbc.gridy++;\n        centerPanel.add(passwordField, gbc);\n        gbc.gridy ++;\n        gbc.gridx = 1;\n\n        //adding the button under the fields\n        gbc.fill = GridBagConstraints.HORIZONTAL;\n        centerPanel.add(login,gbc);\n\n        //action listener for clicking the \"Login\" button\n        login.addActionListener(ae -> {\n\n\n//            try {\n//                System.out.println(stmt);\n//                stmt = Main.getConnection();\n//\n//                String sql = (\"SELECT * FROM User;\");\n//                ResultSet rs = stmt.executeQuery(sql);\n//                while(rs.next()) {\n//                    int id = rs.getInt(\"UserID\");\n//                    String str1 = rs.getString(\"UserName\");\n//\n//                    System.out.println(id + \" \" + str1);\n//                }\n//\n//                System.out.println(rs.toString());\n//\n//            } catch (SQLException throwables) {\n//                throwables.printStackTrace();\n//            }\n\n\n\n            System.out.println(\"Login clicked\");\n            frame.dispose();\n            LoggedIn loggedIn = new LoggedIn(\"Logged In\");\n\n        });\n\n        //center the window\n        centreWindow(frame, width, height);\n\n        //adding the main container to the frame\n        frame.getContentPane().add(mainContainer);\n\n        //setting the width and the height of the frame\n        frame.setSize(width,height);\n\n        //don't allow the frame to be resized\n        frame.setResizable(false);\n\n        //making the frame visible\n        frame.setVisible(true);\n\n    }\n\n\n    public static void main(String[] args) {\n        // launching code goes in here\n\n    }\n\n    public static void centreWindow(Window frame, int width, int height) {\n        Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();\n        int x = (int) ((dimension.getWidth() - frame.getWidth()) / 2) - width/2;\n        int y = (int) ((dimension.getHeight() - frame.getHeight()) / 2) - height/2;\n        frame.setLocation(x, y);\n    }\n\n}\n
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+---- src/com/company/MyFrame.java	(revision 2561b970f249c53d7a70b645ce6639bfceb903a2)
+-+++ src/com/company/MyFrame.java	(date 1606420457789)
+-@@ -114,7 +114,6 @@
+- 
+-             System.out.println("Login clicked");
+-             frame.dispose();
+--            LoggedIn loggedIn = new LoggedIn("Logged In");
+- 
+-         });
+- 
+Index: .idea/shelf/Uncommitted_changes_before_Merge_at_26_11_2020__18_04__Default_Changelist_.xml
+===================================================================
+--- .idea/shelf/Uncommitted_changes_before_Merge_at_26_11_2020__18_04__Default_Changelist_.xml	(revision 4e911a7de9b8cdcf851e64be8aea5bea6a78371c)
++++ .idea/shelf/Uncommitted_changes_before_Merge_at_26_11_2020__18_04__Default_Changelist_.xml	(revision 4e911a7de9b8cdcf851e64be8aea5bea6a78371c)
+@@ -1,9 +0,0 @@
+-<changelist name="Uncommitted_changes_before_Merge_at_26_11_2020,_18_04_[Default_Changelist]" date="1606413862524" recycled="true" deleted="true">
+-  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Merge_at_26_11_2020,_18_04_[Default_Changelist]/shelved.patch" />
+-  <option name="DESCRIPTION" value="Uncommitted changes before Merge at 26/11/2020, 18:04 [Default Changelist]" />
+-  <binary>
+-    <option name="BEFORE_PATH" value="out/production/TeamProject/com/company/MyFrame.class" />
+-    <option name="AFTER_PATH" value="out/production/TeamProject/com/company/MyFrame.class" />
+-    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Merge_at_26_11_2020,_18_04_[Default_Changelist]/MyFrame.class" />
+-  </binary>
+-</changelist>
+\ No newline at end of file
+Index: .idea/shelf/Uncommitted_changes_before_Update_at_26_11_2020__19_55__Default_Changelist_.xml
+===================================================================
+--- .idea/shelf/Uncommitted_changes_before_Update_at_26_11_2020__19_55__Default_Changelist_.xml	(revision 4e911a7de9b8cdcf851e64be8aea5bea6a78371c)
++++ .idea/shelf/Uncommitted_changes_before_Update_at_26_11_2020__19_55__Default_Changelist_.xml	(revision 4e911a7de9b8cdcf851e64be8aea5bea6a78371c)
+@@ -1,24 +0,0 @@
+-<changelist name="Uncommitted_changes_before_Update_at_26_11_2020,_19_55_[Default_Changelist]" date="1606420507447" recycled="true" deleted="true">
+-  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_26_11_2020,_19_55_[Default_Changelist]/shelved.patch" />
+-  <option name="DESCRIPTION" value="Uncommitted changes before Update at 26/11/2020, 19:55 [Default Changelist]" />
+-  <binary>
+-    <option name="BEFORE_PATH" value="out/production/TeamProject/com/company/Main.class" />
+-    <option name="AFTER_PATH" value="out/production/TeamProject/com/company/Main.class" />
+-    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_26_11_2020,_19_55_[Default_Changelist]/Main.class" />
+-  </binary>
+-  <binary>
+-    <option name="BEFORE_PATH" value="out/production/TeamProject/com/company/images.jpg" />
+-    <option name="AFTER_PATH" />
+-    <option name="SHELVED_PATH" />
+-  </binary>
+-  <binary>
+-    <option name="BEFORE_PATH" value="out/production/TeamProject/com/company/LoggedIn.class" />
+-    <option name="AFTER_PATH" />
+-    <option name="SHELVED_PATH" />
+-  </binary>
+-  <binary>
+-    <option name="BEFORE_PATH" value="out/production/TeamProject/com/company/MyFrame.class" />
+-    <option name="AFTER_PATH" value="out/production/TeamProject/com/company/MyFrame.class" />
+-    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_26_11_2020,_19_55_[Default_Changelist]/MyFrame.class" />
+-  </binary>
+-</changelist>
+\ No newline at end of file
+Index: .idea/shelf/Uncommitted_changes_before_Update_at_26_11_2020_19_50__Default_Changelist_.xml
+===================================================================
+--- .idea/shelf/Uncommitted_changes_before_Update_at_26_11_2020_19_50__Default_Changelist_.xml	(revision 4e911a7de9b8cdcf851e64be8aea5bea6a78371c)
++++ .idea/shelf/Uncommitted_changes_before_Update_at_26_11_2020_19_50__Default_Changelist_.xml	(revision 4e911a7de9b8cdcf851e64be8aea5bea6a78371c)
+@@ -1,14 +0,0 @@
+-<changelist name="Uncommitted_changes_before_Update_at_26_11_2020_19_50_[Default_Changelist]" date="1606420216348" recycled="true" deleted="true">
+-  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_26_11_2020_19_50_[Default_Changelist]/shelved.patch" />
+-  <option name="DESCRIPTION" value="Uncommitted changes before Update at 26/11/2020 19:50 [Default Changelist]" />
+-  <binary>
+-    <option name="BEFORE_PATH" value="out/production/TeamProject/com/company/MyFrame.class" />
+-    <option name="AFTER_PATH" value="out/production/TeamProject/com/company/MyFrame.class" />
+-    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_26_11_2020_19_50_[Default_Changelist]/MyFrame.class" />
+-  </binary>
+-  <binary>
+-    <option name="BEFORE_PATH" value="out/production/TeamProject/com/company/Main.class" />
+-    <option name="AFTER_PATH" value="out/production/TeamProject/com/company/Main.class" />
+-    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_26_11_2020_19_50_[Default_Changelist]/Main.class" />
+-  </binary>
+-</changelist>
+\ No newline at end of file
