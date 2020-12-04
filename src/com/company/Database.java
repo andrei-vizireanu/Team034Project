@@ -191,8 +191,8 @@ public class Database {
             rs.last();
             String[][] data = new String[rs.getRow()][];
             int i = 0;
-
             rs.beforeFirst();
+
             while(rs.next()) {
 
                 String id = rs.getString("DegreeID");
@@ -203,17 +203,16 @@ public class Database {
 
                 data[i] = new String[]{id, degCode, degName, degPartner, degLead};
                 i++;
-
-                return data;
             }
+            return data;
         }catch (SQLException e){
             System.out.println("getInfoDegree method from Database" + e);
         }
 
         return null;
-
     }
 
+    //getting degree names by using the ids
     public String getDegreeNameByID(Statement statement, String degreeID) throws SQLException {
 
         String sql2 = "SELECT * FROM Degree WHERE DegreeID = " + degreeID;
@@ -229,7 +228,33 @@ public class Database {
 
         }
         return null;
+    }
 
+    //getting degree names by using the ids
+    public String[] getDepartmentCodes(Statement statement){
+
+        String sql2 = "SELECT * FROM Department";
+
+        try{
+            ResultSet rs = statement.executeQuery(sql2);
+            rs.last();
+            String[] data = new String[rs.getRow()];
+            int i = 0;
+            rs.beforeFirst();
+
+            while(rs.next()) {
+                String degreeName = rs.getString("DepartmentCode");
+                data[i] = degreeName;
+                i++;
+            }
+
+            return data;
+
+        }catch (SQLException e){
+            System.out.println("getDepartmentCodes method from Database" + e);
+        }
+
+        return null;
     }
 
     //updating the user with the new info
@@ -258,6 +283,32 @@ public class Database {
 
         // update
         pstmt.executeUpdate();
+
+    }
+
+    //updating the degree with the new info
+    public void updateDegree(Connection connection, String degCode, String degName, String partner, String lead, String id){
+
+        String sql = "UPDATE Degree SET DegreeCode = ?, " +
+                "DegreeName = ?, " +
+                "Partner = ?, " +
+                "Lead = ? " + "WHERE DegreeID = ?";
+
+        try{
+            PreparedStatement pstmt = connection.prepareStatement(sql);
+
+            // set the corresponding param
+            pstmt.setString(1, degCode);
+            pstmt.setString(2, degName);
+            pstmt.setString(3, partner);
+            pstmt.setString(4, lead);
+            pstmt.setString(5, id);
+
+            // update
+            pstmt.executeUpdate();
+        }catch (SQLException e){
+            System.out.println("updateDegree method from Database class " + e);
+        }
 
     }
 
@@ -500,6 +551,35 @@ public class Database {
 
     }
 
+    //getting the department id
+    public String getDegreeID(Statement statement, String degreeCode, String degreeName, String partner, String lead){
+
+        String sql = ("SELECT * FROM Degree;");
+
+        try{
+            ResultSet rs = statement.executeQuery(sql);
+
+            while(rs.next()) {
+
+                String depID = rs.getString("DegreeID");
+                String degCode = rs.getString("DegreeCode");
+                String degName = rs.getString("DegreeName");
+                String partner1 = rs.getString("Partner");
+                String lead1 = rs.getString("Lead");
+
+                if(degCode.equals(degreeCode) && degName.equals(degreeName) && partner1.equals(partner) && lead1.equals(lead))
+                    return depID;
+
+            }
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+        return null;
+
+    }
+
     //adding a user to the database
     public void addUser(Connection connection, String username, String password, String title, String forename,
                         String surname, String email, String role) throws SQLException {
@@ -535,6 +615,29 @@ public class Database {
             PreparedStatement preparedStmt = connection.prepareStatement(query);
             preparedStmt.setString(1, depCode);
             preparedStmt.setString(2, depName);
+
+            // execute the preparedstatement
+            preparedStmt.execute();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+    }
+
+    //adding a department to the database
+    public void addDegreeCourse(Connection connection, String degreeCode, String degreeName, String partner, String lead) {
+
+        // the mysql insert statement
+        String query = " insert into Degree (DegreeCode, DegreeName, Partner, Lead)"
+                + " values (?, ?, ?, ?)";
+
+        try {
+            // create the mysql insert preparedstatement
+            PreparedStatement preparedStmt = connection.prepareStatement(query);
+            preparedStmt.setString(1, degreeCode);
+            preparedStmt.setString(2, degreeName);
+            preparedStmt.setString(3, partner);
+            preparedStmt.setString(4, lead);
 
             // execute the preparedstatement
             preparedStmt.execute();
@@ -609,6 +712,22 @@ public class Database {
 
             // set the corresponding param
             pstmt.setInt(1, Integer.parseInt(depID));
+            // execute the delete statement
+            pstmt.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+    }
+
+    //deleting a degree course by its ID
+    public void deleteDegree(Connection connection, String degreeID){
+        String sql = "DELETE FROM Degree WHERE DegreeID = ?";
+
+        try {
+            PreparedStatement pstmt = connection.prepareStatement(sql);
+            // set the corresponding param
+            pstmt.setInt(1, Integer.parseInt(degreeID));
             // execute the delete statement
             pstmt.executeUpdate();
         } catch (SQLException throwables) {

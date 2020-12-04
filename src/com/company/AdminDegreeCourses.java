@@ -24,7 +24,7 @@ public class AdminDegreeCourses {
     private JButton goBack;
     private Database database;
     private final int dialogWidth = 500;
-    private final int dialogHeight = 600;
+    private final int dialogHeight = 425;
     private final int width = 800;
     private final int height = 600;
 
@@ -76,81 +76,68 @@ public class AdminDegreeCourses {
 
                 //setting the layouts of the container and infoPanel
                 editContainer.setLayout(new BorderLayout());
-                infoPanel.setLayout(new GridLayout(12, 2, 10, 10));
+                infoPanel.setLayout(new GridLayout(8, 2, 10, 10));
 
                 //getting each value from the row selected
                 String id = String.valueOf(table.getValueAt(table.getSelectedRow(), 0));
-                String moduleCode = String.valueOf(table.getValueAt(table.getSelectedRow(), 1));
-                String moduleName = String.valueOf(table.getValueAt(table.getSelectedRow(), 2).toString());
-                String level = String.valueOf(table.getValueAt(table.getSelectedRow(), 3).toString());
-                String core = String.valueOf(table.getValueAt(table.getSelectedRow(), 4).toString());
-                String credit = String.valueOf(table.getValueAt(table.getSelectedRow(), 5).toString());
-                String degree = String.valueOf(table.getValueAt(table.getSelectedRow(), 6).toString());
+                String degreeCode = String.valueOf(table.getValueAt(table.getSelectedRow(), 1));
+                String degreeName = String.valueOf(table.getValueAt(table.getSelectedRow(), 2));
+                String partner = String.valueOf(table.getValueAt(table.getSelectedRow(), 3));
+                String lead = String.valueOf(table.getValueAt(table.getSelectedRow(), 4));
 
                 //creating the labels objects and setting their text colors and borders
-                JLabel modCodeLabel = new JLabel("Module Code");
-                modCodeLabel.setForeground(Color.BLUE);
-                modCodeLabel.setBorder(borderLabels);
-                JLabel modNameLabel = new JLabel("Module Name");
-                modNameLabel.setForeground(Color.BLUE);
-                modNameLabel.setBorder(borderLabels);
-                JLabel levelLabel = new JLabel("Level");
-                levelLabel.setForeground(Color.BLUE);
-                levelLabel.setBorder(borderLabels);
-                JLabel coreLabel = new JLabel("Core");
-                coreLabel.setForeground(Color.BLUE);
-                coreLabel.setBorder(borderLabels);
-                JLabel creditLabel = new JLabel("Credit");
-                creditLabel.setForeground(Color.BLUE);
-                creditLabel.setBorder(borderLabels);
-                JLabel degreeLabel = new JLabel("Degree");
-                degreeLabel.setForeground(Color.BLUE);
-                degreeLabel.setBorder(borderLabels);
+                JLabel degreeCodeLabel = new JLabel("Degree Code");
+                degreeCodeLabel.setForeground(Color.BLUE);
+                degreeCodeLabel.setBorder(borderLabels);
+                JLabel degreeNameLabel = new JLabel("Degree Name");
+                degreeNameLabel.setForeground(Color.BLUE);
+                degreeNameLabel.setBorder(borderLabels);
+                JLabel partnerLabel = new JLabel("Partner");
+                partnerLabel.setForeground(Color.BLUE);
+                partnerLabel.setBorder(borderLabels);
+                JLabel leadLabel = new JLabel("Lead");
+                leadLabel.setForeground(Color.BLUE);
+                leadLabel.setBorder(borderLabels);
 
                 //creating the fields for each value
-                JTextField modCodeFiled = new JTextField(moduleCode);
-                JTextField modNameField = new JTextField(moduleName);
-                JTextField levelField = new JTextField(level);
-                String[] cores = {"Obligatory", "Optional"};
-                JComboBox coresCombo = new JComboBox(cores);
-                JTextField creditField = new JTextField(credit);
-                String[][] IDsDegrees = database.getDegreeIDsNames(Main.statement);
-                String[] degreeTitles = IDsDegrees[1];
-                JComboBox degreeTitlesCombo = new JComboBox(degreeTitles);
+                JTextField degreeCodeFiled = new JTextField(degreeCode);
+                JTextField degreeNameField = new JTextField(degreeName);
+                String[] departmentCodes = database.getDepartmentCodes(Main.statement);
+                JComboBox departCodesPartnerCombo = new JComboBox(departmentCodes);
+                JComboBox departCodesLeadCombo = new JComboBox(departmentCodes);
 
-                //checking which item (degreeName and core) should be selected for the selected Module
-                for(int i = 0; i < degreeTitles.length; i++){
-                    if(degree.equals(degreeTitles[i])){
-                        degreeTitlesCombo.setSelectedIndex(i);
+                //checking which item (partner and lead) should be selected for the selected Degree
+                for(int i = 0; i < departmentCodes.length; i++){
+                    if(partner.equals(departmentCodes[i])){
+                        departCodesPartnerCombo.setSelectedIndex(i);
                     }
                 }
 
-                for(int i = 0; i < cores.length; i++){
-                    if(core.equals(cores[i])){
-                        coresCombo.setSelectedIndex(i);
+                for(int i = 0; i < departmentCodes.length; i++){
+                    if(lead.equals(departmentCodes[i])){
+                        departCodesLeadCombo.setSelectedIndex(i);
                     }
                 }
+
 
                 //action when edit is clicked
                 edit.addActionListener(e -> {
 
-                    //checking if you updated the user with new information
-                    if(!modCodeFiled.getText().equals(moduleCode) || !modNameField.getText().equals(moduleName) ||
-                            !levelField.getText().equals(level) || !String.valueOf(coresCombo.getSelectedItem()).equals(core) ||
-                            !creditField.getText().equals(credit) || !String.valueOf(degreeTitlesCombo.getSelectedItem()).equals(degree)){
+                    //checking if you updated the degree with new information
+                    if(!degreeCodeFiled.getText().equals(degreeCode) || !degreeNameField.getText().equals(degreeName) ||
+                            !String.valueOf(departCodesLeadCombo.getSelectedItem()).equals(lead) ||
+                            !String.valueOf(departCodesPartnerCombo.getSelectedItem()).equals(partner)){
 
-                        //updating the selected user's information
-                        database.updateModule(Main.connection, modCodeFiled.getText(), modNameField.getText(),
-                                levelField.getText(), String.valueOf(coresCombo.getSelectedItem()), creditField.getText(),
-                                IDsDegrees, String.valueOf(degreeTitlesCombo.getSelectedItem()), id);
+                        //updating the selected degree's information
+                        database.updateDegree(Main.connection, degreeCodeFiled.getText(), degreeNameField.getText(),
+                                String.valueOf(departCodesPartnerCombo.getSelectedItem()),
+                                String.valueOf(departCodesLeadCombo.getSelectedItem()), id);
 
                         //refreshing the table with the new values
-                        table.setValueAt(modCodeFiled.getText(), table.getSelectedRow(), 1);
-                        table.setValueAt(modNameField.getText(), table.getSelectedRow(), 2);
-                        table.setValueAt(levelField.getText(), table.getSelectedRow(), 3);
-                        table.setValueAt(String.valueOf(coresCombo.getSelectedItem()), table.getSelectedRow(), 4);
-                        table.setValueAt(creditField.getText(), table.getSelectedRow(), 5);
-                        table.setValueAt(String.valueOf(degreeTitlesCombo.getSelectedItem()), table.getSelectedRow(), 6);
+                        table.setValueAt(degreeCodeFiled.getText(), table.getSelectedRow(), 1);
+                        table.setValueAt(degreeNameField.getText(), table.getSelectedRow(), 2);
+                        table.setValueAt(String.valueOf(departCodesPartnerCombo.getSelectedItem()),table.getSelectedRow(), 3);
+                        table.setValueAt(String.valueOf(departCodesLeadCombo.getSelectedItem()), table.getSelectedRow(), 4);
 
                         //resizing the table again
                         fitExactly();
@@ -160,7 +147,7 @@ public class AdminDegreeCourses {
 
                         //information message
                         JOptionPane.showMessageDialog(editDialog,
-                                "You updated the following Module ID: " + id,
+                                "You updated the following Degree Course ID: " + id,
                                 "Successfully Updated",
                                 JOptionPane.INFORMATION_MESSAGE);
 
@@ -183,18 +170,14 @@ public class AdminDegreeCourses {
 
 
                 //adding the labels and fields to the information panel
-                infoPanel.add(modCodeLabel);
-                infoPanel.add(modCodeFiled);
-                infoPanel.add(modNameLabel);
-                infoPanel.add(modNameField);
-                infoPanel.add(levelLabel);
-                infoPanel.add(levelField);
-                infoPanel.add(coreLabel);
-                infoPanel.add(coresCombo);
-                infoPanel.add(creditLabel);
-                infoPanel.add(creditField);
-                infoPanel.add(degreeLabel);
-                infoPanel.add(degreeTitlesCombo);
+                infoPanel.add(degreeCodeLabel);
+                infoPanel.add(degreeCodeFiled);
+                infoPanel.add(degreeNameLabel);
+                infoPanel.add(degreeNameField);
+                infoPanel.add(partnerLabel);
+                infoPanel.add(departCodesPartnerCombo);
+                infoPanel.add(leadLabel);
+                infoPanel.add(departCodesLeadCombo);
 
                 //setting the border to the buttonsPanel
                 buttonsPanel.setBorder(borderLabels);
@@ -259,76 +242,54 @@ public class AdminDegreeCourses {
 
             //setting the layouts of the container and infoPanel
             editContainer.setLayout(new BorderLayout());
-            infoPanel.setLayout(new GridLayout(12, 2, 10, 10));
+            infoPanel.setLayout(new GridLayout(8, 2, 10, 10));
 
             //creating the labels objects and setting their text colors and borders
-            JLabel modCodeLabel = new JLabel("Module Code");
-            modCodeLabel.setForeground(Color.BLUE);
-            modCodeLabel.setBorder(borderLabels);
-            JLabel modNameLabel = new JLabel("Module Name");
-            modNameLabel.setForeground(Color.BLUE);
-            modNameLabel.setBorder(borderLabels);
-            JLabel levelLabel = new JLabel("Level (Numerical)");
-            levelLabel.setForeground(Color.BLUE);
-            levelLabel.setBorder(borderLabels);
-            JLabel coreLabel = new JLabel("Core");
-            coreLabel.setForeground(Color.BLUE);
-            coreLabel.setBorder(borderLabels);
-            JLabel creditLabel = new JLabel("Credit (Numerical)");
-            creditLabel.setForeground(Color.BLUE);
-            creditLabel.setBorder(borderLabels);
-            JLabel degreeLabel = new JLabel("Degree");
-            degreeLabel.setForeground(Color.BLUE);
-            degreeLabel.setBorder(borderLabels);
+            JLabel degreeCodeLabel = new JLabel("Degree Code");
+            degreeCodeLabel.setForeground(Color.BLUE);
+            degreeCodeLabel.setBorder(borderLabels);
+            JLabel degreeNameLabel = new JLabel("Degree Name");
+            degreeNameLabel.setForeground(Color.BLUE);
+            degreeNameLabel.setBorder(borderLabels);
+            JLabel partnerLabel = new JLabel("Partner");
+            partnerLabel.setForeground(Color.BLUE);
+            partnerLabel.setBorder(borderLabels);
+            JLabel leadLabel = new JLabel("Lead");
+            leadLabel.setForeground(Color.BLUE);
+            leadLabel.setBorder(borderLabels);
 
             //creating the fields for each value
-            JTextField modCodeFiled = new JTextField();
-            JTextField modNameField = new JTextField();
-            JTextField levelField = new JTextField();
-            JTextField creditField = new JTextField();
-            String[][] IDsDegrees = database.getDegreeIDsNames(Main.statement);
-            String[] degreeTitles = IDsDegrees[1];
-            JComboBox degreeTitlesCombo = new JComboBox(degreeTitles);
-            degreeTitlesCombo.setSelectedIndex(0);
-            String[] cores = {"Obligatory", "Optional"};
-            JComboBox coresCombo = new JComboBox(cores);
-            coresCombo.setSelectedIndex(0);
+            JTextField degreeCodeFiled = new JTextField();
+            JTextField degreeNameField = new JTextField();
+            String[] departmentCodes = database.getDepartmentCodes(Main.statement);
+            JComboBox departCodesPartnerCombo = new JComboBox(departmentCodes);
+            JComboBox departCodesLeadCombo = new JComboBox(departmentCodes);
+            departCodesPartnerCombo.setSelectedIndex(0);
+            departCodesLeadCombo.setSelectedIndex(0);
 
             //action when edit is clicked
             add.addActionListener(e -> {
 
-                //checking if you updated the user with new information
-                if(!modCodeFiled.getText().contains(" ") && !modCodeFiled.getText().equals("") &&
-                        !modNameField.getText().equals("") &&
-                        !levelField.getText().contains(" ") && !levelField.getText().equals("") &&
-                        !creditField.getText().contains(" ") && !creditField.getText().equals("") &&
-                        checkString(levelField.getText())){
+                //checking if you updated the degree course with new information
+                if(!degreeCodeFiled.getText().contains(" ") && !degreeCodeFiled.getText().equals("") &&
+                        !degreeNameField.getText().equals("")){
 
                     String id = null;
 
-                    //adding the user's information
-                    database.addModule(Main.connection, modCodeFiled.getText(), modNameField.getText(),
-                            levelField.getText(), String.valueOf(coresCombo.getSelectedItem()), creditField.getText(),
-                            String.valueOf(degreeTitlesCombo.getSelectedItem()), IDsDegrees);
+                    //adding the degree course's information
+                    database.addDegreeCourse(Main.connection, degreeCodeFiled.getText(), degreeNameField.getText(),
+                            String.valueOf(departCodesPartnerCombo.getSelectedItem()),
+                            String.valueOf(departCodesLeadCombo.getSelectedItem()));
 
+                    //getting the id of the added degree course
+                    id = database.getDegreeID(Main.statement, degreeCodeFiled.getText(), degreeNameField.getText(),
+                            String.valueOf(departCodesPartnerCombo.getSelectedItem()),
+                            String.valueOf(departCodesLeadCombo.getSelectedItem()));
 
-                    String degreeID = null;
-
-                    for(int i = 0; i < IDsDegrees[1].length; i++){
-
-                        if(IDsDegrees[1][i].equals(String.valueOf(degreeTitlesCombo.getSelectedItem()))){
-                            degreeID = IDsDegrees[0][i];
-                        }
-
-                    }
-
-                    id = database.getModuleID(Main.statement, modCodeFiled.getText(), modNameField.getText(),
-                            levelField.getText(), String.valueOf(coresCombo.getSelectedItem()), creditField.getText(),
-                            degreeID);
-
-                    ((DefaultTableModel) tableModel).addRow(new Object[]{id, modCodeFiled.getText(),
-                            modNameField.getText(), levelField.getText(), String.valueOf(coresCombo.getSelectedItem()),
-                            creditField.getText(), String.valueOf(degreeTitlesCombo.getSelectedItem())});
+                    //adding the information of the added degree course into the table
+                    ((DefaultTableModel) tableModel).addRow(new Object[]{id, degreeCodeFiled.getText(),
+                            degreeNameField.getText(), String.valueOf(departCodesPartnerCombo.getSelectedItem()),
+                            String.valueOf(departCodesLeadCombo.getSelectedItem())});
 
                     //resizing the table again
                     fitExactly();
@@ -338,7 +299,7 @@ public class AdminDegreeCourses {
 
                     //information message
                     JOptionPane.showMessageDialog(addDialog,
-                            "You added the following Module ID: " + id,
+                            "You added the following Degree Course ID: " + id,
                             "Successfully Added",
                             JOptionPane.INFORMATION_MESSAGE);
 
@@ -347,8 +308,7 @@ public class AdminDegreeCourses {
                 else{
                     //error message
                     JOptionPane.showMessageDialog(addDialog,
-                            "You need to fill all the fields! And make sure to not have any space in them! " +
-                                    "(Module Code, Level, Credit)\n Moreover, Level and Credit need to be numeric!",
+                            "You need to fill all the fields! And make sure to not have any space in Degree Code! ",
                             "Fill all fields",
                             JOptionPane.ERROR_MESSAGE);
                 }
@@ -362,18 +322,14 @@ public class AdminDegreeCourses {
 
 
             //adding the labels and fields to the information panel
-            infoPanel.add(modCodeLabel);
-            infoPanel.add(modCodeFiled);
-            infoPanel.add(modNameLabel);
-            infoPanel.add(modNameField);
-            infoPanel.add(levelLabel);
-            infoPanel.add(levelField);
-            infoPanel.add(coreLabel);
-            infoPanel.add(coresCombo);
-            infoPanel.add(creditLabel);
-            infoPanel.add(creditField);
-            infoPanel.add(degreeLabel);
-            infoPanel.add(degreeTitlesCombo);
+            infoPanel.add(degreeCodeLabel);
+            infoPanel.add(degreeCodeFiled);
+            infoPanel.add(degreeNameLabel);
+            infoPanel.add(degreeNameField);
+            infoPanel.add(partnerLabel);
+            infoPanel.add(departCodesPartnerCombo);
+            infoPanel.add(leadLabel);
+            infoPanel.add(departCodesLeadCombo);
 
             //setting the border to the buttonsPanel
             buttonsPanel.setBorder(borderLabels);
@@ -411,13 +367,13 @@ public class AdminDegreeCourses {
                 String id = String.valueOf(table.getValueAt(table.getSelectedRow(), 0));
 
                 int confirm1 = JOptionPane.showOptionDialog(frame,
-                        "Are you sure you want to delete the following Module ID: " + id + " ?",
+                        "Are you sure you want to delete the following Degree Course ID: " + id + " ?",
                         "Delete Confirmation", JOptionPane.YES_NO_OPTION,
                         JOptionPane.WARNING_MESSAGE, null, null, null);
                 if (confirm1 == JOptionPane.YES_OPTION) {
 
-                    //deleting the user account
-                    database.deleteModule(Main.connection, id);
+                    //deleting the degree course
+                    database.deleteDegree(Main.connection, id);
 
                     //removing the row from the table
                     ((DefaultTableModel) tableModel).removeRow(table.getSelectedRow());
@@ -489,15 +445,6 @@ public class AdminDegreeCourses {
 
         //making the frame visible
         frame.setVisible(true);
-
-    }
-
-    public boolean checkString(String word){
-
-        if(word.matches("[0-9]+")){
-            return true;
-        }
-        else return false;
 
     }
 

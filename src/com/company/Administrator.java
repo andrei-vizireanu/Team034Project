@@ -49,8 +49,8 @@ public class Administrator extends JFrame {
 
         buttonPanel.add(accounts);
         buttonPanel.add(departments);
-        buttonPanel.add(modules);
         buttonPanel.add(degreeCourses);
+        buttonPanel.add(modules);
 
         //action listener for clicking the "University Departments" button
         logOut.addActionListener(ae -> {
@@ -81,6 +81,19 @@ public class Administrator extends JFrame {
 
             try {
                 AdminUniDepartments departments = new AdminUniDepartments("University Departments Workbench");
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+            //JTableButtonTest table = new JTableButtonTest();
+            frame.dispose();
+
+        });
+
+        //action listener for clicking the "Modules" button
+        degreeCourses.addActionListener(ae -> {
+
+            try {
+                AdminDegreeCourses departments = new AdminDegreeCourses("Degree Courses Workbench");
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
