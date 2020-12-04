@@ -501,22 +501,31 @@ public class Database {
     }
 
     //getting the user id
-    public String getUserID(Statement statement, String username, String password) throws SQLException {
+    public String getUserID(Statement statement, String userName, String forName, String surName){
 
         String sql = ("SELECT * FROM User;");
-        ResultSet rs = statement.executeQuery(sql);
 
-        while(rs.next()) {
+        try {
+            ResultSet rs = statement.executeQuery(sql);
 
-            String userID = rs.getString("UserID");
-            String user = rs.getString("UserName");
-            //String pass = rs.getString("Password");
+            while(rs.next()) {
 
-            if(username.equals(user) && password != "");
+                String id = rs.getString("UserID");
+                String username = rs.getString("Username");
+                String foreame = rs.getString("Forename");
+                String surname = rs.getString("Surname");
+                //String pass = rs.getString("Password");
 
-            /*if(username.equals(user) && password.equals(pass))
-                return userID;*/
+                if(username.equals(userName) && foreame.equals(forName) && surname.equals(surName)){
+                    return id;
+                }
 
+                /*if(username.equals(user) && password.equals(pass))
+                    return userID;*/
+
+            }
+        } catch (SQLException throwables) {
+            System.out.println("getUserID method from the Database" + throwables);
         }
 
         return null;
@@ -616,25 +625,72 @@ public class Database {
 
     //adding a user to the database
     public void addUser(Connection connection, String username, String password, String salt, String title, String forename,
-                        String surname, String email, String role) throws SQLException {
+                        String surname, String email, String role){
 
         // the mysql insert statement
         String query = " insert into User (Username, Password, PasswordSalt, Title, Forename, Surname, Email, Role)"
                 + " values (?, ?, ?, ?, ?, ?, ?, ?)";
 
-        // create the mysql insert preparedstatement
-        PreparedStatement preparedStmt = connection.prepareStatement(query);
-        preparedStmt.setString(1, username);
-        preparedStmt.setString(2, password);
-        preparedStmt.setString(3, salt);
-        preparedStmt.setString(4, title);
-        preparedStmt.setString(5, forename);
-        preparedStmt.setString(6, surname);
-        preparedStmt.setString(7, email);
-        preparedStmt.setString(8, role);
+        try {
+            // create the mysql insert preparedstatement
+            PreparedStatement preparedStmt = connection.prepareStatement(query);
+            preparedStmt.setString(1, username);
+            preparedStmt.setString(2, password);
+            preparedStmt.setString(3, salt);
+            preparedStmt.setString(4, title);
+            preparedStmt.setString(5, forename);
+            preparedStmt.setString(6, surname);
+            preparedStmt.setString(7, email);
+            preparedStmt.setString(8, role);
 
-        // execute the preparedstatement
-        preparedStmt.execute();
+            // execute the preparedstatement
+            preparedStmt.execute();
+        } catch (SQLException throwables) {
+            System.out.println("addUser method from the Database " + throwables);
+        }
+
+    }
+
+    //adding a user(Student) to the database
+    public void addUserStudent(Connection connection, String id, String regNo, String personalTutor){
+
+        // the mysql insert statement
+        String query = " insert into Student (User_ID, RegNo, PersonalTutor)"
+                + " values (?, ?, ?)";
+
+        try {
+            // create the mysql insert preparedstatement
+            PreparedStatement preparedStmt = connection.prepareStatement(query);
+            preparedStmt.setString(1, id);
+            preparedStmt.setString(2, regNo);
+            preparedStmt.setString(3, personalTutor);
+
+            // execute the preparedstatement
+            preparedStmt.execute();
+        } catch (SQLException throwables) {
+            System.out.println("addUserStudent method from the Database " + throwables);
+        }
+
+    }
+
+    //adding a user(Student) to the database
+    public void addUserTeacher(Connection connection, String id, String moduleCode){
+
+        // the mysql insert statement
+        String query = " insert into Teacher (UserID, ModuleCode)"
+                + " values (?, ?)";
+
+        try {
+            // create the mysql insert preparedstatement
+            PreparedStatement preparedStmt = connection.prepareStatement(query);
+            preparedStmt.setString(1, id);
+            preparedStmt.setString(2, moduleCode);
+
+            // execute the preparedstatement
+            preparedStmt.execute();
+        } catch (SQLException throwables) {
+            System.out.println("addUserTeacher method from the Database " + throwables);
+        }
 
     }
 
@@ -722,18 +778,37 @@ public class Database {
     }
 
     //deleting a user by its ID
-    public void deleteUser(Connection connection, String userID){
+    public void deleteUser(Connection connection, String userID, String role){
         String sql = "DELETE FROM User WHERE UserID = ?";
 
         try {
             PreparedStatement pstmt = connection.prepareStatement(sql);
+
+            if(role.equals("Student")){
+
+                String sql2 = "DELETE FROM Student WHERE User_ID = ?";
+                PreparedStatement pstmt2 = connection.prepareStatement(sql2);
+                // set the corresponding param
+                pstmt2.setInt(1, Integer.parseInt(userID));
+                // execute the delete statement
+                pstmt2.executeUpdate();
+
+            }
+            else if(role.equals("Teacher")){
+                String sql2 = "DELETE FROM Teacher WHERE UserID = ?";
+                PreparedStatement pstmt2 = connection.prepareStatement(sql2);
+                // set the corresponding param
+                pstmt2.setInt(1, Integer.parseInt(userID));
+                // execute the delete statement
+                pstmt2.executeUpdate();
+            }
 
             // set the corresponding param
             pstmt.setInt(1, Integer.parseInt(userID));
             // execute the delete statement
             pstmt.executeUpdate();
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            System.out.println("deleteUser method from Database class " + throwables);
         }
 
     }

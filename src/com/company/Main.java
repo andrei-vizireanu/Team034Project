@@ -12,8 +12,8 @@ public class Main {
     public static void main(String[] args) {
 
         //open the Window
-        MyFrame frame = new MyFrame("Login Page");
-        //Administrator frame = new Administrator("Admin");
+        //MyFrame frame = new MyFrame("Login Page");
+        Administrator frame = new Administrator("Admin");
 
         //connecting to the database
         try {
