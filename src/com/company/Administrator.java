@@ -7,7 +7,7 @@ import java.sql.SQLException;
 
 public class Administrator extends JFrame {
 
-    // Needed for serialisation WHAT THIS MEANS?
+    // Needed for serialisation
     private static final long serialVersionUID = 1L;
 
     // declaring the variables
@@ -20,6 +20,7 @@ public class Administrator extends JFrame {
     private Button modules;
     private Button degreeCourses;
     private Button logOut;
+    private Database database;
     private final int width = 800;
     private final int height = 600;
 
@@ -38,6 +39,7 @@ public class Administrator extends JFrame {
         FlowLayout experimentLayout = new FlowLayout();
         logOutPanel.setLayout(experimentLayout);
         logOutPanel.add(logOut);
+        database = new Database();
 
         accounts.setPreferredSize(new Dimension(100, 50));
         departments.setPreferredSize(new Dimension(100, 50));
@@ -51,6 +53,14 @@ public class Administrator extends JFrame {
         buttonPanel.add(departments);
         buttonPanel.add(degreeCourses);
         buttonPanel.add(modules);
+
+        //stop the connection and statement to the database when closing the window
+        frame.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                    database.close(Main.statement, Main.connection);
+            }
+        });
 
         //action listener for clicking the "University Departments" button
         logOut.addActionListener(ae -> {
@@ -84,7 +94,7 @@ public class Administrator extends JFrame {
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
-            //JTableButtonTest table = new JTableButtonTest();
+
             frame.dispose();
 
         });
@@ -97,7 +107,7 @@ public class Administrator extends JFrame {
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
-            //JTableButtonTest table = new JTableButtonTest();
+
             frame.dispose();
 
         });
@@ -110,7 +120,7 @@ public class Administrator extends JFrame {
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
-            //JTableButtonTest table = new JTableButtonTest();
+
             frame.dispose();
 
         });

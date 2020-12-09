@@ -3,8 +3,6 @@ package com.company;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellRenderer;
-import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
 import java.awt.*;
 import java.sql.SQLException;
@@ -39,6 +37,14 @@ public class AdminUniDepartments {
         goBack = new JButton("<- Go Back");
         database = new Database();
 
+        //stop the connection and statement to the database when closing the window
+        frame.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                database.close(Main.statement, Main.connection);
+            }
+        });
+
         //headers for the table
         String[] columnNames = {"ID", "Department Code", "Department Name"};
         //generating the rows with the University Departments' information
@@ -49,12 +55,6 @@ public class AdminUniDepartments {
 
         //initializing the table linked to the tableModel
         table = new JTable(tableModel);
-
-        //disable the auto-resizing of the table
-        //table.setAutoResizeMode( JTable.AUTO_RESIZE_OFF);
-
-        //resizing the table in order to fit every information from it
-        //fitExactly();
 
         //action when edit button is clicked
         edit.addActionListener(ae -> {

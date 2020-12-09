@@ -3,11 +3,10 @@ package com.company;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.sql.SQLException;
 
 public class MyFrame extends JFrame {
 
-    // Needed for serialisation WHAT THIS MEANS?
+    // Needed for serialisation
     private static final long serialVersionUID = 1L;
 
     // declaring the variables
@@ -42,6 +41,14 @@ public class MyFrame extends JFrame {
         passwordField = new JPasswordField(20);
         login = new JButton("Login");
         database = new Database();
+
+        //stop the connection and statement to the database when closing the window
+        frame.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                database.close(Main.statement, Main.connection);
+            }
+        });
 
         //initializing the indexes for rows and columns of the GridBag Constraint
         gbc.gridx = 0;
@@ -81,15 +88,24 @@ public class MyFrame extends JFrame {
         //action listener for clicking the "Login" button
         login.addActionListener(ae -> {
 
-            try {
+            //taking the data from the username and password fields
+            String username = userField.getText();
+            String password = passwordField.getText();
 
-                //taking the data from the username and password fields
-                String username = userField.getText();
-                String password = passwordField.getText();
+            if(username.isEmpty() || password.isEmpty()){
+
+                //custom title, error icon
+                JOptionPane.showMessageDialog(frame,
+                        "Your need to type both username and password!",
+                        "Type username AND password",
+                        JOptionPane.ERROR_MESSAGE);
+
+            }
+            else{
 
                 //checking the credentials for the data typed in and the role for that user
                 boolean credentials = database.checkCredentials(Main.statement, username, password);
-                String role = database.getRole(Main.statement, username, password);
+                String role = database.getRole(Main.statement, username);
 
                 if(credentials){
 
@@ -117,8 +133,6 @@ public class MyFrame extends JFrame {
                     //close the current window if credentials are right
                     frame.dispose();
 
-                    //close the connection of the database - FOR THE MOMENT, MAYBE IT NEEDS TO BE CLOSED LATER, BUT WE'LL SEE
-                    //database.close();
                 }
                 else {
 
@@ -133,9 +147,6 @@ public class MyFrame extends JFrame {
 
                 }
 
-
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
             }
 
         });

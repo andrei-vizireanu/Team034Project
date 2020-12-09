@@ -1,37 +1,15 @@
 package com.company;
 
-import javax.swing.table.DefaultTableModel;
 import java.sql.*;
-import java.util.Arrays;
 
 public class Database {
 
-   /* public String getDegreeNameByID(Statement statement, String degreeID) throws SQLException {
-
-        String sql2 = "SELECT * FROM Degree WHERE DegreeID = " + degreeID;
-        ResultSet rs = statement.executeQuery(sql2);
-
-        while(rs.next()) {
-            String degreeName = rs.getString("DegreeName");
-            String degreeID2 = rs.getString("DegreeID");
-
-            if(degreeID2.equals(degreeID)){
-                return degreeName;
-            }
-
-        }
-        return null;
-    }*/
     //checking the credentials by username and password
-
-    public boolean checkCredentials(Statement statement, String username, String password) throws SQLException {
+    public boolean checkCredentials(Statement statement, String username, String password){
 
         try {
 
-            //String sql = "SELECT * FROM User WHERE Username =" + username;
-            String sql = "SELECT * FROM User WHERE Username = '" + username + "'";
-            //String sql = ("SELECT *  FROM User");
-            //String sql2 = "SELECT * FROM Degree WHERE DegreeID = " + degreeID;
+            String sql = "SELECT * FROM User WHERE Username = '" + username + "';";
 
             ResultSet rs = statement.executeQuery(sql);
 
@@ -41,55 +19,41 @@ public class Database {
                 String pass = rs.getString("Password");
                 String salt = rs.getString("PasswordSalt");
 
-                /*String providedPassword = "test2222";
-                String securedPassword = "rup2O2CzH0pw0KTk8lDdz3B4refSGGjM0XgdrJoQisU=";
-                String pSalt = "THTIXBK0QWPBXQMQC1AHBLXSLMK0VF";
-
-
-                boolean passwordMatch = PasswordHashingUtilityFunction.verifyUserPassword(providedPassword, securedPassword, pSalt);
-*/
                 boolean passwordMatch = PasswordHashingUtilityFunction.verifyUserPassword(password, pass, salt);
-
-                System.out.println(passwordMatch);
-
-            /*if(username.equals((user)))
-            {
-                return true;
-            }*/
 
                 if (passwordMatch && username.equals(user)) {
                     return true;
                 }
             }
 
-            //return false;
-
-        } catch (Exception e) {
-            System.err.println(e.getMessage());
+        } catch (SQLException e) {
+            System.out.println("checkCredentials method from Database class " + e);
         }
         return false;
     }
 
     //getting the role of a user by username and password
-    public String getRole(Statement statement, String username, String password) throws SQLException {
+    public String getRole(Statement statement, String username){
 
         String sql = ("SELECT * FROM User;");
-        ResultSet rs = statement.executeQuery(sql);
 
-        while(rs.next()) {
+        try {
+            ResultSet rs = statement.executeQuery(sql);
 
-            String user = rs.getString("UserName");
-            String pass = rs.getString("Password");
-            String role = rs.getString("Role");
+            while(rs.next()) {
 
-            if(username.equals(user))
-            //if(username.equals(user) && password.equals(pass))
-                return role;
+                String user = rs.getString("UserName");
+                String role = rs.getString("Role");
 
+                if(username.equals(user))
+                    return role;
+
+            }
+        }catch (SQLException e){
+            System.out.println("getRole method from Database class " + e);
         }
 
         return null;
-
     }
 
     //getting the names of the degrees
@@ -110,13 +74,12 @@ public class Database {
                 String id = rs.getString("DegreeID");
                 String degreeName = rs.getString("DegreeName");
 
-                //System.out.println(Arrays.deepToString(data));
                 data[0][i] = id;
                 data[1][i] = degreeName;
                 i++;
             }
         }catch (SQLException e){
-            System.out.println(e);
+            System.out.println("checkCredentials method from Database class " + e);
         }
 
         return data;
@@ -124,60 +87,70 @@ public class Database {
     }
 
     //getting the info for all of the users
-    public String[][] getInfoUser(Statement statement) throws SQLException {
+    public String[][] getInfoUser(Statement statement){
 
         String sql = ("SELECT * FROM User;");
-        ResultSet rs = statement.executeQuery(sql);
-        rs.last();
-        String[][] data = new String[rs.getRow()][];
-        int i = 0;
+        try {
+            ResultSet rs = statement.executeQuery(sql);
+            rs.last();
+            String[][] data = new String[rs.getRow()][];
+            int i = 0;
 
-        rs.beforeFirst();
-        while(rs.next()) {
+            rs.beforeFirst();
+            while(rs.next()) {
 
-            String id = rs.getString("UserID");
-            String user = rs.getString("Username");
-            String pass = rs.getString("Password");
-            String title = rs.getString("Title");
-            String forename = rs.getString("Forename");
-            String surname = rs.getString("Surname");
-            String email = rs.getString("Email");
-            String role = rs.getString("Role");
+                String id = rs.getString("UserID");
+                String user = rs.getString("Username");
+                String title = rs.getString("Title");
+                String forename = rs.getString("Forename");
+                String surname = rs.getString("Surname");
+                String email = rs.getString("Email");
+                String role = rs.getString("Role");
 
-            data[i] = new String[]{id, user, pass, title, forename, surname, email, role};
-            i++;
+                data[i] = new String[]{id, user, title, forename, surname, email, role};
+                i++;
+            }
+            return data;
+        }catch (SQLException e){
+            System.out.println("getInfoUser method from Database class " + e);
         }
 
-        return data;
-
+        return null;
     }
 
     //getting the info for all of the departments
-    public String[][] getInfoDepartment(Statement statement) throws SQLException {
+    public String[][] getInfoDepartment(Statement statement){
 
         String sql = ("SELECT * FROM Department;");
-        ResultSet rs = statement.executeQuery(sql);
-        rs.last();
-        String[][] data = new String[rs.getRow()][];
-        int i = 0;
 
-        rs.beforeFirst();
-        while(rs.next()) {
+        try {
+            ResultSet rs = statement.executeQuery(sql);
+            rs.last();
+            String[][] data = new String[rs.getRow()][];
+            int i = 0;
 
-            String id = rs.getString("DepartmentID");
-            String depCode = rs.getString("DepartmentCode");
-            String depName = rs.getString("DepartmentName");
+            rs.beforeFirst();
+            while(rs.next()) {
 
-            data[i] = new String[]{id, depCode, depName};
-            i++;
+                String id = rs.getString("DepartmentID");
+                String depCode = rs.getString("DepartmentCode");
+                String depName = rs.getString("DepartmentName");
+
+                data[i] = new String[]{id, depCode, depName};
+                i++;
+            }
+
+            return data;
+
+        }catch (SQLException e){
+            System.out.println("getInfoDepartment method from Database class " + e);
         }
 
-        return data;
-
+        return null;
     }
 
     //getting the info for all of the modules
-    public String[][] getInfoModule(Connection connection, Statement statement) throws SQLException {
+    public String[][] getInfoModule(Connection connection, Statement statement){
 
         try{
             String sql = ("SELECT * FROM Module;");
@@ -198,7 +171,6 @@ public class Database {
                 String degreeID = rs.getString("DegreeID");
 
                 if(!degreeID.equals("0")){
-
 
                     Statement statement2 = connection.createStatement();
                     String degreeName = getDegreeNameByID(statement2, degreeID);
@@ -227,7 +199,7 @@ public class Database {
     }
 
     //getting the info for all of the degree courses
-    public String[][] getInfoDegree(Statement statement) throws SQLException {
+    public String[][] getInfoDegree(Statement statement){
 
         String sql = ("SELECT * FROM Degree;");
 
@@ -258,20 +230,26 @@ public class Database {
     }
 
     //getting degree names by using the ids
-    public String getDegreeNameByID(Statement statement, String degreeID) throws SQLException {
+    public String getDegreeNameByID(Statement statement, String degreeID){
 
         String sql2 = "SELECT * FROM Degree WHERE DegreeID = " + degreeID;
-        ResultSet rs = statement.executeQuery(sql2);
+        try {
+            ResultSet rs = statement.executeQuery(sql2);
 
-        while(rs.next()) {
-            String degreeName = rs.getString("DegreeName");
-            String degreeID2 = rs.getString("DegreeID");
+            while(rs.next()) {
+                String degreeName = rs.getString("DegreeName");
+                String degreeID2 = rs.getString("DegreeID");
 
-            if(degreeID2.equals(degreeID)){
-                return degreeName;
+                if(degreeID2.equals(degreeID)){
+                    return degreeName;
+                }
+
             }
-
+            return null;
+        }catch (SQLException e){
+            System.out.println("getDegreeNameByID method from Database" + e);
         }
+
         return null;
     }
 
@@ -303,31 +281,33 @@ public class Database {
     }
 
     //updating the user with the new info
-    public void updateUser(Connection connection, String username, String password, String title,
-            String forename, String surname, String email, String role, String id) throws SQLException {
+    public void updateUser(Connection connection, String username, String title,
+            String forename, String surname, String email, String role, String id){
 
         String sql = "UPDATE User SET Username = ?, " +
-                "Password = ?, " +
                 "Title = ?, " +
                 "Forename = ?, " +
                 "Surname = ?, " +
                 "Email = ?, " +
                 "Role = ? " + "WHERE UserID = ?";
 
-        PreparedStatement pstmt = connection.prepareStatement(sql);
+        try {
+            PreparedStatement pstmt = connection.prepareStatement(sql);
 
-        // set the corresponding param
-        pstmt.setString(1, username);
-        pstmt.setString(2, password);
-        pstmt.setString(3, title);
-        pstmt.setString(4, forename);
-        pstmt.setString(5, surname);
-        pstmt.setString(6, email);
-        pstmt.setString(7, role);
-        pstmt.setString(8, id);
+            // set the corresponding param
+            pstmt.setString(1, username);
+            pstmt.setString(2, title);
+            pstmt.setString(3, forename);
+            pstmt.setString(4, surname);
+            pstmt.setString(5, email);
+            pstmt.setString(6, role);
+            pstmt.setString(7, id);
 
-        // update
-        pstmt.executeUpdate();
+            // update
+            pstmt.executeUpdate();
+        }catch (SQLException e){
+            System.out.println("updateUser method from Database" + e);
+        }
 
     }
 
@@ -420,116 +400,134 @@ public class Database {
             System.out.println("updateModule method from Database class" + e);
         }
 
-
     }
 
-    public String[][] getStudentInfo(Statement statement) throws SQLException {
+    public String[][] getStudentInfo(Statement statement){
 
         String sql = ("SELECT * FROM Grading;");
-        ResultSet rs = statement.executeQuery(sql);
-        rs.last();
-        String[][] data = new String[rs.getRow()][];
-        int i = 0;
+        try {
+            ResultSet rs = statement.executeQuery(sql);
+            rs.last();
+            String[][] data = new String[rs.getRow()][];
+            int i = 0;
 
-        rs.beforeFirst();
-        while(rs.next()) {
+            rs.beforeFirst();
+            while(rs.next()) {
 
-            String gradingID = rs.getString("GradingID");
-            String moduleCode = rs.getString("ModuleCode");
-            String username = rs.getString("Username");
-            String teacher = rs.getString("Teacher");
-            String grade = rs.getString("Grade");
-            String regNo = rs.getString("RegNo");
-            String pass = String.valueOf(rs.getInt("pass"));
-            String moduleID = rs.getString("ModuleID");
+                String gradingID = rs.getString("GradingID");
+                String moduleCode = rs.getString("ModuleCode");
+                String username = rs.getString("Username");
+                String teacher = rs.getString("Teacher");
+                String grade = rs.getString("Grade");
+                String regNo = rs.getString("RegNo");
+                String pass = String.valueOf(rs.getInt("pass"));
+                String moduleID = rs.getString("ModuleID");
 
-            data[i] = new String[]{gradingID, moduleCode, username, teacher, grade,
-                    regNo, pass, moduleID};
-            i++;
+                data[i] = new String[]{gradingID, moduleCode, username, teacher, grade,
+                        regNo, pass, moduleID};
+                i++;
+            }
+
+            return data;
+        }catch (SQLException e){
+            System.out.println("getStudentInfo method from Database class" + e);
         }
 
-        return data;
+        return null;
     }
 
 
     public void UpdateStudent(Connection connection, double grade,
-                              boolean pass, String regNo) throws SQLException {
+                              boolean pass, String regNo){
 
         String sql = "UPDATE Grading SET grade = ?, " +
                 "pass = ? " +
                 "WHERE RegNo = ?";
 
-        PreparedStatement pstmt = connection.prepareStatement(sql);
+        try {
+            PreparedStatement pstmt = connection.prepareStatement(sql);
 
-        // set the corresponding param
-        pstmt.setDouble(1, grade);
+            // set the corresponding param
+            pstmt.setDouble(1, grade);
 
-        if (grade>=70) {
-            pstmt.setBoolean(2, true);
-            //pstmt.setDouble(3, 0.0);
+            if (grade>=70) {
+                pstmt.setBoolean(2, true);
+            }
+            else {
+                pstmt.setBoolean(2, false);
+            }
+            pstmt.setString(3, regNo);
+
+            // update
+            pstmt.executeUpdate();
+        }catch (SQLException e){
+            System.out.println("UpdateStudent method from Database class" + e);
         }
-        else {
-            pstmt.setBoolean(2, false);
-            //pstmt.setDouble(3, resit);
-        }
-        pstmt.setString(3, regNo);
-
-        // update
-        pstmt.executeUpdate();
 
     }
 
-    public double CalculateGrade(Statement statement, String regNo,
-                                 String moduleCode) throws SQLException {
+    public double CalculateGrade(Statement statement, String regNo, String moduleCode){
 
         String sql = ("SELECT * FROM Grading;");
-        ResultSet rs = statement.executeQuery(sql);
-        rs.last();
-        double[] data = new double[rs.getRow()];
-        int i = 0;
-        int len=0;
+        try {
+            ResultSet rs = statement.executeQuery(sql);
+            rs.last();
+            double[] data = new double[rs.getRow()];
+            int i = 0;
+            int len=0;
 
-        rs.beforeFirst();
-        while (rs.next()) {
+            rs.beforeFirst();
+            while (rs.next()) {
 
-            String regNumber = rs.getString("RegNo");
-            String modCode = rs.getString("ModuleCode");
-            double grade = rs.getDouble("grade");
+                String regNumber = rs.getString("RegNo");
+                String modCode = rs.getString("ModuleCode");
+                double grade = rs.getDouble("grade");
 
-            if (regNumber.equals(regNo) && modCode.equals(moduleCode)) {
-                data[i] = grade;
-                len++;
+                if (regNumber.equals(regNo) && modCode.equals(moduleCode)) {
+                    data[i] = grade;
+                    len++;
+                }
+                i++;
             }
-            i++;
+
+            double sum = 0;
+            int numberOfGrades = 0;
+            for (int j=0; j<len; j++) {
+                sum = sum + data[j];
+                numberOfGrades++;
+            }
+
+            return sum/numberOfGrades;
+
+        }catch (SQLException e){
+            System.out.println("CalculateGrade method from Database class" + e);
         }
 
-        double sum = 0;
-        int numberOfGrades = 0;
-        for (int j=0; j<len; j++) {
-            sum = sum + data[j];
-            numberOfGrades++;
-        }
-
-        return sum/numberOfGrades;
+        return 0.0;
     }
 
     //getting the user id
-    public String getUserID(Statement statement, String username, String password) throws SQLException {
+    public String getUserID(Statement statement, String userName, String forName, String surName){
 
         String sql = ("SELECT * FROM User;");
-        ResultSet rs = statement.executeQuery(sql);
 
-        while(rs.next()) {
+        try {
+            ResultSet rs = statement.executeQuery(sql);
 
-            String userID = rs.getString("UserID");
-            String user = rs.getString("UserName");
-            //String pass = rs.getString("Password");
+            while(rs.next()) {
 
-            if(username.equals(user) && password != "");
+                String id = rs.getString("UserID");
+                String username = rs.getString("Username");
+                String foreame = rs.getString("Forename");
+                String surname = rs.getString("Surname");
 
-            /*if(username.equals(user) && password.equals(pass))
-                return userID;*/
+                if(username.equals(userName) && foreame.equals(forName) && surname.equals(surName)){
+                    return id;
+                }
 
+            }
+        } catch (SQLException throwables) {
+            System.out.println("getUserID method from the Database" + throwables);
         }
 
         return null;
@@ -567,7 +565,6 @@ public class Database {
         }
 
         return null;
-
     }
 
     //getting the department id
@@ -591,11 +588,10 @@ public class Database {
             }
 
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            System.out.println("getDepartmentID method from Database class " + throwables);
         }
 
         return null;
-
     }
 
     //getting the department id
@@ -629,25 +625,72 @@ public class Database {
 
     //adding a user to the database
     public void addUser(Connection connection, String username, String password, String salt, String title, String forename,
-                        String surname, String email, String role) throws SQLException {
+                        String surname, String email, String role){
 
         // the mysql insert statement
         String query = " insert into User (Username, Password, PasswordSalt, Title, Forename, Surname, Email, Role)"
                 + " values (?, ?, ?, ?, ?, ?, ?, ?)";
 
-        // create the mysql insert preparedstatement
-        PreparedStatement preparedStmt = connection.prepareStatement(query);
-        preparedStmt.setString(1, username);
-        preparedStmt.setString(2, password);
-        preparedStmt.setString(3, salt);
-        preparedStmt.setString(4, title);
-        preparedStmt.setString(5, forename);
-        preparedStmt.setString(6, surname);
-        preparedStmt.setString(7, email);
-        preparedStmt.setString(8, role);
+        try {
+            // create the mysql insert preparedstatement
+            PreparedStatement preparedStmt = connection.prepareStatement(query);
+            preparedStmt.setString(1, username);
+            preparedStmt.setString(2, password);
+            preparedStmt.setString(3, salt);
+            preparedStmt.setString(4, title);
+            preparedStmt.setString(5, forename);
+            preparedStmt.setString(6, surname);
+            preparedStmt.setString(7, email);
+            preparedStmt.setString(8, role);
 
-        // execute the preparedstatement
-        preparedStmt.execute();
+            // execute the preparedstatement
+            preparedStmt.execute();
+        } catch (SQLException throwables) {
+            System.out.println("addUser method from the Database " + throwables);
+        }
+
+    }
+
+    //adding a user(Student) to the database
+    public void addUserStudent(Connection connection, String id, String regNo, String personalTutor){
+
+        // the mysql insert statement
+        String query = " insert into Student (User_ID, RegNo, PersonalTutor)"
+                + " values (?, ?, ?)";
+
+        try {
+            // create the mysql insert preparedstatement
+            PreparedStatement preparedStmt = connection.prepareStatement(query);
+            preparedStmt.setString(1, id);
+            preparedStmt.setString(2, regNo);
+            preparedStmt.setString(3, personalTutor);
+
+            // execute the preparedstatement
+            preparedStmt.execute();
+        } catch (SQLException throwables) {
+            System.out.println("addUserStudent method from the Database " + throwables);
+        }
+
+    }
+
+    //adding a user(Student) to the database
+    public void addUserTeacher(Connection connection, String id, String moduleCode){
+
+        // the mysql insert statement
+        String query = " insert into Teacher (UserID, ModuleCode)"
+                + " values (?, ?)";
+
+        try {
+            // create the mysql insert preparedstatement
+            PreparedStatement preparedStmt = connection.prepareStatement(query);
+            preparedStmt.setString(1, id);
+            preparedStmt.setString(2, moduleCode);
+
+            // execute the preparedstatement
+            preparedStmt.execute();
+        } catch (SQLException throwables) {
+            System.out.println("addUserTeacher method from the Database " + throwables);
+        }
 
     }
 
@@ -667,7 +710,7 @@ public class Database {
             // execute the preparedstatement
             preparedStmt.execute();
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            System.out.println("addDepartment method from the Database " + throwables);
         }
 
     }
@@ -690,7 +733,7 @@ public class Database {
             // execute the preparedstatement
             preparedStmt.execute();
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            System.out.println("addDegreeCourse method from the Database " + throwables);
         }
 
     }
@@ -735,18 +778,37 @@ public class Database {
     }
 
     //deleting a user by its ID
-    public void deleteUser(Connection connection, String userID){
+    public void deleteUser(Connection connection, String userID, String role){
         String sql = "DELETE FROM User WHERE UserID = ?";
 
         try {
             PreparedStatement pstmt = connection.prepareStatement(sql);
+
+            if(role.equals("Student")){
+
+                String sql2 = "DELETE FROM Student WHERE User_ID = ?";
+                PreparedStatement pstmt2 = connection.prepareStatement(sql2);
+                // set the corresponding param
+                pstmt2.setInt(1, Integer.parseInt(userID));
+                // execute the delete statement
+                pstmt2.executeUpdate();
+
+            }
+            else if(role.equals("Teacher")){
+                String sql2 = "DELETE FROM Teacher WHERE UserID = ?";
+                PreparedStatement pstmt2 = connection.prepareStatement(sql2);
+                // set the corresponding param
+                pstmt2.setInt(1, Integer.parseInt(userID));
+                // execute the delete statement
+                pstmt2.executeUpdate();
+            }
 
             // set the corresponding param
             pstmt.setInt(1, Integer.parseInt(userID));
             // execute the delete statement
             pstmt.executeUpdate();
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            System.out.println("deleteUser method from Database class " + throwables);
         }
 
     }
@@ -763,7 +825,7 @@ public class Database {
             // execute the delete statement
             pstmt.executeUpdate();
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            System.out.println("deleteDepartment method from the Database " + throwables);
         }
 
     }
@@ -779,7 +841,7 @@ public class Database {
             // execute the delete statement
             pstmt.executeUpdate();
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            System.out.println("deleteDegree method from the Database " + throwables);
         }
 
     }
@@ -795,91 +857,102 @@ public class Database {
             // execute the delete statement
             pstmt.executeUpdate();
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            System.out.println("deleteModule method from the Database " + throwables);
         }
 
     }
 
     //REGISTRAR
     //geting user table with only students
-    public String[][] getStudentUser(Statement statement) throws SQLException {
+    public String[][] getStudentUser(Statement statement){
 
         String sql = ("SELECT * FROM User WHERE Role = 'Student';");
-        ResultSet rs = statement.executeQuery(sql);
-        rs.last();
-        String[][] data = new String[rs.getRow()][];
-        int i = 0;
-        //int j = 0;
+        try {
+            ResultSet rs = statement.executeQuery(sql);
+            rs.last();
+            String[][] data = new String[rs.getRow()][];
+            int i = 0;
 
-        rs.beforeFirst();
-        while(rs.next()) {
+            rs.beforeFirst();
+            while(rs.next()) {
 
-            String id = rs.getString("UserID");
-            String user = rs.getString("Username");
-            String pass = rs.getString("Password");
-            String title = rs.getString("Title");
-            String forename = rs.getString("Forename");
-            String surname = rs.getString("Surname");
-            String email = rs.getString("Email");
-            String role = rs.getString("Role");
+                String id = rs.getString("UserID");
+                String user = rs.getString("Username");
+                String title = rs.getString("Title");
+                String forename = rs.getString("Forename");
+                String surname = rs.getString("Surname");
+                String email = rs.getString("Email");
+                String role = rs.getString("Role");
 
-            data[i] = new String[]{id, user, pass, title, forename, surname, email,role};
-            i++;
+                data[i] = new String[]{id, user, title, forename, surname, email,role};
+                i++;
+            }
+
+            return data;
+        } catch (SQLException throwables) {
+            System.out.println("getStudentUser method from the Database " + throwables);
         }
 
-        return data;
-
+        return null;
     }
 
     public void addStudent(Connection connection, String username, String password, String title, String forename,
-                           String surname, String email, String role) throws SQLException {
+                           String surname, String email, String role){
 
         // the mysql insert statement
         String query = " insert into User (Username, Password, Title, Forename, Surname, Email, Role)"
                 + " values (?, ?, ?, ?, ?, ?,'Student')";
 
-        // create the mysql insert preparedstatement
-        PreparedStatement preparedStmt = connection.prepareStatement(query);
-        preparedStmt.setString(1, username);
-        preparedStmt.setString(2, password);
-        preparedStmt.setString(3, title);
-        preparedStmt.setString(4, forename);
-        preparedStmt.setString(5, surname);
-        preparedStmt.setString(6, email);
-        //preparedStmt.setString(7, role);
+        try {
+            // create the mysql insert preparedstatement
+            PreparedStatement preparedStmt = connection.prepareStatement(query);
+            preparedStmt.setString(1, username);
+            preparedStmt.setString(2, password);
+            preparedStmt.setString(3, title);
+            preparedStmt.setString(4, forename);
+            preparedStmt.setString(5, surname);
+            preparedStmt.setString(6, email);
 
-        // execute the preparedstatement
-        preparedStmt.execute();
+            // execute the preparedstatement
+            preparedStmt.execute();
+
+        } catch (SQLException throwables) {
+            System.out.println("addStudent method from the Database " + throwables);
+        }
 
     }
 
     //student table from db
-    public String[][] getStudentTable(Statement statement) throws SQLException {
+    public String[][] getStudentTable(Statement statement){
 
         String sql = ("SELECT * FROM Student;");
-        ResultSet rs = statement.executeQuery(sql);
-        rs.last();
-        String[][] data = new String[rs.getRow()][];
-        int i = 0;
-        //int j = 0;
+        try {
+            ResultSet rs = statement.executeQuery(sql);
+            rs.last();
+            String[][] data = new String[rs.getRow()][];
+            int i = 0;
 
-        rs.beforeFirst();
-        while(rs.next()) {
+            rs.beforeFirst();
+            while(rs.next()) {
 
-            String id = rs.getString("User_ID");
-            String regNo = rs.getString("RegNo");
-            String degreeCode = rs.getString("DegreeCode");
-            String level = rs.getString("LevelOfStudy");
-            String entry = rs.getString("Entry");
-            String period = rs.getString("PeriodOfStudy");
-            String tutor = rs.getString("PersonalTutor");
+                String id = rs.getString("User_ID");
+                String regNo = rs.getString("RegNo");
+                String degreeCode = rs.getString("DegreeCode");
+                String level = rs.getString("LevelOfStudy");
+                String entry = rs.getString("Entry");
+                String period = rs.getString("PeriodOfStudy");
+                String tutor = rs.getString("PersonalTutor");
 
-            data[i] = new String[]{id, regNo, degreeCode, level, entry, period, tutor};
-            i++;
+                data[i] = new String[]{id, regNo, degreeCode, level, entry, period, tutor};
+                i++;
+            }
+
+            return data;
+        } catch (SQLException throwables) {
+            System.out.println("getStudentTable method from the Database " + throwables);
         }
 
-        return data;
-
+        return null;
     }
 
     //closing the connection to the database
@@ -918,11 +991,10 @@ public class Database {
                         }
 
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            System.out.println("getModuleEntryID method from the Database " + throwables);
         }
 
         return null;
-
     }
 
     public String getModuleID(Statement statement, String modCode, String modName){
@@ -947,21 +1019,23 @@ public class Database {
             }
 
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            System.out.println("getModuleID method from the Database " + throwables);
         }
 
         return null;
-
     }
 
-
-    public void viewStudentModules (Statement statement, String regNo,
-                                     String obligatory, int level ) throws SQLException {
+    public void viewStudentModules (Statement statement, String regNo, String obligatory, int level ){
 
         String sql = ("SELECT ModuleCode FROM Module WHERE (Level = " + level + "); SELECT ModuleName FROM Module WHERE (Core = " + obligatory + "); " +
                 "SELECT Credit FROM Module WHERE (Level = " + level + "); SELECT RegNo FROM Grading WHERE (RegNo = " + regNo + ");");
-        ResultSet rs = statement.executeQuery(sql);
+        try {
+            ResultSet rs = statement.executeQuery(sql);
+        } catch (SQLException throwables) {
+            System.out.println("viewStudentModules method from the Database " + throwables);
+        }
     }
+
 }
 
 

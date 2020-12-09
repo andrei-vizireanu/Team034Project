@@ -20,7 +20,7 @@ public class StudentFeatures {
     private final int width = 800;
     private final int height = 600;
 
-    public StudentFeatures(String title) throws SQLException {
+    public StudentFeatures(String title){
 
         //initializing variables
         frame = new JFrame(title);

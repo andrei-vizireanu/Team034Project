@@ -19,6 +19,7 @@ public class Teacher extends JFrame {
     private Button registerBtn;
     private Button overallDegreeResultBtn;
     private Button studentStatusBtn;
+    private Database database;
 
     public Teacher(String title){
 
@@ -31,6 +32,15 @@ public class Teacher extends JFrame {
         registerBtn = new Button("Register student for next period of study");
         overallDegreeResultBtn = new Button("Calculate overall degree result");
         studentStatusBtn = new Button("View student's status");
+        database = new Database();
+
+        //stop the connection and statement to the database when closing the window
+        frame.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                database.close(Main.statement, Main.connection);
+            }
+        });
 
         mainContainer.setLayout(new BorderLayout());
 
@@ -47,22 +57,15 @@ public class Teacher extends JFrame {
         //action listener for clicking the buttons, in order
         gradesBtn.addActionListener(ae -> {
 
-            try {
-                Grades grades = new Grades("Grades for Students");
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
+            Grades grades = new Grades("Grades for Students");
 
             frame.dispose();
         });
 
         weightedMeanGradeBtn.addActionListener(e -> {
-            try {
-                WeightedMeanGrade meanGrade = new WeightedMeanGrade("Student's" +
+
+            WeightedMeanGrade meanGrade = new WeightedMeanGrade("Student's" +
                         "weighted mean grade");
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
 
             frame.dispose();
         });
